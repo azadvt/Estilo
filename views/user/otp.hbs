@@ -1,0 +1,56 @@
+<section class="vh-100 bg-image" style="background-image: url('/images/home.jpg') ; -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;">
+
+    <div class="container p-5    d-flex justify-content-center align-items-center">
+
+        <div class="card text-center col-3">
+
+
+                <div class="card-header p-5">
+                    <h5 class="mb-2">OTP VERIFICATION</h5>
+                    <div>
+                        <small>code has been send to {{userphone}}</small>
+                    </div>
+                </div>
+
+
+            <form action="/otp" method="post" name="otpform" onsubmit="return validate()">
+
+                <div class="m-3"><span id="otperr" class="text-danger "> </span></div>
+
+                <div class="input-container d-flex flex-row justify-content-center mt-2 mt-4">
+                    <input type="text" id="otp" name="otp" class="mx-5 text-center form-control rounded"
+                        placeholder="Enter your OTP">
+                </div>
+                {{!--
+                <div>
+                    <small>
+                        didn't get the otp
+                        <a href="#" class="text-decoration-none">Resend</a>
+                    </small>
+                </div> --}}
+
+                <div class="mt-3 mb-5">
+                    <button class="btn btn-dark px-4 verify-btn" type="submit">verify</button>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+</section>
+
+<script>
+    function validate() {
+        var otp = document.otpform.otp.value
+        if (otp == "") {
+            document.getElementById('otperr').innerHTML = "Please Enter your OTP";
+            return false
+        }
+    }
+</script>

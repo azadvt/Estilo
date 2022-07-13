@@ -1,0 +1,123 @@
+<section class="vh-100 bg-image" style="background-image: url('/images/home.jpg') ; -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;">
+
+    <section class="h-100 h-custom gradient-custom-2">
+        <div class="container py-4 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                        <div class="card-body p-0">
+                            <div class="p-5 ">
+                                <h3 class="fw-bold mb-5 text-uppercase">Sign Up</h3>
+                                <form action="/userSignUp" method="post" name="signup" onsubmit="return validate()">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-4 pb-1">
+
+                                            <div class="form-outline">
+                                                <input type="text" id="firstName" name="firstName"
+                                                    class="form-control form-control-lg" autocomplete="off" placeholder="First name" />
+                                                <span id="firstNameerr" class="text-danger" > </span>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6 mb-4 pb-1">
+
+                                            <div class="form-outline">
+                                                <input type="text" id="lastName" name="lastName"
+                                                    class="form-control form-control-lg" autocomplete="off" placeholder="Last name" />
+                                                <span id="lastNameerr" class="text-danger"> </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <div class="form-outline form-white">
+                                            <input type="text" id="email" name="email"
+                                                class="form-control form-control-lg" autocomplete="off" placeholder="Your Email" />
+                                                {{#if userEmailExistErr}}
+                                                <span class="text-danger text-center">Email already exist</span>
+                                                {{/if}}
+                                            <span id="emailerr" class="text-danger"> </span>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4 pb-1">
+
+                                        <div class="form-outline form-white">
+                                            <input type="text" id="phone" name="phone"
+                                                class="form-control form-control-lg" autocomplete="off" placeholder="Phone Number" />
+                                            <span id="phoneerr" class="text-danger"> </span>
+                                        </div>
+
+                                    </div>
+                                    <div class="mb-4 pb-1">
+                                        <div class="form-outline">
+                                            <input type="password" id="password" name="password"
+                                                class="form-control form-control-lg" autocomplete="off" placeholder="Password" />
+                                            <span id="passworderr" class="text-danger"> </span>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4 pb-1">
+                                        <div class="form-outline">
+                                            <input type="password" id="confirm_password"
+                                                class="form-control form-control-lg" autocomplete="off" placeholder="Confirm Password" />
+                                            <span id="confirmPassworderr" class="text-danger"> </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <button class="btn btn-outline-dark btn-lg px-5" type="submit">Submit</button>
+                                    </div>
+
+                                </form>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</section>
+
+
+<script>
+    function validate() {
+        var firstName = document.signup.firstName.value
+        var lastName = document.signup.lastName.value
+        var email = document.signup.email.value
+        var phone = document.signup.phone.value
+        var password = document.signup.password.value
+        var confirm_password = document.signup.confirm_password.value
+
+     
+
+        if (firstName == "" || lastName == "" || email == "" || phone == "" || password == "" || password2 == "") {
+            document.getElementById('firstNameerr').innerHTML = "Enter your First Name";
+            document.getElementById('lastNameerr').innerHTML = " Enter your Last Name";
+            document.getElementById('emailerr').innerHTML = " Enter your Email";
+            document.getElementById('phoneerr').innerHTML = " Enter your Phone Number";
+            document.getElementById('passworderr').innerHTML = " Enter your Password";
+            document.getElementById('confirmPassworderr').innerHTML = " Enter your confirm Password";
+            return false
+
+        }
+
+       else if (password != confirm_password) {
+            document.getElementById('passworderr').innerHTML = " Password not Match";
+            document.getElementById('confirmPassworderr').innerHTML = " Password not Match";
+            return false
+        }
+x
+
+
+
+
+    }
+</script>

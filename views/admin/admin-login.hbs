@@ -1,0 +1,64 @@
+<section class="vh-100 bg-image" style="background-image: url('/images/adminlogin.jpg') ; -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                    <div class="card-body p-5 ">
+
+                        <h2 class="fw-bold mb-5 text-uppercase text-center">Admin Login</h2>
+                        <form action="/admin/adminLogin" method="post" name="login" onsubmit="return validate()">
+
+                            <div class="form-outline form-white mb-5">
+                                <input type="text" id="username" name="username" placeholder="User Name"
+                                    class="form-control form-control-lg" autocomplete="off" />
+                                <span id="usernameerr" class="text-danger"> </span>
+                            </div>
+
+
+                            <div class="form-outline form-white mb-4">
+                                <input type="password" id="password" name="password" placeholder="Password"
+                                    class="form-control form-control-lg" autocomplete="off" />
+                                <span id="passworderr" class="text-danger"> </span>
+
+                            </div>
+                            {{#if adminLoggErr}}
+                            <p class="text-danger text-center">Invalid email or password</p>
+                            {{/if}}
+                            <div class="text-center">
+                                <p class="small mb-3 pb-lg-2"><a class="text-dark-50 " href="#!">Forgot password?</a>
+                                </p>
+                                <button class="btn btn-light btn-lg px-5" type="submit">Login</button>
+                            </div>
+                        </form>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script>
+    function validate() {
+        var username = document.login.username.value
+        var password = document.login.password.value
+
+        if (username == "" || password == "") {
+            document.getElementById('usernameerr').innerHTML = "Enter your User Name";
+            document.getElementById('passworderr').innerHTML = "Enter your Password";
+
+            return false
+        } else if (password.length < 6) {
+            document.getElementById('passworderr').innerHTML = " ** password length minimum 6 ";
+            return false
+
+        }
+    } 
+</script>
