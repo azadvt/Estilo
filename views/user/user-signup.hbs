@@ -10,8 +10,8 @@
                     <div class="card card-registration card-registration-2" style="border-radius: 15px;">
                         <div class="card-body p-0">
                             <div class="p-5 ">
-                                <h3 class="fw-bold mb-5 text-uppercase">Sign Up</h3>
-                                <form action="/userSignUp" method="post" name="signup" onsubmit="return validate()">
+                                <h3 class="fw-bold mb-5 text-uppercase text-center">Sign Up</h3>
+                                <form action="/userSignUp" method="post" name="signup" onsubmit="return validateSignUp()">
                                     <div class="row">
                                         <div class="col-md-6 mb-4 pb-1">
 
@@ -46,7 +46,7 @@
                                     <div class="mb-4 pb-1">
 
                                         <div class="form-outline form-white">
-                                            <input type="text" id="phone" name="phone"
+                                            <input type="number" id="phone" name="phone"
                                                 class="form-control form-control-lg" autocomplete="off" placeholder="Phone Number" />
                                             <span id="phoneerr" class="text-danger"> </span>
                                         </div>
@@ -87,37 +87,5 @@
 </section>
 
 
-<script>
-    function validate() {
-        var firstName = document.signup.firstName.value
-        var lastName = document.signup.lastName.value
-        var email = document.signup.email.value
-        var phone = document.signup.phone.value
-        var password = document.signup.password.value
-        var confirm_password = document.signup.confirm_password.value
-
-     
-
-        if (firstName == "" || lastName == "" || email == "" || phone == "" || password == "" || password2 == "") {
-            document.getElementById('firstNameerr').innerHTML = "Enter your First Name";
-            document.getElementById('lastNameerr').innerHTML = " Enter your Last Name";
-            document.getElementById('emailerr').innerHTML = " Enter your Email";
-            document.getElementById('phoneerr').innerHTML = " Enter your Phone Number";
-            document.getElementById('passworderr').innerHTML = " Enter your Password";
-            document.getElementById('confirmPassworderr').innerHTML = " Enter your confirm Password";
-            return false
-
-        }
-
-       else if (password != confirm_password) {
-            document.getElementById('passworderr').innerHTML = " Password not Match";
-            document.getElementById('confirmPassworderr').innerHTML = " Password not Match";
-            return false
-        }
-x
 
 
-
-
-    }
-</script>

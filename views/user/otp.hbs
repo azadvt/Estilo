@@ -8,20 +8,22 @@
         <div class="card text-center col-3">
 
 
-                <div class="card-header p-5">
-                    <h5 class="mb-2">OTP VERIFICATION</h5>
-                    <div>
-                        <small>code has been send to {{userphone}}</small>
-                    </div>
+            <div class="card-header p-5">
+                <h5 class="mb-2">OTP VERIFICATION</h5>
+                <div>
+                    <small>code has been send to {{userphone}}</small>
                 </div>
+            </div>
 
 
             <form action="/otp" method="post" name="otpform" onsubmit="return validate()">
 
                 <div class="m-3"><span id="otperr" class="text-danger "> </span></div>
-
+                {{#if otpErr}}
+                <div class="m-3"><span class="text-danger text-center">Invalid OTP</span></div>
+                {{/if}}
                 <div class="input-container d-flex flex-row justify-content-center mt-2 mt-4">
-                    <input type="text" id="otp" name="otp" class="mx-5 text-center form-control rounded"
+                    <input type="number" id="otp" name="otp" class="mx-5 text-center form-control rounded"
                         placeholder="Enter your OTP">
                 </div>
                 {{!--

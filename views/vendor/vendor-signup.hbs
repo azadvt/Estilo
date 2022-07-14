@@ -1,0 +1,91 @@
+<section class="vh-100 bg-image" style="background-image: url('/images/vendorlogin.jpg') ; -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;">
+
+    <section class="h-100 h-custom gradient-custom-2">
+        <div class="container py-4 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card card-registration card-registration-2 bg-dark text-white" style="border-radius: 1rem;">
+                        <div class="card-body p-0">
+                            <div class="p-5 ">
+                                <h3 class="fw-bold mb-5  text-center">Vendor Sign Up</h3>
+                                <form action="/userSignUp" method="post" name="signup" onsubmit="return validateSignUp()">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-4 pb-1">
+
+                                            <div class="form-outline">
+                                                <input type="text" id="firstName" name="firstName"
+                                                    class="form-control form-control-lg" autocomplete="off" placeholder="First name" />
+                                                <span id="firstNameerr" class="text-danger" > </span>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6 mb-4 pb-1">
+
+                                            <div class="form-outline">
+                                                <input type="text" id="lastName" name="lastName"
+                                                    class="form-control form-control-lg" autocomplete="off" placeholder="Last name" />
+                                                <span id="lastNameerr" class="text-danger"> </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <div class="form-outline form-white">
+                                            <input type="text" id="email" name="email"
+                                                class="form-control form-control-lg" autocomplete="off" placeholder="Your Email" />
+                                                {{#if userEmailExistErr}}
+                                                <span class="text-danger text-center">Email already exist</span>
+                                                {{/if}}
+                                            <span id="emailerr" class="text-danger"> </span>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4 pb-1">
+
+                                        <div class="form-outline form-white">
+                                            <input type="number" id="phone" name="phone"
+                                                class="form-control form-control-lg" autocomplete="off" placeholder="Phone Number" />
+                                            <span id="phoneerr" class="text-danger"> </span>
+                                        </div>
+
+                                    </div>
+                                    <div class="mb-4 pb-1">
+                                        <div class="form-outline">
+                                            <input type="password" id="password" name="password"
+                                                class="form-control form-control-lg" autocomplete="off" placeholder="Password" />
+                                            <span id="passworderr" class="text-danger"> </span>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4 pb-1">
+                                        <div class="form-outline">
+                                            <input type="password" id="confirm_password"
+                                                class="form-control form-control-lg" autocomplete="off" placeholder="Confirm Password" />
+                                            <span id="confirmPassworderr" class="text-danger"> </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <button class="btn btn-outline-dark text-dark bg-white  btn-lg px-5" type="submit">Submit</button>
+                                    </div>
+
+                                </form>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</section>
+
+
+
+
