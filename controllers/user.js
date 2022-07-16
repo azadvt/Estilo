@@ -16,28 +16,28 @@ module.exports = {
             res.redirect('/')
         }
         else {
-            res.render('user/user-login', { userLoggErr: req.session.userLoggErr })
-            req.session.userLoggErr = false
+            res.render('user/user-login', { userLogErr: req.session.userLogErr })
+            req.session.userLogErr = true;
         }
     },
     getSignUp: (req, res) => {
         res.render('user/user-signup', { userEmailExistErr: req.session.userEmailExistErr })
         req.session.userEmailExistErr = false
     },
-    postUserLogin: (req, res) => {
+    postLogin: (req, res) => {
         userHelper.doLogin(req.body).then((response) => {
             if (response.status) {
                 req.session.userLoggedIn = true
                 req.session.user = response.user
                 res.redirect('/')
             } else {
-                req.session.userLoggErr = true;
+                req.session.userLogErr = true;
                 res.redirect('/login')
             }
         })
 
     },
-    postUerSignUp: (req, res) => {
+    postSignUp: (req, res) => {
         userHelper.checkUnique(req.body).then((response) => {
             if (response.exist) {
                 req.session.userEmailExistErr = true
@@ -49,20 +49,29 @@ module.exports = {
                         res.redirect('/otp')
                     }
                 })
-
             }
         })
     },
     getOTP: (req, res) => {
+        if (req.session.userLoggedIn) {
+            res.redirect('/')
+        }
+        else {
+
         userphone = req.session.body.phone
         res.render('user/otp', { userphone, otpErr: req.session.otpErr })
         req.session.otpErr = false
+        }
     },
     postOTP: (req, res) => {
-        twilioHelpers.otpVerify(req.body, req.session.body).then((response) => {
+        userphone = req.session.body.phone
+
+        twilioHelpers.otpVerify(req.body, userphone).then((response) => {
             if (response.valid) {
                 userHelper.doSignup(req.session.body).then((response) => {
-                    res.redirect('/login')
+                    req.session.userLoggedIn=true
+                    req.session.user=req.session.body
+                    res.redirect('/');
                 })
             } else {
                 req.session.otpErr = true

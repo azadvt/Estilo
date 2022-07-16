@@ -9,22 +9,22 @@
                     <div class="card-body p-5 ">
 
                         <h2 class="fw-bold mb-5 text-uppercase text-center">Login</h2>
-                        <form action="/userLogin" method="post" name="login" onsubmit="return validate()">
+                        <form action="/userLogin" method="post" name="login" onsubmit="return validateUserLogin()">
 
                             <div class="form-outline form-white mb-5">
                                 <input type="email" id="email" name="email" placeholder="Email"
                                     class="form-control form-control-lg" autocomplete="off" />
-                                <span id="emailerr" class="text-danger"> </span>
+                                <span id="requiredEmail" class="text-danger"> </span>
                             </div>
 
 
                             <div class="form-outline form-white mb-4">
                                 <input type="password" id="password" name="password" placeholder="Password"
                                     class="form-control form-control-lg" autocomplete="off"/>
-                                <span id="passworderr" class="text-danger"> </span>
+                                <span id="requiredPassword" class="text-danger"> </span>
 
                             </div>
-                            {{#if userLoggErr}}
+                            {{#if userLogErr}}
                             <p class="text-danger text-center">Invalid email or password</p>
                             {{/if}}
                             <div class="text-center">

@@ -6,7 +6,6 @@ module.exports={
         return new Promise(async(resolve,reject)=>{
             let admin= await db.get().collection(collection.ADMIN_COLLECTION).findOne({username:adminData.username,password:adminData.password})
                 resolve(admin)
-        })
-       
+        })    
     }
 }

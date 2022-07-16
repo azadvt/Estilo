@@ -40,5 +40,11 @@ module.exports={
                 resolve(valid)                
                }
         })
+    },
+    getAllUsers:()=>{
+        return new Promise((resolve,reject)=>{
+            let userDetails = db.get().collection(collection.USER_COLLECTION).find().toArray()
+            resolve(userDetails)
+        })
     }
 }

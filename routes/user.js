@@ -11,14 +11,14 @@ router.get('/login', usercontroller.getLogin);
 
 router.get('/signup', usercontroller.getSignUp);
 
-router.post('/userLogin', usercontroller.postUserLogin)
+router.post('/userLogin', usercontroller.postLogin)
 
-router.post('/userSignUp', usercontroller.postUerSignUp)
+router.post('/userSignUp', usercontroller.postSignUp)
 
 router.get('/otp', usercontroller.getOTP)
 
 router.post('/otp', usercontroller.postOTP)
 
-router.get('/loggout', usercontroller.getLogin)
+router.get('/loggout', usercontroller.getLogout)
 
 module.exports = router;

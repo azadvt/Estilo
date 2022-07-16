@@ -1,0 +1,40 @@
+<div class="content-wrapper">
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="col-sm-12 col-xl-12">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">All Users</h6>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sl NO.</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone</th>
+
+                            <th scope="col">Block</th>
+                            <th scope="col">Un Block</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each userDetails}}
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>{{this.firstName}}</td>
+                            <td>{{this.lastName}}</td>
+                            <td>{{this.email}}</td>
+                            <td>{{this.phone}}</td>
+
+                            <td><button type="button" class="btn btn-danger">Block</button>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

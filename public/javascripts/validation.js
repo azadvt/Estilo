@@ -1,21 +1,22 @@
- function validate() {
-        var email = document.login.email.value
-        var password = document.login.password.value
+ 
+ function validateUserLogin() {
+    var email = document.login.email.value
+    var password = document.login.password.value
 
-        if (email == "" || password == "") {
-            document.getElementById('emailerr').innerHTML = "Enter your Email";
-            document.getElementById('passworderr').innerHTML = "Enter your Password";
+    if (email == "" || password == "") {
+        document.getElementById('requiredEmail').innerHTML = "Enter your Email";
+        document.getElementById('requiredPassword').innerHTML = "Enter your Password";
 
-            return false
-        } else if (password.length < 6) {
-            document.getElementById('passworderr').innerHTML = " ** password length minimum 6 ";
-            return false
+        return false
+    } else if (password.length < 6) {
+        document.getElementById('password').innerHTML = " ** password length minimum 6 ";
+        return false
 
-        }
-    } 
+    }
+} 
 
 
-    function validateSignUp() {
+    function validateUserSignUp() {
         var firstName = document.signup.firstName.value
         var lastName = document.signup.lastName.value
         var email = document.signup.email.value
@@ -43,3 +44,23 @@
         }
 
     }
+
+
+    function validateVendorLogin() {
+        var email = document.login.email.value
+        var password = document.login.password.value
+
+        if (email == "" || password == "") {
+            document.getElementById('requiredEmail').innerHTML = "Enter your Email";
+            document.getElementById('requiredPassword').innerHTML = "Enter your Password";
+
+            return false
+        } else if (password.length < 6) {
+            document.getElementById('password').innerHTML = " ** password length minimum 6 ";
+            return false
+
+        }
+    } 
+
+    
+    
