@@ -58,12 +58,12 @@
                     </div>
                     <!-- /Logo -->
         
-                    <form id="formAuthentication" class="mb-3" action="/admin/adminLogin" method="post" name="login" onsubmit="return validate()">
+                    <form id="formAuthentication" class="mb-3" action="/admin/adminLogin" method="post" name="login" onsubmit="return validateLogin()">
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email or Username</label>
-                            <input type="text" class="form-control" id="username" name="username"
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email"
                                 placeholder="Enter your email" autofocus />
-                             <span id="usernameerr" class="text-danger"> </span>
+                             <span id="requiredEmail" class="text-danger"> </span>
                         </div>
                         <div class="mb-3 form-password-toggle">
                             <div class="d-flex justify-content-between">
@@ -79,7 +79,7 @@
                                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
 
                             </div>
-                                    <span id="passworderr" class="text-danger"> </span>
+                                    <span id="requiredPassword" class="text-danger"> </span>
 
                         </div>
                         <div class="mb-3">

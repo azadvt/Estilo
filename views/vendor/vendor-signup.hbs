@@ -57,35 +57,39 @@
                         </a>
                     </div>
                     <!-- /Logo -->
-                    
 
-                    <form id="formAuthentication" action="/vendor/signup" method="post"  name="vendorSignup" onsubmit="return validateVendorSignUp()">
+
+                    <form id="formAuthentication" action="/vendor/signup" method="post" name="vendorSignup"
+                        onsubmit="return validateVendorSignUp()">
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" name="name"
-                                placeholder="Enter your Name" autofocus />
-                                <span id="requiredName" class="text-danger"> </span>
-                            </div>
-                
-                         <div class="mb-3">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your Name"
+                                autofocus />
+                            <span id="requiredName" class="text-danger"> </span>
+                        </div>
+
+                        <div class="mb-3">
                             <label for="buisinessName" class="form-label">Business Name</label>
                             <input type="text" class="form-control" id="businessName" name="businessName"
                                 placeholder="Enter your Buissiness Name" autofocus />
-                                <span id="requiredBusinessName" class="text-danger"> </span>
-                
+                            <span id="requiredBusinessName" class="text-danger"> </span>
+
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Phone Number</label>
                             <input type="number" class="form-control" id="phone" name="phone"
                                 placeholder="Enter your Phone Number" />
-                                 <span id="requiredPhone" class="text-danger"> </span>
+                            <span id="requiredPhone" class="text-danger"> </span>
 
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="text" class="form-control" id="email" name="email"
                                 placeholder="Enter your email" />
-                                      <span id="requiredEmail" class="text-danger"> </span>
+                            {{#if vendorEmailExistErr}}
+                            <span class="text-danger text-center">Email already exist</span>
+                            {{/if}}
+                            <span id="requiredEmail" class="text-danger"> </span>
 
                         </div>
                         <div class="mb-3 form-password-toggle">
@@ -96,30 +100,21 @@
                                     aria-describedby="password" />
                                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                             </div>
-                           <span id="requiredPassword" class="text-danger"> </span>
+                            <span id="requiredPassword" class="text-danger"> </span>
 
                         </div>
 
+                    
                         <div class="mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" />
-                                <label class="form-check-label" for="terms-conditions">
-                                    I agree to
-                                    <a href="javascript:void(0);">privacy policy & terms</a>
-                                </label>
-                            </div>
+                            <button type="submit" class="btn btn-primary d-grid w-100">Sign up</button>
                         </div>
-                        <div class="mb-3">
-                         <button type="submit" class="btn btn-primary d-grid w-100">Sign up</button>
-                          </div>
                     </form>
 
                     <p class="text-center">
                         <span>Already have an account?</span>
                         <a href="/vendor/login">
                             <span>Sign in instead</span>
-                        </aP
-                    </p>
+                            </a>
                 </div>
             </div>
             <!-- Register Card -->
@@ -128,25 +123,3 @@
 </div>
 
 
-
-<script>
-    function validateVendorSignUp() {
-        var name = document.vendorSignup.name.value
-        var businessName = document.vendorSignup.businessName.value
-        var phone = document.vendorSignup.phone.value
-        var email = document.vendorSignup.email.value
-        var password = document.vendorSignup.password.value    
-
-        if (name == "" || businessName == "" || email == "" || phone == "" || password == "") {
-                
-            document.getElementById('requiredName').innerHTML = "Enter your Name";
-            document.getElementById('requiredBusinessName').innerHTML = " Enter your Business Name";
-            document.getElementById('requiredPhone').innerHTML = " Enter your Phone Number";
-            document.getElementById('requiredEmail').innerHTML = " Enter your Email";
-            document.getElementById('requiredPassword').innerHTML = " Enter your Password";
-            return false
-
-        }
-
-    }
-</script>

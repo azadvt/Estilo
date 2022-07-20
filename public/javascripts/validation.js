@@ -1,18 +1,24 @@
- 
- function validateUserLogin() {
+
+ function validateLogin() {
     var email = document.login.email.value
     var password = document.login.password.value
 
-    if (email == "" || password == "") {
+   
+    if (email == "") {
         document.getElementById('requiredEmail').innerHTML = "Enter your Email";
-        document.getElementById('requiredPassword').innerHTML = "Enter your Password";
-
-        return false
-    } else if (password.length < 6) {
-        document.getElementById('password').innerHTML = " ** password length minimum 6 ";
         return false
 
     }
+    if( password == ""){
+            document.getElementById('requiredPassword').innerHTML = "Enter your Password";
+            return false
+
+        }
+        
+            return true
+
+
+    
 } 
 
 
@@ -46,21 +52,49 @@
     }
 
 
-    function validateVendorLogin() {
-        var email = document.login.email.value
-        var password = document.login.password.value
 
-        if (email == "" || password == "") {
-            document.getElementById('requiredEmail').innerHTML = "Enter your Email";
-            document.getElementById('requiredPassword').innerHTML = "Enter your Password";
+    
+    
+    
+    
+    function validateVendorSignUp() {
+        var name = document.vendorSignup.name.value
+        var businessName = document.vendorSignup.businessName.value
+        var phone = document.vendorSignup.phone.value
+        var email = document.vendorSignup.email.value
+        var password = document.vendorSignup.password.value
 
-            return false
-        } else if (password.length < 6) {
-            document.getElementById('password').innerHTML = " ** password length minimum 6 ";
+        if (name == "" || businessName == "" || email == "" || phone == "" || password == "") {
+
+            document.getElementById('requiredName').innerHTML = "Enter your Name";
+            document.getElementById('requiredBusinessName').innerHTML = " Enter your Business Name";
+            document.getElementById('requiredPhone').innerHTML = " Enter your Phone Number";
+            document.getElementById('requiredEmail').innerHTML = " Enter your Email";
+            document.getElementById('requiredPassword').innerHTML = " Enter your Password";
             return false
 
         }
-    } 
+
+    }
 
     
+        
+
+        // if (productName == "" || brand == "" || price == "" || category == "" || image =="") {
+
+        //     document.getElementById('requiredProductName').innerHTML = "Enter your Product Name";
+        //     document.getElementById('requiredBrand').innerHTML = " Enter your Brand Name";
+        //     document.getElementById('requiredPrice').innerHTML = " Enter your Price";
+        //     document.getElementById('requiredCategory').innerHTML = " Enter your Category";
+        //     //  document.getElementById('requiredImage').innerHTML = " Upload atleast one Image";
+
+        //     return false
+
+
+        
+
+        // }
+
+    
+
     

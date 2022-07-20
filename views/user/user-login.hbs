@@ -9,7 +9,11 @@
                     <div class="card-body p-5 ">
 
                         <h2 class="fw-bold mb-5 text-uppercase text-center">Login</h2>
-                        <form action="/userLogin" method="post" name="login" onsubmit="return validateUserLogin()">
+                        {{#if userLogErr}}
+                        <div class="alert alert-primary" role="alert">
+                            {{userLogErr}}</div>
+                        {{/if}}
+                        <form action="/userLogin" method="post" name="login" onsubmit="return validateLogin()">
 
                             <div class="form-outline form-white mb-5">
                                 <input type="email" id="email" name="email" placeholder="Email"
@@ -20,13 +24,11 @@
 
                             <div class="form-outline form-white mb-4">
                                 <input type="password" id="password" name="password" placeholder="Password"
-                                    class="form-control form-control-lg" autocomplete="off"/>
+                                    class="form-control form-control-lg" autocomplete="off" />
                                 <span id="requiredPassword" class="text-danger"> </span>
 
                             </div>
-                            {{#if userLogErr}}
-                            <p class="text-danger text-center">Invalid email or password</p>
-                            {{/if}}
+
                             <div class="text-center">
                                 <p class="small mb-3 pb-lg-2"><a class="text-dark-50 " href="#!">Forgot password?</a>
                                 </p>
@@ -50,4 +52,3 @@
     </div>
 
 </section>
-

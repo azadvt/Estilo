@@ -11,27 +11,37 @@ module.exports = {
             res.render('user/home', { layout: 'user-layout' })
         }
     },
-    getLogin: function (req, res, next) {
+    getLogin: (req, res, next) => {
         if (req.session.userLoggedIn) {
             res.redirect('/')
         }
         else {
             res.render('user/user-login', { userLogErr: req.session.userLogErr })
-            req.session.userLogErr = true;
+            req.session.userLogErr = false;
         }
     },
     getSignUp: (req, res) => {
-        res.render('user/user-signup', { userEmailExistErr: req.session.userEmailExistErr })
-        req.session.userEmailExistErr = false
+        if (req.session.userLoggedIn) {
+            res.redirect('/')
+        }
+        else{
+            res.render('user/user-signup', { userExistErr: req.session.userExistErr})
+            req.session.userExistErr = false
+        }
+        
     },
     postLogin: (req, res) => {
         userHelper.doLogin(req.body).then((response) => {
-            if (response.status) {
+            if(response.blockedUser){
+                req.session.userLogErr="your account is blocked "
+                res.redirect('/login')
+            }
+           else if (response.status) {
                 req.session.userLoggedIn = true
                 req.session.user = response.user
                 res.redirect('/')
             } else {
-                req.session.userLogErr = true;
+                req.session.userLogErr = "Invalid Email or Password";
                 res.redirect('/login')
             }
         })
@@ -39,10 +49,20 @@ module.exports = {
     },
     postSignUp: (req, res) => {
         userHelper.checkUnique(req.body).then((response) => {
-            if (response.exist) {
-                req.session.userEmailExistErr = true
+            console.log("response=",response);
+            if (response.existEmail&&response.existPhone) {
+                req.session.userExistErr = "Allready registerd Email and Phone"
                 res.redirect('/signup')
-            } else {
+            }
+            else if(response.existEmail){
+                req.session.userExistErr="Allready registered Email"
+                res.redirect('/signup')
+            }
+            else if(response.existPhone){
+                req.session.userExistErr="Allready registerd Phone Number"
+                res.redirect('/signup')
+            }
+             else {
                 req.session.body = req.body
                 twilioHelpers.dosms(req.session.body).then((data) => {
                     if (data) {

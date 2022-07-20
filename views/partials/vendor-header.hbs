@@ -5,7 +5,7 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
-            <a href="index.html" class="app-brand-link">
+            <a href="#" class="app-brand-link">
               <span class="app-brand-logo demo">
                 <svg
                   width="25"
@@ -74,30 +74,63 @@
           <ul class="menu-inner py-1">
             <!-- Dashboard -->
             <li class="menu-item  ">
-              <a href="/admin" class="menu-link">
+              <a href="/vendor" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div >Dashboard</div>
               </a>
 
             </li>
-            <li class="menu-item">
-              <a href="/admin/viewUsers" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-user"></i>
-                <div ></div>
-              </a>
-            </li>
 
             <li class="menu-item">
-              <a href="javascript:void(0)" class="menu-link">
+              <a class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-store-alt"></i>
-                <div></div>
+                <div data-i18n="Layouts">Product Manage </div>
               </a>
+
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="/vendor/viewProduct" class="menu-link">
+                    <div data-i18n="Without menu">View Product</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="/vendor/addProduct" class="menu-link">
+                    <div data-i18n="Without navbar">Add Product</div>
+                  </a>
+                </li>
+                
+               
+              </ul>
+            </li>
+              <li class="menu-item">
+              <a class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-category-alt"></i>
+                <div data-i18n="Layouts">Category Manage </div>
+              </a>
+
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="/vendor/viewCategory" class="menu-link">
+                    <div data-i18n="Container">View Category</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="/vendor/addCategory" class="menu-link">
+                    <div data-i18n="Without navbar">Add Category</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="/vendor/editCategory" class="menu-link">
+                    <div data-i18n="Without navbar">Edit Category</div>
+                  </a>
+                </li>
+              </ul>
             </li>
 
             <li class="menu-item">
-              <a href="javascript:void(0)" class="menu-link">
+              <a href="/vendro/orders" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-cart"></i>
-                <div></div>
+                <div>Orders</div>
               </a>
             </li>
            
@@ -155,8 +188,8 @@
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">John Doe</span>
-                            <small class="text-muted">Admin</small>
+                            <span class="fw-semibold d-block">{{vendor.name}}</span>
+                            <small class="text-muted">{{vendor.businessName}}</small>
                           </div>
                         </div>
                       </a>
@@ -189,9 +222,9 @@
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="/admin/logOut">
+                      <a class="dropdown-item" href="/vendor/logOut">
                         <i class="bx bx-power-off me-2"></i>
-                        <span class="align-middle">Log Out</span>
+                        <span class="align-middle">Log Out</span> 
                       </a>
                     </li>
                   </ul>

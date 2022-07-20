@@ -19,6 +19,6 @@ router.get('/otp', usercontroller.getOTP)
 
 router.post('/otp', usercontroller.postOTP)
 
-router.get('/loggout', usercontroller.getLogout)
+router.get('/logout', usercontroller.getLogout)
 
 module.exports = router;

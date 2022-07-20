@@ -1,6 +1,7 @@
 const db = require('../config/connection')
 const collection = require('../config/collections')
 const bcrypt = require('bcrypt')
+const ObjectId=require('mongodb').ObjectId
 
 module.exports = {
 
@@ -36,14 +37,33 @@ module.exports = {
     checkUnique:(vendorData)=>{
         return new Promise(async(resolve,reject)=>{
             let valid = {}
-            vendor = db.get().collection(collection.VENDOR_COLLECTION).findOne({email:vendorData.email})
-            if(vendor){
+            exist = await db.get().collection(collection.VENDOR_COLLECTION).findOne({email:vendorData.email})
+            if(exist){
                 valid.exist=true
                 resolve(valid)
             }
             else{
                 resolve(valid)
             }
+        })
+    },
+    
+    getAllVendor:()=>{
+        return new Promise(async(resolve,reject)=>{
+            let vendorDetails= await db.get().collection(collection.VENDOR_COLLECTION).find().sort({name:1}).toArray()
+            resolve(vendorDetails)
+        })
+    },
+    blockVendor:(vendorId)=>{
+        console.log(vendorId);
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.VENDOR_COLLECTION).updateOne({_id:ObjectId(vendorId)},{$set:{blockedVendor:true}})
+        })
+    },
+    unBlockVendor:(vendorId)=>{
+        console.log(vendorId);
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.VENDOR_COLLECTION).updateOne({_id:ObjectId(vendorId)},{$set:{blockedVendor:false}})
         })
     }
 }
