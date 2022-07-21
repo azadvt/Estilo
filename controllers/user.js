@@ -1,22 +1,25 @@
 const userHelper = require('../helpers/user-helper');
 const twilioHelpers = require('../helpers/twilio-helper');
-
+const productHelper = require('../helpers/product-helper')
 module.exports = {
 
     getHome: function (req, res, next) {
-        if (req.session.userLoggedIn) {
-            let user = req.session.user
-            res.render('user/home', { layout: 'user-layout', user });
-        } else {
-            res.render('user/home', { layout: 'user-layout' })
-        }
+
+        productHelper.getAllProduct().then((productData)=>{
+            if (req.session.userLoggedIn) {
+                let user = req.session.user
+                res.render('user/home', { layout: 'user-layout', user ,productData});
+            } else {
+                res.render('user/home', { layout: 'user-layout' ,productData})
+            }
+        })
     },
     getLogin: (req, res, next) => {
         if (req.session.userLoggedIn) {
             res.redirect('/')
         }
         else {
-            res.render('user/user-login', { userLogErr: req.session.userLogErr })
+            res.render('user/user-login', { userLogErr: req.session.userLogErr})
             req.session.userLogErr = false;
         }
     },
@@ -64,6 +67,7 @@ module.exports = {
             }
              else {
                 req.session.body = req.body
+                console.log(req.body);
                 twilioHelpers.dosms(req.session.body).then((data) => {
                     if (data) {
                         res.redirect('/otp')
@@ -102,6 +106,15 @@ module.exports = {
     getLogout: (req, res) => {
         req.session.userLoggedIn = false
         res.redirect('/login')
+    },
+    getViewProduct:(req,res)=>{
+        console.log('product id')
+        let productId=req.query.id
+        productHelper.getOneProduct(productId).then((productData)=>{
+            console.log(productData);
+            let user = req.session.user
+            res.render('user/view-product', { layout: 'user-layout', user ,productData})
+        })
     }
 
 }

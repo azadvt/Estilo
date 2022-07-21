@@ -42,6 +42,12 @@ router.get('/addCategory',verifyLogin,vendorController.getAddCategory)
 
 router.post('/addCategory',verifyLogin,vendorController.postAddCategory)
 
+router.get('/editCategory',verifyLogin,vendorController.getEditCategory)
+
+router.post('/editCategory',verifyLogin,vendorController.postEditCategory)
+    
+router.get('/deleteCategory',verifyLogin,vendorController.getDeleteCategory)
+
 
 
 

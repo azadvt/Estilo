@@ -11,9 +11,11 @@
                         <div class="card-body p-0">
                             <div class="p-5 ">
                                 <h3 class="fw-bold mb-5 text-uppercase text-center">Sign Up</h3>
-                                {{#if userExistErr}} 
-                        <div class="alert alert-primary text-center" role="alert">
-                            {{userExistErr}} <br>please login</a></div>
+                                {{#if userExistErr}}
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                        {{userExistErr}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
                         {{/if}}
                                 <form action="/userSignUp" method="post" name="signup" onsubmit="return validateUserSignUp()">
                                     <div class="row">

@@ -57,7 +57,13 @@
                         </a>
                     </div>
                     <!-- /Logo -->
-        
+                    {{#if adminLoggErr}}
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        {{adminLoggErr}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                                    {{/if}}
+
                     <form id="formAuthentication" class="mb-3" action="/admin/adminLogin" method="post" name="login" onsubmit="return validateLogin()">
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
@@ -88,9 +94,7 @@
                                 <label class="form-check-label" for="remember-me"> Remember Me </label>
                             </div>
                         </div>
-                        {{#if adminLoggErr}}
-                            <p class="text-danger text-center">Invalid email or password</p>
-                            {{/if}}
+                        
                         <div class="mb-3">
                             <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
                         </div>

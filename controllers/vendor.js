@@ -73,7 +73,9 @@ module.exports = {
 
     },
     getAddProduct:(req,res)=>{
-        res.render('vendor/add-product',{ layout: 'vendor-layout', vendorHeader: true })
+        categoryHelper.getViewCategory().then((categoryData)=>{
+            res.render('vendor/add-product',{ layout: 'vendor-layout', vendorHeader: true ,categoryData})
+        })
     },
     postAddProduct:(req,res) =>{
         let images=[]
@@ -118,7 +120,25 @@ module.exports = {
     },
     postAddCategory:(req,res)=>{
         categoryHelper.addCategory(req.body)
-        res.send('hello')
+        res.redirect('/vendor/addCategory')
+    },
+    getEditCategory:(req,res)=>{
+        let categoryId=req.query.id
+        categoryHelper.getOneCategory(categoryId).then((categoryData)=>{
+        res.render('vendor/edit-category',{ layout: 'vendor-layout', vendorHeader: true ,categoryData} )
+        })
+    },
+    getDeleteCategory:(req,res)=>{
+        let categoryId=req.query.id
+        categoryHelper.deleteCategory(categoryId)
+        res.redirect('/vendor/viewCategory')
+    },
+    postEditCategory:(req,res)=>{ 
+        let categoryId=req.query.id
+        let categoryData=req.body
+        categoryHelper.updateCategory(categoryId,categoryData)
+        res.redirect('/vendor/viewCategory')
+
     }
 
 }

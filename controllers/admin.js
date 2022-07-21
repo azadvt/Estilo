@@ -18,7 +18,7 @@ module.exports = {
                 res.redirect('/admin')
             }
             else {
-                req.session.adminLoggErr = true;
+                req.session.adminLoggErr = "Invalid email or password"
                 req.session.adminLoggedIn = false
                 res.redirect('/admin/login')
             }

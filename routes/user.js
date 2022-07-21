@@ -21,4 +21,6 @@ router.post('/otp', usercontroller.postOTP)
 
 router.get('/logout', usercontroller.getLogout)
 
+router.get('/viewProduct',usercontroller.getViewProduct)
+
 module.exports = router;
