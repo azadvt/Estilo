@@ -1,47 +1,54 @@
 <div class="content-wrapper">
 
-    <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="mb-2 d-flex justify-content-end">
-            <a href="/vendor/addCategory" class="btn btn-success mt-2">Add Category</a>
-        </div>
-
-        <div class="col-sm-12 col-xl-12">
-            <div class="bg-light rounded h-100 p-4">
-                <h6 class="mb-4">All Category</h6>
-                <table class="table table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th style="width: 9.00%" scope="col">Sl NO.</th>
-                            <th scope="col">Category</th>
-
-                            <th style="width: 15.66%" scope="col">Action</th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{#each categoryData}}
-                        <tr>
-                            <th scope="row">{{inc @index}}</th>
-                            <td>{{this.categoryName}}</td>
-                            <td>
-                                <a href="/vendor/editCategory?id={{this._id}}">
-                                <button type="button"
-                                class="btn rounded-pill btn-icon btn-outline-secondary">
-                                <span class="tf-icons bx bx-edit"></span></button>
-                                </a>
-
-                                <a href="/vendor/deleteCategory?id={{this._id}}">
-                                <button type="button" class="btn rounded-pill btn-icon btn-outline-secondary">
-                                <span class="tf-icons bx bx-trash"></span>
-                                    </button></a>
-
-                            </td>
+    <div class="container-xxl flex-grow-1 container-p-y col-10">
 
 
-                        </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
+        <div class="col-sm-12 col-xl-12 mt-5">
+            <div class="bg-light rounded  p-4">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6>All Category</h6>
+                    </div>
+                    <div >
+                        <a href="/vendor/addCategory" class="btn btn-success">Add Category</a>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width: 9.00%" scope="col">Sl NO.</th>
+                                <th scope="col">Category</th>
+
+                                <th style="width: 15.66%" scope="col">Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each categoryData}}
+                            <tr>
+                                <th scope="row">{{inc @index}}</th>
+                                <td>{{this.categoryName}}</td>
+                                <td>
+                                    <a href="/vendor/editCategory?id={{this._id}}">
+                                        <button type="button" class="btn rounded-pill btn-icon btn-outline-secondary">
+                                            <span class="tf-icons bx bx-edit"></span></button>
+                                    </a>
+
+                                    <a href="/vendor/deleteCategory?id={{this._id}}">
+                                        <button type="button" class="btn rounded-pill btn-icon btn-outline-secondary">
+                                            <span class="tf-icons bx bx-trash"></span>
+                                        </button></a>
+
+                                </td>
+
+
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
     </div>

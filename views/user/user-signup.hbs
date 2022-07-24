@@ -12,19 +12,22 @@
                             <div class="p-5 ">
                                 <h3 class="fw-bold mb-5 text-uppercase text-center">Sign Up</h3>
                                 {{#if userExistErr}}
-                        <div class="alert alert-danger alert-dismissible" role="alert">
-                        {{userExistErr}}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                        {{/if}}
-                                <form action="/userSignUp" method="post" name="signup" onsubmit="return validateUserSignUp()">
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                    {{userExistErr}}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
+                                {{/if}}
+                                <form action="/userSignUp" method="post" name="usersignup" id="userSignup"
+                                    onsubmit="return validateUserSignUp()">
                                     <div class="row">
                                         <div class="col-md-6 mb-4 pb-1">
 
                                             <div class="form-outline">
                                                 <input type="text" id="firstName" name="firstName"
-                                                    class="form-control form-control-lg" autocomplete="off" placeholder="First name" />
-                                                <span id="firstNameerr" class="text-danger" > </span>
+                                                    class="form-control form-control-lg" autocomplete="off"
+                                                    placeholder="First name" required />
+                                                <span id="firstNameerr" class="text-danger"> </span>
 
                                             </div>
 
@@ -33,7 +36,8 @@
 
                                             <div class="form-outline">
                                                 <input type="text" id="lastName" name="lastName"
-                                                    class="form-control form-control-lg" autocomplete="off" placeholder="Last name" />
+                                                    class="form-control form-control-lg" autocomplete="off"
+                                                    placeholder="Last name" required />
                                                 <span id="lastNameerr" class="text-danger"> </span>
                                             </div>
 
@@ -42,8 +46,9 @@
                                     <div class="mb-4">
                                         <div class="form-outline form-white">
                                             <input type="text" id="email" name="email"
-                                                class="form-control form-control-lg" autocomplete="off" placeholder="Your Email" />
-                                                
+                                                class="form-control form-control-lg" autocomplete="off"
+                                                placeholder="Your Email" required />
+
                                             <span id="emailerr" class="text-danger"> </span>
                                         </div>
                                     </div>
@@ -51,7 +56,8 @@
 
                                         <div class="form-outline form-white">
                                             <input type="number" id="phone" name="phone"
-                                                class="form-control form-control-lg" autocomplete="off" placeholder="Phone Number" />
+                                                class="form-control form-control-lg" autocomplete="off"
+                                                placeholder="Phone Number" required />
                                             <span id="phoneerr" class="text-danger"> </span>
                                         </div>
 
@@ -59,14 +65,16 @@
                                     <div class="mb-4 pb-1">
                                         <div class="form-outline">
                                             <input type="password" id="password" name="password"
-                                                class="form-control form-control-lg" autocomplete="off" placeholder="Password" />
+                                                class="form-control form-control-lg" autocomplete="off"
+                                                placeholder="Password" required />
                                             <span id="passworderr" class="text-danger"> </span>
                                         </div>
                                     </div>
                                     <div class="mb-4 pb-1">
                                         <div class="form-outline">
-                                            <input type="password" id="confirm_password"
-                                                class="form-control form-control-lg" autocomplete="off" placeholder="Confirm Password" />
+                                            <input type="password" name="c_password" id="c_password"
+                                                class="form-control form-control-lg" autocomplete="off"
+                                                placeholder="Confirm Password" required />
                                             <span id="confirmPassworderr" class="text-danger"> </span>
                                         </div>
                                     </div>

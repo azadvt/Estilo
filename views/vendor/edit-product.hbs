@@ -34,33 +34,26 @@
                         </div>
 
 
-                        <div class="mb-3"><label for="">Category</label><br>
-                            <span id="requiredCategory" class="text-danger"> </span>
+                        <div class="input-group mb-3">
+                                <label class="input-group-text" for="inputGroupSelect01">Category</label>
+                                <select name="categoryName"  class="form-select" id="inputGroupSelect01">
+                                    {{#each categoryData}}
+                                    <option value={{this.categoryName}}>{{this.categoryName}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
 
-                            <input type="text" name="category" id="category" class="form-control"
-                                placeholder="Enter your Product Category" value="{{productData.category}}">
-                        </div>
-                        <img src="/product-images/{{productData.images.[0]}}" style="width: 100px; height: 100px;">
-                        <div class="mb-3"><label for="">Upload  Image  1</label><br>
+                        <img src="/product-images/{{productData.images.[0]}}" style="width: 100px; height: 100px;" id="image-1">
+                        <img src="/product-images/{{productData.images.[1]}}" style="width: 100px; height: 100px;" id="image-2">
+                        <img src="/product-images/{{productData.images.[2]}}" style="width: 100px; height: 100px;" id="image-3">
+                        <img src="/product-images/{{productData.images.[3]}}" style="width: 100px; height: 100px;" id="image-4">
+                        <div class="mb-3"><label for="">Upload  Images</label><br>
                             <span id="requiredImage" class="text-danger"> </span>
 
-                            <input type="file" name="image" class="form-control">
+                            <input type="file" name="image" class="form-control" accept="image/*" onchange="viewImage1(event)" multiple>
 
                         </div>
-                        <img src="/product-images/{{productData.images.[1]}}" style="width: 100px; height: 100px;">
-                        <div class="mb-3"><label for="">Upload  Image  1</label><br>
-                            <span id="requiredImage" class="text-danger"> </span>
-
-                            <input type="file" name="image" class="form-control">
-
-                        </div>
-                        <img src="/product-images/{{productData.images.[2]}}" style="width: 100px; height: 100px;">
-                        <div class="mb-3"><label for="">Upload  Image  1</label><br>
-                            <span id="requiredImage" class="text-danger"> </span>
-
-                            <input type="file" name="image" class="form-control">
-
-                        </div>
+                        
                         <div>
                             <button type="submit" class="btn btn-success mt-4 ">Submit</button>
 
@@ -120,4 +113,11 @@
         
     }
     
+    function viewImage1(event){
+        document.getElementById('image-1').src=URL.createObjectURL(event.target.files[0])
+         document.getElementById('image-2').src=URL.createObjectURL(event.target.files[1])
+         document.getElementById('image-3').src=URL.createObjectURL(event.target.files[2])
+         document.getElementById('image-4').src=URL.createObjectURL(event.target.files[3])
+
+    }
 </script>

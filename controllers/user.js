@@ -1,6 +1,7 @@
 const userHelper = require('../helpers/user-helper');
 const twilioHelpers = require('../helpers/twilio-helper');
-const productHelper = require('../helpers/product-helper')
+const productHelper = require('../helpers/product-helper');
+const cartHelper = require('../helpers/cart-helper');
 module.exports = {
 
     getHome: function (req, res, next) {
@@ -35,6 +36,7 @@ module.exports = {
     },
     postLogin: (req, res) => {
         userHelper.doLogin(req.body).then((response) => {
+            console.log(response);
             if(response.blockedUser){
                 req.session.userLogErr="your account is blocked "
                 res.redirect('/login')
@@ -115,6 +117,21 @@ module.exports = {
             let user = req.session.user
             res.render('user/view-product', { layout: 'user-layout', user ,productData})
         })
+    },
+    getCart:async(req,res)=>{
+        let user = req.session.user
+        let products= await cartHelper.getCartProducts(user._id)
+        console.log("products=",products);
+        res.render('user/cart',{ layout: 'user-layout', user,products})
+    },
+    getAddToCart:(req,res)=>{
+        let productId=req.query.id
+        let userId=req.session.user._id
+        console.log(userId);
+        console.log(productId);
+        cartHelper.addToCart(productId,userId)
+        res.redirect('/cart')
+
     }
 
 }

@@ -59,33 +59,33 @@
                     <!-- /Logo -->
 
 
-                    <form id="formAuthentication" action="/vendor/signup" method="post" name="vendorSignup"
+                    <form id="vendorSignup" action="/vendor/signup" method="post" name="vendorSignup"
                         onsubmit="return validateVendorSignUp()">
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Enter your Name"
-                                autofocus />
+                                autofocus required/>
                             <span id="requiredName" class="text-danger"> </span>
                         </div>
 
                         <div class="mb-3">
                             <label for="buisinessName" class="form-label">Business Name</label>
                             <input type="text" class="form-control" id="businessName" name="businessName"
-                                placeholder="Enter your Buissiness Name" autofocus />
+                                placeholder="Enter your Buissiness Name" autofocus required/>
                             <span id="requiredBusinessName" class="text-danger"> </span>
 
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Phone Number</label>
                             <input type="number" class="form-control" id="phone" name="phone"
-                                placeholder="Enter your Phone Number" />
+                                placeholder="Enter your Phone Number" required/>
                             <span id="requiredPhone" class="text-danger"> </span>
 
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="text" class="form-control" id="email" name="email"
-                                placeholder="Enter your email" />
+                                placeholder="Enter your email" required/>
                             {{#if vendorEmailExistErr}}
                             <span class="text-danger text-center">Email already exist</span>
                             {{/if}}
@@ -97,13 +97,23 @@
                             <div class="input-group input-group-merge">
                                 <input type="password" id="password" class="form-control" name="password"
                                     placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                    aria-describedby="password" />
+                                    aria-describedby="password" required/>
                                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                             </div>
                             <span id="requiredPassword" class="text-danger"> </span>
 
                         </div>
+                        <div class="mb-3 form-password-toggle">
+                            <label class="form-label" for="password">Confirm Password</label>
+                            <div class="input-group input-group-merge">
+                                <input  type="password" id="c_password" class="form-control" name="c_password"required
+                                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                    aria-describedby="password"/>
+                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                            </div>
+                            <span id="requiredPassword" class="text-danger"> </span>
 
+                        </div>
                     
                         <div class="mb-3">
                             <button type="submit" class="btn btn-primary d-grid w-100">Sign up</button>
@@ -123,3 +133,47 @@
 </div>
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.js"></script>
+<script>
+    
+    $("#vendorSignup").validate({
+        errorClass: "error",  
+      rules:{
+        name:{
+          required:true,
+          minlength:3
+        },
+  
+        email:{
+          required:true,
+          email:true
+        },
+        bussinessName:{
+          required:true,
+        },
+  
+        phone:{
+          required:true,
+          minlength:10
+        },
+  
+        password:{
+          required:true,
+          minlength: 5
+        },
+        c_password:{
+            required:true,
+            equalTo:'#password'
+        }
+      },
+      messages:{
+        c_password:{
+          equalTo:"Passwords are not match"
+        }
+      }
+    })
+
+  
+</script>

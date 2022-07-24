@@ -20,14 +20,14 @@ module.exports = {
                 bcrypt.compare(userData.password, user.password).then((status) => {
                     if (status) {
                         response.user = user;
-                        if (user.blockUser) {
+                        if (user.blockedUser) {
                             response.status = false;
                             response.blockedUser = true
                             console.log(response);
                             resolve(response)
                         } else {
                             response.status = true;
-                            response.blockeduser = false
+                            response.blockedUser = false
                             console.log(response);
                             resolve(response);
                         }

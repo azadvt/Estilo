@@ -90,9 +90,12 @@ module.exports = {
     },
     getEditProduct:(req,res)=>{
         let productId=req.query.id
+        categoryHelper.getViewCategory().then((categoryData)=>{
+        
         productHelper.getOneProduct(productId).then((productData)=>{
-        res.render('vendor/edit-product',{ layout: 'vendor-layout', vendorHeader: true ,productData} )
+        res.render('vendor/edit-product',{ layout: 'vendor-layout', vendorHeader: true ,productData,categoryData} )
         })
+    })
     },
     getDeleteProduct:(req,res)=>{
         let productId=req.query.id
