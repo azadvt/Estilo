@@ -1,75 +1,148 @@
 <section class="shopping-cart spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="shopping__cart__table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Product</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {{#each products}}
-                                {{#each products}}
-                                <tr>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-                                            <img src="img/shopping-cart/cart-1.jpg" alt="">
+    <div class="container">
+        {{#if products}}
+        {{#each products}}
+        <div class="row">
+            <div class="col-lg-8">
+
+                <div class="shopping__cart__table">
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="product__cart__item">
+                                    <div class="product__cart__item__pic">
+                                        <img src="/product-images/{{this.product.images.[0]}}" alt="">
+                                    </div>
+                                    <div class="product__cart__item__text">
+                                        <h6>{{this.product.name}}</h6>
+                                        <h5>₹{{this.product.price}}/-</h5>
+                                    </div>
+                                </td>
+
+                                <td class="quantity__item">
+                                    <div class="quantity">
+                                        <div class="pro-qty-2">
+                                            <button class="fa fa-angle-left inc qtybtn"
+                                                onclick="changeQty('{{this._id}}','{{this.product._id}}',-1)"></button>
+
+                                            <span id="{{this.product._id}}">{{this.quantity}}</span>
+                                            <button class="fa fa-angle-right dec qtybtn"
+                                                onclick="changeQty('{{this._id}}','{{this.product._id}}',1)"></span></button>
+
                                         </div>
-                                        <div class="product__cart__item__text">
-                                            <h6>{{this.name}}</h6>
-                                            <h5>{{this.price}}</h5>
-                                        </div>
-                                    </td>
-                                    <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>          
-                                    </td>
-                                    <td class="cart__price">$ 30.00</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
-                                </tr> 
-                                {{/each}}
-                                {{/each}}  
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="continue__btn">
-                                <a href="#">Continue Shopping</a>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="continue__btn update__btn">
-                                <a href="#"><i class="fa fa-spinner"></i> Update cart</a>
-                            </div>
-                        </div>
-                    </div>
+                                    </div>
+                                </td>
+                                <td class="cart__price">₹ 30.00</td>
+                                <td class="cart__close"><a href="javascript:void(0)"
+                                        onclick="remove('{{this._id}}','{{this.product._id}}')"><i
+                                            class="fa fa-close"></i></a></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
                 </div>
-                <div class="col-lg-4">
-                    <div class="cart__discount">
-                        <h6>Discount codes</h6>
-                        <form action="#">
-                            <input type="text" placeholder="Coupon code">
-                            <button type="submit">Apply</button>
-                        </form>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="continue__btn">
+                            <a href="/">Continue Shopping</a>
+                        </div>
                     </div>
-                    <div class="cart__total">
-                        <h6>Cart total</h6>
-                        <ul>
-                            <li>Subtotal <span>$ 169.50</span></li>
-                            <li>Total <span>$ 169.50</span></li>
-                        </ul>
-                        <a href="#" class="primary-btn">Proceed to checkout</a>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="continue__btn update__btn">
+                            <a href="#"><i class="fa fa-spinner"></i> Update cart</a>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="col-lg-4">
+                <div class="cart__discount">
+                    <h6>Discount codes</h6>
+                    <form action="#">
+                        <input type="text" placeholder="Coupon code">
+                        <button type="submit">Apply</button>
+                    </form>
+                </div>
+                <div class="cart__total">
+                    <h6>Cart total</h6>
+                    <ul>
+                        <li>Subtotal <span>₹ 169.50</span></li>
+                        <li>Total <span>₹ 169.50</span></li>
+                    </ul>
+                    <a href="checkOut" class="primary-btn">Proceed to checkout</a>
+                </div>
+            </div>
         </div>
-    </section>
+        {{/each}}
+        {{else}}
+        <div class="container">
+
+            <div class="col-sm-12 empty-cart-cls text-center mb-5">
+                <img src="/user/img/icon/empty-cart.png" width="130" height="130" class="img-fluid mb-5 mr-3">
+                <h3 class="mb-5"><strong>Your Cart is Empty</strong></h3>
+                <a href="/" class="primary-btn mt-5 mb-5">Shop now </a>
+
+            </div>
+
+            {{/if}}
+        </div>
+</section>
+
+
+<script>
+    function changeQty(cartId, productId, count) {
+        let quantity = parseInt(document.getElementById(productId).innerHTML)
+        $.ajax({
+            url: '/changeProductQuantity',
+            data: {
+                count: count,
+                productId: productId,
+                cartId: cartId,
+                quantity: quantity
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.productRemoved) {
+                    alert('product removed')
+                    location.reload()
+                } else {
+                    document.getElementById(productId).innerHTML = quantity + count
+                }
+            }
+
+        })
+    }
+    function remove(cartId, productId) {
+        console.log(productId)
+        console.log(cartId)
+        $.ajax({
+            url: '/removeProductFromCart',
+            data: {
+                cartId: cartId,
+                productId: productId
+            },
+            method: 'post',
+            success: (response) => {
+
+                if (response.productRemoved) {
+
+                    alert('product removed')
+                    location.reload()
+                }
+                else {
+                    alert('false')
+                }
+            },
+            error: (response) => {
+                alert('err')
+            }
+        })
+    }
+</script>

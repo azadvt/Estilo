@@ -36,6 +36,12 @@ router.get('/viewProduct',verifyLogin,usercontroller.getViewProduct)
 
 router.get('/cart',verifyLogin,usercontroller.getCart)
 
-router.get('/addToCart',verifyLogin,usercontroller.getAddToCart)
+router.get('/addToCart/:id',verifyLogin,usercontroller.getAddToCart)
+
+router.post('/changeProductQuantity',verifyLogin,usercontroller.postChangeProductQty)
+
+router.post('/removeProductFromCart',verifyLogin,usercontroller.postRemoveProductFromCart)
+
+router.get('/checkOut',verifyLogin,usercontroller.getCheckOut)
 
 module.exports = router;

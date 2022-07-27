@@ -35,4 +35,7 @@ router.get('/blockVendor',verifyLogin,admincontroller.getBlockVendor)
 
 router.get('/unBlockVendor',verifyLogin,admincontroller.getUnBlockVendor)
 
+router.get('/viewProduct',verifyLogin,admincontroller.getViewProduct)
+
+
 module.exports = router;

@@ -120,7 +120,7 @@
                             
                             <div style="height:2.5rem; max-height:2.5rem">                             
                                 <h6>{{this.name}}</h6>
-                            <a href="/addToCart?id={{this._id}}" class="add-cart">+ Add To Cart</a>
+                            <a href="javascript:void(0)" onclick="addToCart('{{this._id}}')" class="add-cart">+ Add To Cart</a>
                             </div>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
@@ -130,7 +130,7 @@
                                 <i class="fa fa-star-o"></i>
                             </div>
 
-                            <div><h5>{{this.price}}</h5></div>
+                            <div><h5>₹{{this.price}}</h5></div>
                             
                             <div class="product__color__select">
                                 <label for="pc-1">
@@ -200,4 +200,22 @@
     </section>
     <!-- Categories Section End -->
 </body>
-
+<script>
+    function addToCart(productId){
+        $.ajax({
+            url:'/addToCart/'+productId,
+            method:'get',
+            success:(response)=>{
+                if(response.status){
+        swal("Added to Cart", "Please Check your Cart", "success");
+                }
+                else{
+                    alert('false')
+                }
+            },
+            error:(response)=>{
+                alert('err')
+            }
+        })
+    }
+</script>

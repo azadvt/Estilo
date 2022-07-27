@@ -28,13 +28,13 @@ router.get('/viewProduct',verifyLogin,vendorController.getViewProduct)
 
 router.get('/addProduct',verifyLogin,vendorController.getAddProduct)
 
-router.post('/addProduct',verifyLogin,store.array('image',3),vendorController.postAddProduct)
+router.post('/addProduct',verifyLogin,store.array('image',4),vendorController.postAddProduct)
 
 router.get('/editProduct',verifyLogin,vendorController.getEditProduct)
 
 router.get('/deleteProduct',verifyLogin,vendorController.getDeleteProduct)
 
-router.post('/updateProduct',verifyLogin,store.array('image',3),vendorController.postUpdateProduct)
+router.post('/updateProduct',verifyLogin,store.array('image',4),vendorController.postUpdateProduct)
 
 router.get('/viewCategory',verifyLogin,vendorController.getViewCategory)
 

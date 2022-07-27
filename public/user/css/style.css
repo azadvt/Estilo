@@ -2334,6 +2334,8 @@ ol {
 .shopping__cart__table table tbody tr td.product__cart__item .product__cart__item__pic {
 	float: left;
 	margin-right: 30px;
+	width: 100px; height: 100px;
+
 }
 
 .shopping__cart__table table tbody tr td.product__cart__item .product__cart__item__text {
@@ -2358,11 +2360,11 @@ ol {
 }
 
 .shopping__cart__table table tbody tr td.quantity__item .quantity .pro-qty-2 {
-	width: 80px;
+	width: 110px;
 }
 
-.shopping__cart__table table tbody tr td.quantity__item .quantity .pro-qty-2 input {
-	width: 50px;
+.shopping__cart__table table tbody tr td.quantity__item .quantity .pro-qty-2 span{
+	padding: 20px;
 	border: none;
 	text-align: center;
 	color: #111111;
@@ -2372,8 +2374,9 @@ ol {
 .shopping__cart__table table tbody tr td.quantity__item .quantity .pro-qty-2 .qtybtn {
 	font-size: 16px;
 	color: #888888;
-	width: 10px;
+	width: 15px;
 	cursor: pointer;
+	border: none;
 }
 
 .shopping__cart__table table tbody tr td.cart__price {

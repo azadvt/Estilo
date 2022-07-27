@@ -61,32 +61,23 @@
                     <div class="alert alert-danger alert-dismissible" role="alert">
                         {{adminLoggErr}}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                      </div>
-                     {{/if}}
+                    </div>
+                    {{/if}}
 
-                    <form id="formAuthentication" class="mb-3" action="/admin/adminLogin" method="post" name="login" onsubmit="return validateLogin()">
+                    <form id="form" class="mb-3" action="/admin/adminLogin" method="post" name="login"
+                        onsubmit="return validateLogin()">
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" name="email"
                                 placeholder="Enter your email" autofocus />
-                             <span id="requiredEmail" class="text-danger"> </span>
+                            <span id="requiredEmail" class="text-danger"> </span>
                         </div>
                         <div class="mb-3 form-password-toggle">
-                            <div class="d-flex justify-content-between">
-                                <label class="form-label" for="password">Password</label>
-                                <a href="#">
-                                    <small>Forgot Password?</small>
-                                </a>
-                            </div>
-                            <div class="input-group input-group-merge">
+                            <label class="form-label" for="password">Password</label>
+                            <div>
                                 <input type="password" id="password" class="form-control" name="password"
-                                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                    aria-describedby="password" />
-                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-
+                                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
                             </div>
-                                    <span id="requiredPassword" class="text-danger"> </span>
-
                         </div>
                         <div class="mb-3">
                             <div class="form-check">
@@ -94,7 +85,7 @@
                                 <label class="form-check-label" for="remember-me"> Remember Me </label>
                             </div>
                         </div>
-                        
+
                         <div class="mb-3">
                             <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
                         </div>
@@ -105,3 +96,28 @@
         </div>
     </div>
 </div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.js"></script>
+<script>
+
+    $("#form").validate({
+        errorClass: "error",
+        rules: {
+            email: {
+                required: true,
+                email: true,
+
+            },
+
+
+            password: {
+                required: true,
+                minlength: 5
+            }
+        },
+    })
+
+</script>

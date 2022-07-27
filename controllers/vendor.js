@@ -66,15 +66,18 @@ module.exports = {
     },
     
     getViewProduct: (req,res)=>{
+        vendor = req.session.vendor
         productHelper.getAllProduct().then((productData)=>{
-        res.render('vendor/view-product',{ layout: 'vendor-layout', vendorHeader: true ,productData})
+        res.render('vendor/view-product',{ layout: 'vendor-layout', vendorHeader: true ,productData,vendor})
 
         })
 
     },
     getAddProduct:(req,res)=>{
+        vendor = req.session.vendor    
+        console.log(vendor);   
         categoryHelper.getViewCategory().then((categoryData)=>{
-            res.render('vendor/add-product',{ layout: 'vendor-layout', vendorHeader: true ,categoryData})
+            res.render('vendor/add-product',{ layout: 'vendor-layout', vendorHeader: true ,categoryData,vendor})
         })
     },
     postAddProduct:(req,res) =>{
@@ -84,16 +87,21 @@ module.exports = {
         images=files.map((value)=>{
             return value.filename
         })
+        vendor = req.session.vendor 
+        console.log('reqboddy=',req.body);
         console.log("images=",images);
-        productHelper.addProduct(req.body,images)
-        res.redirect('/vendor/addProduct')  
+        productHelper.addProduct(req.body,images,vendor).then((response)=>{
+            res.redirect('/vendor/addProduct')  
+
+        })
     },
     getEditProduct:(req,res)=>{
+        vendor = req.session.vendor
         let productId=req.query.id
         categoryHelper.getViewCategory().then((categoryData)=>{
         
         productHelper.getOneProduct(productId).then((productData)=>{
-        res.render('vendor/edit-product',{ layout: 'vendor-layout', vendorHeader: true ,productData,categoryData} )
+        res.render('vendor/edit-product',{ layout: 'vendor-layout', vendorHeader: true ,productData,categoryData,vendor} )
         })
     })
     },
@@ -105,21 +113,24 @@ module.exports = {
     postUpdateProduct:(req,res)=>{
         let productId=req.query.id
         let productData=req.body 
+        let vendor=req.session.vendor
         let images={}
         let files=req.files
         images=files.map((value)=>{return value.filename})
         console.log(productData);
-        productHelper.updateProduct(productId,productData,images)
+        productHelper.updateProduct(productId,productData,images,vendor)
         res.redirect('/vendor/viewProduct')
     },
     getViewCategory:(req,res)=>{
+        vendor = req.session.vendor
         categoryHelper.getViewCategory().then((categoryData)=>{
-        res.render('vendor/view-category',{ layout: 'vendor-layout', vendorHeader: true,categoryData })
+        res.render('vendor/view-category',{ layout: 'vendor-layout', vendorHeader: true,categoryData ,vendor})
 
         })
     },
     getAddCategory:(req,res)=>{
-        res.render('vendor/add-category',{ layout: 'vendor-layout', vendorHeader: true })
+        vendor = req.session.vendor
+        res.render('vendor/add-category',{ layout: 'vendor-layout', vendorHeader: true ,vendor})
     },
     postAddCategory:(req,res)=>{
         categoryHelper.addCategory(req.body)
@@ -127,8 +138,9 @@ module.exports = {
     },
     getEditCategory:(req,res)=>{
         let categoryId=req.query.id
+        vendor = req.session.vendor
         categoryHelper.getOneCategory(categoryId).then((categoryData)=>{
-        res.render('vendor/edit-category',{ layout: 'vendor-layout', vendorHeader: true ,categoryData} )
+        res.render('vendor/edit-category',{ layout: 'vendor-layout', vendorHeader: true ,categoryData,vendor} )
         })
     },
     getDeleteCategory:(req,res)=>{

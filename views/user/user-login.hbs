@@ -15,18 +15,18 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                         {{/if}}
-                        <form action="/userLogin" method="post" name="login" onsubmit="return validateLogin()">
+                        <form action="/userLogin" method="post" name="login" id="form" onsubmit="return validateLogin()">
 
                             <div class="form-outline form-white mb-5">
                                 <input type="email" id="email" name="email" placeholder="Email"
-                                    class="form-control form-control-lg" autocomplete="off" />
+                                    class="form-control form-control-lg"  required />
                                 <span id="requiredEmail" class="text-danger"> </span>
                             </div>
 
 
                             <div class="form-outline form-white mb-4">
                                 <input type="password" id="password" name="password" placeholder="Password"
-                                    class="form-control form-control-lg" autocomplete="off" />
+                                    class="form-control form-control-lg"  required/>
                                 <span id="requiredPassword" class="text-danger"> </span>
 
                             </div>

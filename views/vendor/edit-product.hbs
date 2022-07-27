@@ -42,12 +42,16 @@
                                     {{/each}}
                                 </select>
                             </div>
-
+                            <div class="mb-3">
+                                <label>Product Description</label>
+                                <textarea class="form-control" name="productDescription" id="productDescription" placeholder="Enter your Product Description" rows="4" >{{productData.productDescription}}</textarea>
+                            </div>
+            
                         <img src="/product-images/{{productData.images.[0]}}" style="width: 100px; height: 100px;" id="image-1">
                         <img src="/product-images/{{productData.images.[1]}}" style="width: 100px; height: 100px;" id="image-2">
                         <img src="/product-images/{{productData.images.[2]}}" style="width: 100px; height: 100px;" id="image-3">
                         <img src="/product-images/{{productData.images.[3]}}" style="width: 100px; height: 100px;" id="image-4">
-                        <div class="mb-3"><label for="">Upload  Images</label><br>
+                        <div class="mb-3 mt-4"><label for="">Upload  Images</label><br>
                             <span id="requiredImage" class="text-danger"> </span>
 
                             <input type="file" name="image" class="form-control" accept="image/*" onchange="viewImage1(event)" multiple>

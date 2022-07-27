@@ -101,7 +101,7 @@
 
     $('#table_id').DataTable();
 
-    $("#userSignup").validate({
+    $("#form").validate({
         errorClass: "error",
         rules: {
             firstName: {

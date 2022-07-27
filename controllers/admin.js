@@ -1,7 +1,7 @@
 const adminHelper = require('../helpers/admin-helper')
 const userHelper = require('../helpers/user-helper')
 const vendorHelper = require('../helpers/vendor-helper')
-
+const productHelper = require('../helpers/product-helper')
 module.exports = {
     getLogin: (req, res) => {
         if (req.session.adminLoggedIn) {
@@ -66,7 +66,12 @@ module.exports = {
         res.redirect('/admin/viewVendors')
   
     },
+    getViewProduct: (req,res)=>{
+        productHelper.getAllProduct().then((productData)=>{
+        res.render('admin/view-product',{ layout: 'admin-layout', adminHeader: true ,productData})
+        })
 
+    }
     
 
 }

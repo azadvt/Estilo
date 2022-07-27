@@ -2,10 +2,12 @@ const userHelper = require('../helpers/user-helper');
 const twilioHelpers = require('../helpers/twilio-helper');
 const productHelper = require('../helpers/product-helper');
 const cartHelper = require('../helpers/cart-helper');
+const { response } = require('../app');
+
 module.exports = {
 
     getHome: function (req, res, next) {
-
+        
         productHelper.getAllProduct().then((productData)=>{
             if (req.session.userLoggedIn) {
                 let user = req.session.user
@@ -125,13 +127,31 @@ module.exports = {
         res.render('user/cart',{ layout: 'user-layout', user,products})
     },
     getAddToCart:(req,res)=>{
-        let productId=req.query.id
+        console.log('work');
+        let productId=req.params.id
         let userId=req.session.user._id
         console.log(userId);
         console.log(productId);
-        cartHelper.addToCart(productId,userId)
-        res.redirect('/cart')
+        cartHelper.addToCart(productId,userId).then(()=>{
+            res.json({status:true})
+        })
 
+    },
+    postChangeProductQty:(req,res)=>{
+        console.log(req.body);
+        cartHelper.changeProductQty(req.body).then((response)=>{
+            res.json(response)
+        })
+    },
+    postRemoveProductFromCart:(req,res)=>{
+        console.log(req.body);
+        cartHelper.removeProductFromCart(req.body).then((response)=>{
+            res.json(response)
+        })
+    },
+    getCheckOut:(req,res)=>{
+        let user = req.session.user       
+        res.render('user/checkout',{ layout: 'user-layout', user})
     }
 
 }

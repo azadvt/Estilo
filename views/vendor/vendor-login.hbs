@@ -58,29 +58,20 @@
                     </div>
                     <!-- /Logo -->
 
-                    <form id="formAuthentication" class="mb-3" action="/vendor/login" method="post" name="login"
+                    <form id="form" class="mb-3" action="/vendor/login" method="post" name="login"
                         onsubmit="return validateLogin()">
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="text" class="form-control" id="email" name="email"
-                                placeholder="Enter your email" autofocus />
+                                placeholder="Enter your email" autofocus required/>
                             <span id="requiredEmail" class="text-danger"> </span>
                         </div>
-                        <div class="mb-3 form-password-toggle">
-                            <div class="d-flex justify-content-between">
-                                <label class="form-label" for="password">Password</label>
-                                <a href="#">
-                                    <small>Forgot Password?</small>
-                                </a>
-                            </div>
-                            <div class="input-group input-group-merge">
+                         <div class="mb-3 form-password-toggle">
+                            <label class="form-label" for="password">Password</label>
+                            <div>
                                 <input type="password" id="password" class="form-control" name="password"
-                                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                    aria-describedby="password" />
-                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-
+                                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
                             </div>
-                            <span id="requiredPassword" class="text-danger"> </span>
                         </div>
                         {{#if vendorLogErr}}
                         <p class="text-danger text-center">Invalid email or password</p>
@@ -102,3 +93,31 @@
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"
+		integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	
+<script>
+
+    $("#form").validate({
+        errorClass: "error",
+        rules: {
+            email: {
+                required: true,
+                email: true,
+
+            },
+
+         
+            password: {
+                required: true,
+                minlength: 5
+            }
+        },
+    })
+
+</script>
