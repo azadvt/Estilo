@@ -18,6 +18,7 @@
     "morgan": "~1.9.1",
     "multer": "^1.4.5-lts.1",
     "nocache": "^3.0.4",
+    "razorpay": "^2.8.2",
     "sweetalert": "^2.1.2",
     "twilio": "^3.78.0",
     "uuid": "^8.3.2"

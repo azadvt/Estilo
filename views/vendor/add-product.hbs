@@ -1,6 +1,5 @@
-<body onload="document.addProduct.name.focus()">
 
-    <section>
+
 
         <div class="content-wrapper">
 
@@ -10,8 +9,8 @@
                     <div class="ml-5 col-md-6">
                         <h2 class="text-center mt-5">Add Products</h2>
 
-                        <form action="/vendor/addProduct" method="post" name="addProduct"
-                            onsubmit="return validateEditProduct()" enctype="multipart/form-data">
+                        <form action="/vendor/addProduct" method="post" name="addProduct" id="form"
+                            enctype="multipart/form-data">
                             <label for="">Name</label> <br>
                             <span id="requiredProductName" class="text-danger letter"> </span>
 
@@ -58,7 +57,7 @@
 
                             <div class="mb-3"><label for="">Images </label><br>
                                 <span id="requiredImage" class="text-danger"> </span>
-                                <input type="file" name="image" class="form-control" accept="image/*"
+                                <input type="file" id="image" name="image" class="form-control" accept="image/*"
                                     onchange="viewImage(event)" multiple>
                             </div>
 
@@ -72,9 +71,12 @@
                 </div>
             </div>
         </div>
-    </section>
-</body>
 
+
+
+
+
+  
 <script>
     function validateEditProduct() {
 
@@ -128,4 +130,6 @@
 
     }
 
+    
+        
 </script>

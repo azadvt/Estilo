@@ -42,6 +42,21 @@ router.post('/changeProductQuantity',verifyLogin,usercontroller.postChangeProduc
 
 router.post('/removeProductFromCart',verifyLogin,usercontroller.postRemoveProductFromCart)
 
+router.get('/wishlist',verifyLogin,usercontroller.getwishlist)
+
+router.get('/addToWishlist/:id',verifyLogin,usercontroller.getAddToWishlist)
+
+router.post('/removeProductFromWishlist',verifyLogin,usercontroller.postRemoveProductFromWishlist)
+
 router.get('/checkOut',verifyLogin,usercontroller.getCheckOut)
+
+router.post('/checkOut',verifyLogin,usercontroller.postPlaceOrder)
+
+router.get('/orderSuccess',verifyLogin,usercontroller.getOrderPlaced)
+
+router.get('/orderDetails',verifyLogin,usercontroller.getOrderDetails)
+
+router.post('/couponCode',verifyLogin,usercontroller.postCouponCode)
+
 
 module.exports = router;

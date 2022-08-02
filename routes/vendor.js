@@ -48,7 +48,7 @@ router.post('/editCategory',verifyLogin,vendorController.postEditCategory)
     
 router.get('/deleteCategory',verifyLogin,vendorController.getDeleteCategory)
 
-
+router.get('/orders',verifyLogin,vendorController.getOrders)
 
 
 

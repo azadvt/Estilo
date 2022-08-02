@@ -1,7 +1,7 @@
-const twilioKeys = require('../config/twilioKeys')
-const serviceSid=twilioKeys.SERVICE_SID
-const authToken=twilioKeys.TWILIO_AUTH_TOKEN
-const accountSid=twilioKeys.TWILIO_ACCOUNT_SID
+const keys = require('../config/keys')
+const serviceSid=keys.SERVICE_SID
+const authToken=keys.TWILIO_AUTH_TOKEN
+const accountSid=keys.TWILIO_ACCOUNT_SID
 const client = require('twilio')(accountSid, authToken);
 
 module.exports = {

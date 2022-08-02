@@ -110,7 +110,7 @@
                             <span class="label">New</span>
                             <ul class="product__hover">
                                 <li><a href="/viewProduct?id={{this._id}}"><img src="/user/img/icon/see.png" alt=""><span>View</span></a></li>
-                                <li><a href="#"><img src="/user/img/icon/heart.png" alt=""><span>Wishlist</span></a>
+                                <li><a href="javascript:void(0)r" onclick="addToWishlist('{{this._id}}')"><img src="/user/img/icon/heart.png" alt=""><span>Wishlist</span></a>
                                 </li>
                                 <li><a href="#"><img src="/user/img/icon/search.png" alt=""></a></li>
                             </ul>
@@ -200,22 +200,3 @@
     </section>
     <!-- Categories Section End -->
 </body>
-<script>
-    function addToCart(productId){
-        $.ajax({
-            url:'/addToCart/'+productId,
-            method:'get',
-            success:(response)=>{
-                if(response.status){
-        swal("Added to Cart", "Please Check your Cart", "success");
-                }
-                else{
-                    alert('false')
-                }
-            },
-            error:(response)=>{
-                alert('err')
-            }
-        })
-    }
-</script>

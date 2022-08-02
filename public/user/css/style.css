@@ -109,7 +109,9 @@ ol {
 /*---------------------
   Helper CSS
 -----------------------*/
-
+.error {
+    color: red;
+ }
 .section-title {
 	margin-bottom: 45px;
 	text-align: center;
@@ -138,8 +140,8 @@ ol {
 }
 
 .spad {
-	padding-top: 100px;
-	padding-bottom: 100px;
+	padding-top: 30px;
+	padding-bottom: 90px;
 }
 
 .text-white h1,
@@ -403,7 +405,10 @@ ol {
 }
 
 .header__logo {
-	padding: 30px 0;
+	padding: 15px 0;
+	height: 100px;
+	width: 250px;
+	
 }
 
 .header__logo a {
@@ -1503,8 +1508,7 @@ ol {
 .product__details__pic {
 	text-align: center;
 	background: #f3f2ee;
-	padding: 40px 0 60px;
-	margin-bottom: 100px;
+	padding: 60px 0 60px;
 }
 
 .product__details__pic .nav-tabs {
@@ -1558,7 +1562,7 @@ ol {
 }
 
 .product__details__breadcrumb {
-	margin-bottom: 30px;
+	margin-bottom: 50px;
 }
 
 .product__details__breadcrumb a {
@@ -1946,6 +1950,10 @@ ol {
 
 .footer__about .footer__logo {
 	margin-bottom: 30px;
+	background-color: white;
+	height: 100px;
+	width: 250px;
+
 }
 
 .footer__about .footer__logo a {
@@ -2422,6 +2430,7 @@ ol {
 	display: inline-block;
 }
 
+
 .cart__discount {
 	margin-bottom: 60px;
 }
@@ -2439,7 +2448,7 @@ ol {
 
 .cart__discount form input {
 	font-size: 14px;
-	color: #b7b7b7;
+	color: #3f3737;
 	height: 50px;
 	width: 100%;
 	border: 1px solid #e1e1e1;
@@ -2565,7 +2574,7 @@ ol {
 	width: 100%;
 	border: 1px solid #e1e1e1;
 	font-size: 14px;
-	color: #b7b7b7;
+	color: #000000;
 	padding-left: 20px;
 	margin-bottom: 20px;
 }
@@ -3850,4 +3859,6 @@ ol {
 	.categories__text:before {
 		height: 250px;
 	}
+
+	
 }

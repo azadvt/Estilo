@@ -99,51 +99,115 @@
 
 //$(document).ready(function () {
 
-    $('#table_id').DataTable();
+//     $('#table_id').DataTable();
 
-    $("#form").validate({
-        errorClass: "error",
-        rules: {
-            firstName: {
-                required: true,
-                minlength: 3,
-     lettersonly: true
+//     $("#form").validate({
+//         errorClass: "error",
+//         rules: {
+//             firstName: {
+//                 required: true,
+//                 minlength: 3,
+//      lettersonly: true
 
-            },
-            lastName: {
-                required: true,
-                minlength: 3,
-      lettersonly: true
-            },
+//             },
+//             lastName: {
+//                 required: true,
+//                 minlength: 3,
+//       lettersonly: true
+//             },
 
-            email: {
-                required: true,
-                email: true,
+//             email: {
+//                 required: true,
+//                 email: true,
 
-            },
+//             },
 
-            phone: {
-                required: true,
-                minlength: 10
-            },
+//             phone: {
+//                 required: true,
+//                 minlength: 10
+//             },
 
-            password: {
-                required: true,
-                minlength: 5
-            },
-            c_password: {
-                required: true,
-                equalTo: '#password'
-            }
+//             password: {
+//                 required: true,
+//                 minlength: 5
+//             },
+//             c_password: {
+//                 required: true,
+//                 equalTo: '#password'
+//             }
+//         },
+//         messages: {
+//             c_password: {
+//                 equalTo: "Passwords are not match"
+//             }
+//         }
+//     })
+// jQuery.validator.addMethod("lettersonly", function (value, element) {
+//     return this.optional(element) || /^[a-z]+$/i.test(value);
+// }, "Letters only please");
+
+
+$("#form").validate({
+    errorClass: "error",
+    rules: {
+        firstName: {
+            required: true,
+            minlength: 3,
+ lettersonly: true
+
         },
-        messages: {
-            c_password: {
-                equalTo: "Passwords are not match"
-            }
-        }
-    })
-//})
-jQuery.validator.addMethod("lettersonly", function (value, element) {
-    return this.optional(element) || /^[a-z]+$/i.test(value);
-}, "Letters only please");
+        lastName: {
+            required: true,
+            minlength: 3,
+  lettersonly: true
+        },
 
+        email: {
+            required: true,
+            email: true,
+
+        },
+
+        phone: {
+            required: true,
+            minlength: 10
+        },
+
+        password: {
+            required: true,
+            minlength: 5
+        },
+        c_password: {
+            required: true,
+            equalTo: '#password'
+        },
+        name:{
+            required:true,
+            minlength:3,
+        },
+        brand:{
+            required:true,
+            minlength:3,
+        },
+        price:{
+            required:true,
+            
+        },
+        categoryName:{
+            required:true
+        },
+        productDescription:{
+            required:true,
+            minlength:3,
+        },
+        image:{
+            required:true
+        }
+
+    },
+    messages: {
+        c_password: {
+            equalTo: "Passwords are not match"
+        }
+    }
+})

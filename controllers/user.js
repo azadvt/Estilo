@@ -3,15 +3,20 @@ const twilioHelpers = require('../helpers/twilio-helper');
 const productHelper = require('../helpers/product-helper');
 const cartHelper = require('../helpers/cart-helper');
 const { response } = require('../app');
+const wishlistHelper = require('../helpers/wishlist-helper');
+const orderHelper = require('../helpers/order-helper')
 
 module.exports = {
 
     getHome: function (req, res, next) {
         
-        productHelper.getAllProduct().then((productData)=>{
+        
+        productHelper.getAllProduct().then(async(productData)=>{
             if (req.session.userLoggedIn) {
                 let user = req.session.user
-                res.render('user/home', { layout: 'user-layout', user ,productData});
+                let cartCount=await cartHelper.getCartCount(user._id)
+                let wishlistcount=await wishlistHelper.getWishlistCount(user._id)
+                res.render('user/home', { layout: 'user-layout', user ,productData,cartCount,wishlistcount});
             } else {
                 res.render('user/home', { layout: 'user-layout' ,productData})
             }
@@ -22,7 +27,7 @@ module.exports = {
             res.redirect('/')
         }
         else {
-            res.render('user/user-login', { userLogErr: req.session.userLogErr})
+            res.render('user/user-login', {  userLogErr: req.session.userLogErr})
             req.session.userLogErr = false;
         }
     },
@@ -123,11 +128,11 @@ module.exports = {
     getCart:async(req,res)=>{
         let user = req.session.user
         let products= await cartHelper.getCartProducts(user._id)
-        console.log("products=",products);
-        res.render('user/cart',{ layout: 'user-layout', user,products})
+        let total = await cartHelper.getTotalAmount(user._id)
+
+        res.render('user/cart',{ layout: 'user-layout', user,products,total})
     },
     getAddToCart:(req,res)=>{
-        console.log('work');
         let productId=req.params.id
         let userId=req.session.user._id
         console.log(userId);
@@ -139,7 +144,8 @@ module.exports = {
     },
     postChangeProductQty:(req,res)=>{
         console.log(req.body);
-        cartHelper.changeProductQty(req.body).then((response)=>{
+        cartHelper.changeProductQty(req.body).then(async(response)=>{
+            response.total = await cartHelper.getTotalAmount(req.body.userId)
             res.json(response)
         })
     },
@@ -149,9 +155,65 @@ module.exports = {
             res.json(response)
         })
     },
-    getCheckOut:(req,res)=>{
-        let user = req.session.user       
-        res.render('user/checkout',{ layout: 'user-layout', user})
+    getAddToWishlist:(req,res)=>{
+        let productId=req.params.id
+        let userId=req.session.user._id
+        console.log(userId);
+        console.log(productId);
+        wishlistHelper.addToWishlist(productId,userId).then((response)=>{
+            console.log(response);
+            res.json(response)
+        })
+
+    },
+    getwishlist:async(req,res)=>{
+        let user = req.session.user
+        let products= await wishlistHelper.getwishlistProducts(user._id)
+        console.log(products);
+        res.render('user/wishlist',{ layout: 'user-layout', user,products} )
+    },
+    postRemoveProductFromWishlist:(req,res)=>{
+        console.log(req.body);
+        wishlistHelper.removeProductFromWishlist(req.body).then((response)=>{
+            res.json(response)
+        })
+    },
+
+    getCheckOut:async(req,res)=>{
+        let user = req.session.user
+        let products= await cartHelper.getCartProducts(user._id)
+        let total = await cartHelper.getTotalAmount(user._id)
+        res.render('user/checkout',{ layout: 'user-layout', user,products,total})
+   
+    },
+    postPlaceOrder:async(req,res)=>{
+       let products = await cartHelper.getCartProductList(req.body.userId)
+       let total = await cartHelper.getTotalAmount(req.body.userId)
+         orderHelper.placeOrder(req.body,products,total).then((orderId)=>{
+            if(req.body.paymentMethod=="cashOnDelivery"){
+                res.json({status:true})
+            }
+            else{
+                 orderHelper.generateRazorpay(orderId,total).then((response)=>{
+                    res.json(response)
+                 })
+            }
+            
+         })
+    },
+    getOrderPlaced:(req,res)=>{
+        let user = req.session.user
+        res.render('user/order-placed',{layout:'user-layout',user})
+    },
+    getOrderDetails:async(req,res)=>{
+        let user = req.session.user
+        let products= await orderHelper.getOrderdProducts(user._id)
+        console.log("products",products);
+        res.render('user/order-details',{layout:'user-layout',user,products})
+    },
+    postCouponCode:(req,res)=>{
+        console.log(req.body);
     }
+    
 
 }

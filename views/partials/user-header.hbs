@@ -20,9 +20,8 @@
     </div>
     <div class="offcanvas__nav__option">
         <a href="#" class="search-switch"><img src="/user/img/icon/search.png" alt=""></a>
-        <a href="#"><img src="/user/img/icon/heart.png" alt=""></a>
-        <a href="#"><img src="/user/img/icon/cart.png" alt=""> <span>0</span></a>
-        <div class="price">$0.00</div>
+        <a href="/wishlist"><img src="/user/img/icon/heart.png" alt=""> <span class="badge badge-light ml-3 mb-4" id="wishlist">{{wishlistcount}}</span></a>
+        <a href="/cart"><img src="/user/img/icon/cart.png" alt=""> <span class="badge badge-light ml-3 mb-4" id="cartCount">{{cartCount}}</span></a>
     </div>
     <div id="mobile-menu-wrap"></div>
 
@@ -49,7 +48,7 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-lg-3 col-md-3">
+            <div class="col-lg-3 col-md-3 ">
                 <div class="header__logo">
                     <a href="/"><img src="/user/img/logo.png" alt=""></a>
                 </div>
@@ -57,7 +56,7 @@
             <div class="col-lg-6 col-md-6">
                 <nav class="header__menu mobile-menu">
                     <ul>
-                        <li class="active"><a href="/">Home</a></li>
+                        <li><a href="/">Home</a></li>
                         <li><a href="./shop.html">Shop</a></li>
                         <li><a href="#">Pages</a>
                             <ul class="dropdown">
@@ -68,7 +67,7 @@
                                 <li><a href="./blog-details.html">Blog Details</a></li>
                             </ul>
                         </li>
-                        <li><a href="./blog.html">Blog</a></li>
+                        <li><a href="/orderDetails">My Orders</a></li>
                         <li><a href="./contact.html">Contacts</a></li>
                     </ul>
                 </nav>
@@ -76,9 +75,9 @@
             <div class="col-lg-3 col-md-3">
                 <div class="header__nav__option">
                     <a href="#" class="search-switch"><img src="/user/img/icon/search.png" alt=""></a>
-                    <a href="#"><img src="/user/img/icon/heart.png" alt=""></a>
-                    <a href="/cart"><img src="/user/img/icon/cart.png" alt=""> <span>0</span></a>
-                    <div class="price">$0.00</div>
+                    <a href="/wishlist"><img src="/user/img/icon/heart.png" alt=""> <span class="badge badge-light ml-3 mb-4" id="wishlist-Count">{{wishlistcount}}</span</a>
+                    <a href="/cart"><img src="/user/img/icon/cart.png" alt=""><span class="badge badge-light ml-3 mb-4" id="cart-Count">{{cartCount}}</span> </a>
+                    
                 </div>
             </div>
         </div>

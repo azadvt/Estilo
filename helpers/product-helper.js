@@ -5,16 +5,18 @@ const ObjectId = require('mongodb').ObjectId
 
 
 module.exports = {
-    addProduct: (productData, images,vendor) => {
+    addProduct: (productData, images,vendorId) => {
+        let price = Number(productData.price) 
         return new Promise((resolve, reject) => {
             db.get().collection(collection.PRODUCT_COLLECTION).insertOne({
+                vendor:ObjectId(vendorId),
                 name: productData.name,
                 brand: productData.brand,
-                price: productData.price,
+                price: price,
                 categoryName: productData.categoryName,
                 productDescription: productData.productDescription,
                 'deletedProduct':false,
-                images,vendor
+                images
             })
         })
 
@@ -34,15 +36,17 @@ module.exports = {
     deleteProduct: (productId) => {
         db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: ObjectId(productId) }, { $set: { deletedProduct: true } })
     },
-    updateProduct: (productId, productData, images,vendor) => {
+    updateProduct: (productId, productData, images,vendorId) => {
+        let price = Number(productData.price) 
         db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: ObjectId(productId) }, {
             $set: {
+                'vendor':vendorId,
                 'name': productData.name,
                 'brand': productData.brand,
-                'price': productData.price,
+                'price': price,
                 'category': productData.category,
-                productDescription: productData.productDescription,
-                images,vendor
+                'productDescription': productData.productDescription,
+                images
             }
         })
     }
