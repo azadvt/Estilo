@@ -86,11 +86,6 @@ function addToWishlist(productId){
 
 
 
-let proId=$('#productId').html()
-let quantity = document.getElementById(proId).value
-document.getElementById(proId+1).innerHTML=10
-console.log(proId);
-console.log('dd',quantity);
 
 //change product quantity
 

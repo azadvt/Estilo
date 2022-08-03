@@ -30,7 +30,9 @@
                             <th>Product</th>
                             <th>Name</th>
                             <th>Price</th>
+                            <th>Quantity</th>
                              <th>Adress</th>
+                             <th>Date</th>
                               <th>Status</th>
                             
                         </tr>
@@ -49,9 +51,12 @@
                                 {{this.product.name}}
                             </td>
                             <td class="cart__price">₹{{this.product.price}}</td>
+                            <td class="quantity__item">
+                                {{this.products.quantity}}
+                            </td>
                                  <td class="cart__close">{{this.deliveryDetails.firstName}}{{this.deliveryDetails.lastName}} <br>Ph:{{this.deliveryDetails.phone}}<br>
                                  {{this.deliveryDetails.addressLineOne}} <br>{{this.deliveryDetails.addressLineTwo}} <br>{{this.deliveryDetails.town}}, {{this.deliveryDetails.state}}, {{this.deliveryDetails.country}}, {{this.deliveryDetails.postcode}} </td>
-
+                            <td class="cart__close">{{this.date}}</td>
                             <td class="cart__close">{{this.status}} </td>
 
                         </tr>

@@ -208,7 +208,18 @@ module.exports = {
     getCartProductList:(userId)=>{
         return new Promise(async(resolve, reject) => {
             let cart=await db.get().collection(collection.CART_COLLECTION).findOne({user:ObjectId(userId)})
-            resolve(cart.products)
+            if(cart){
+                resolve(cart.products)
+            }
+            
         })
+    },
+    deleteCart:(userId)=>{
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.CART_COLLECTION).deleteOne({ user: ObjectId(userId) })
+            resolve()
+        })
+        
+        
     }
 }

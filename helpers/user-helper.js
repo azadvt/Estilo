@@ -1,6 +1,7 @@
 const db = require('../config/connection')
 const collection = require('../config/collections')
 const bcrypt = require('bcrypt')
+const { response } = require('../app')
 const ObjectId = require('mongodb').ObjectId
 
 module.exports = {
@@ -77,11 +78,66 @@ module.exports = {
     blockUser: (userId) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, { $set: { blockedUser: true } })
+        }).then((response)=>{
+            resolve(response)
         })
     },
     unBlockUser: (userId) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, { $set: { blockedUser: false } })
+        }).then((response)=>{
+            resolve(response)
+        })
+    },
+    updateUserAddress:(userId,userAddress)=>{
+        console.log(userId);
+        const addressId = new ObjectId()
+        userAddress._id=addressId
+        let address=[userAddress]
+        
+        return new Promise(async(resolve, reject) => {
+            
+            let userDetails = await db.get().collection(collection.USER_COLLECTION).findOne({_id:ObjectId(userId) })
+            console.log(userDetails);
+            console.log('hei');
+            if(userDetails.address){
+                db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, { 
+                
+                        $push:{
+                         address:userAddress
+                        }
+                        
+                }).then((response)=>{
+                    resolve(response)
+                })
+            }else{
+                console.log('heeehehe');
+                db.get().collection(collection.USER_COLLECTION).updateOne({_id:ObjectId(userId)},{
+                    $set:
+                    {
+                        address:address
+                    }
+                }).then((response)=>{
+                    resolve(response)
+                })
+            }
+            
+
+        })
+    },
+    getUserAddress:(userId)=>{
+        return new Promise(async(resolve, reject) => {
+            let userDetails = await db.get().collection(collection.USER_COLLECTION).findOne({_id:ObjectId(userId) })
+                if(userDetails.address){
+                    let addressArr=userDetails.address
+                    console.log(addressArr);
+                    const address=addressArr.slice(-3).reverse()
+                    resolve(address)
+                }
+                else{
+                    resolve()
+                }
+            
         })
     }
 }

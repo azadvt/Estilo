@@ -50,11 +50,15 @@ router.post('/removeProductFromWishlist',verifyLogin,usercontroller.postRemovePr
 
 router.get('/checkOut',verifyLogin,usercontroller.getCheckOut)
 
+router.post('/userAddress',verifyLogin,usercontroller.postUserAddress)
+
 router.post('/checkOut',verifyLogin,usercontroller.postPlaceOrder)
 
 router.get('/orderSuccess',verifyLogin,usercontroller.getOrderPlaced)
 
 router.get('/orderDetails',verifyLogin,usercontroller.getOrderDetails)
+
+router.post('/verifyPayment',verifyLogin,usercontroller.postVerifyPayment)
 
 router.post('/couponCode',verifyLogin,usercontroller.postCouponCode)
 
