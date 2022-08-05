@@ -78,66 +78,134 @@ module.exports = {
     blockUser: (userId) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, { $set: { blockedUser: true } })
-        }).then((response)=>{
+        }).then((response) => {
             resolve(response)
         })
     },
     unBlockUser: (userId) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, { $set: { blockedUser: false } })
-        }).then((response)=>{
+        }).then((response) => {
             resolve(response)
         })
     },
-    updateUserAddress:(userId,userAddress)=>{
+    addUserAddress: (userId, userAddress) => {
         console.log(userId);
         const addressId = new ObjectId()
-        userAddress._id=addressId
-        let address=[userAddress]
-        
-        return new Promise(async(resolve, reject) => {
-            
-            let userDetails = await db.get().collection(collection.USER_COLLECTION).findOne({_id:ObjectId(userId) })
+        userAddress.deletedAddress=false
+        userAddress._id = addressId
+        let address = [userAddress]
+        return new Promise(async (resolve, reject) => {
+
+            let userDetails = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: ObjectId(userId) })
             console.log(userDetails);
             console.log('hei');
-            if(userDetails.address){
-                db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, { 
-                
-                        $push:{
-                         address:userAddress
-                        }
-                        
-                }).then((response)=>{
+            if (userDetails.address) {
+                db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, {
+
+                    $push: {
+                        address: userAddress
+                    }
+
+                }).then((response) => {
                     resolve(response)
                 })
-            }else{
+            } else {
                 console.log('heeehehe');
-                db.get().collection(collection.USER_COLLECTION).updateOne({_id:ObjectId(userId)},{
+                db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, {
                     $set:
                     {
-                        address:address
+                        address: address
+                    }
+                }).then((response) => {
+                    resolve(response)
+                })
+            }
+
+
+        })
+    },
+    updateUserAddress: (address) => {
+        let addressObj = address
+        addressObj._id = ObjectId(address._id)
+        addressObj.deletedAddress=false
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.USER_COLLECTION)
+                .updateOne(
+                    {
+                        address:
+                        {
+                            $elemMatch: {
+                                _id: ObjectId(address._id)
+                            }
+                        }
+                    },
+                    {
+                        $set: {
+                            "address.$": addressObj
+                        }
+                    }).then((response)=>{
+                        resolve(response)
+                    })
+        })
+    },
+    getUserAddress: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            let addressArr = await db.get().collection(collection.USER_COLLECTION).aggregate([
+                {
+                    '$match': {
+                        '_id': ObjectId(userId)
+                    }
+                }, {
+                    '$unwind': {
+                        'path': '$address'
+                    }
+                }, {
+                    '$match': {
+                        'address.deletedAddress': false
+                    }
+                }, {
+                    '$project': {
+                        'address': "$address", 
+                        '_id': 0
+                    }
+                },{
+                    '$replaceRoot': {
+                      'newRoot': '$address'
+                    }
+                  }
+            ]).toArray()
+                console.log(addressArr);
+            if (addressArr) {
+                console.log(addressArr);
+                const address = addressArr.slice(-3).reverse()
+                resolve(address)
+            }
+            else {
+                resolve()
+            }
+
+        })
+    },
+    deleteAddress: (addressId) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.USER_COLLECTION).updateOne(
+                {
+                    address:{
+                        $elemMatch:{
+                            _id:ObjectId(addressId)
+                        }
+                    }
+                },
+                {
+                    $set:{
+                        "address.$.deletedAddress":true
                     }
                 }).then((response)=>{
                     resolve(response)
                 })
-            }
-            
+        })
+}
 
-        })
-    },
-    getUserAddress:(userId)=>{
-        return new Promise(async(resolve, reject) => {
-            let userDetails = await db.get().collection(collection.USER_COLLECTION).findOne({_id:ObjectId(userId) })
-                if(userDetails.address){
-                    let addressArr=userDetails.address
-                    console.log(addressArr);
-                    const address=addressArr.slice(-3).reverse()
-                    resolve(address)
-                }
-                else{
-                    resolve()
-                }
-            
-        })
-    }
+
 }

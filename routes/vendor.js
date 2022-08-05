@@ -50,6 +50,8 @@ router.get('/deleteCategory',verifyLogin,vendorController.getDeleteCategory)
 
 router.get('/orders',verifyLogin,vendorController.getOrders)
 
+router.post('/changeOrderStatus',verifyLogin,vendorController.getChangeOrderStatus)
+
 
 
 module.exports = router;

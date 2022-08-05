@@ -19,6 +19,7 @@
                             <th>Name</th>
                             <th>Brand</th>
                             <th>Delivery Details</th>
+                            <th>Quantity</th>
                             <th>Amount</th>
                             <th>Status</th>
                         </tr>
@@ -29,8 +30,9 @@
 
                             <th scope="row">{{inc @index}}</th>
                             <th>{{this.date}}</th>
-                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                <strong>{{this.product.name}}</strong>
+                            <td><i class="fab fa-angular fa-lg text-dark me-3">
+                                    <strong>{{this.product.name}}</strong><br>
+                                    <strong>Price ₹{{this.product.price}}</strong></i>
                             </td>
                             <td>{{this.product.brand}}</td>
                             <td>{{this.deliveryDetails.firstName}} {{this.deliveryDetails.lastName}}<br>
@@ -38,11 +40,11 @@
                                 {{this.deliveryDetails.addressLineOne}}<br>{{this.deliveryDetails.addressLineTwo}},
                                 {{this.deliveryDetails.town}}, {{this.deliveryDetails.state}},
                                 {{this.deliveryDetails.country}}, {{this.deliveryDetails.postcode}}</td>
-
-                            <td>₹{{this.product.price}}</td>
+                            <td>{{this.products.quantity}}</td>
+                            <td>₹{{this.productTotal}}</td>
                             <td>
-                                <select class="selectpicker">
-                                    <option value="shipped<">Shipped</option>
+                                <select class="selectpicker" id="select_id">
+                                    <option value="shipped">Shipped</option>
                                     <option value="arrived">Arrived</option>
                                     <option value="delivered">Delivered</option>
                                     <option value="cancel">Cancel</option>
@@ -57,3 +59,25 @@
         </div>
     </div>
 </div>
+
+<script>
+
+
+    $('#select_id').on('change', function () {
+        let val = this.value
+        $.ajax({
+            url: '/vendor/changeOrderStatus/',
+            data:{
+                status:val
+            },
+            method: 'post',
+
+            success: (response) => {
+                console.log('hee')
+            }
+        })
+        alert(this.value);
+    });
+
+
+</script>

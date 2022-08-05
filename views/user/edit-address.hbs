@@ -1,0 +1,85 @@
+<div class="container rounded bg-white mb-5">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center pt-5 "><img class="rounded-circle "
+                    width="100px" src="/user/img/icon/user.png"><span class="font-weight-bold">{{user.firstName}}
+                    {{user.lastName}}</span><span class="text-black-50">{{user.email}}</span><span class="mt-3">Edit
+                    profile </span></div>
+            <div class="list mt-5">
+                <ul class="list-group">
+                    <li class="list-group-item">Address</li>
+                    <li class="list-group-item">My Orders</li>
+                    <li class="list-group-item">My Wishlist</li>
+                    <li class="list-group-item">My Cart</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="col-lg-8 col-md-6">
+            <div class="accordion" id="accordionExample">
+                <div class="card-body">
+                    <form action="javascript:void(0)" method="post" id="addressForm">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Fist Name<span>*</span></p>
+                                    <input type="text" form="addressForm" name="firstName" id="firstName" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Last Name<span>*</span></p>
+                                    <input type="text" form="addressForm" name="lastName" id="lastName" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Phone<span>*</span></p>
+                                    <input type="text" form="addressForm" name="phone" id="phone" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Email<span>*</span></p>
+                                    <input type="text" form="addressForm" name="email" id="email" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="checkout__input">
+                            <p>Country<span>*</span></p>
+                            <input type="text" form="addressForm" name="country" id="country" required>
+                        </div>
+                        <div class="checkout__input">
+                            <p>Address<span>*</span></p>
+                            <input type="text" form="addressForm" name="addressLineOne" id="addressLineOne"
+                                placeholder="Street Address" class="checkout__input__add" required>
+                            <input type="text" form="addressForm" name="addressLineTwo" id="addressLineTwo"
+                                placeholder="Apartment, suite, unite ect (optinal)" required>
+                        </div>
+                        <div class="checkout__input">
+                            <p>Town/City<span>*</span></p>
+                            <input type="text" form="addressForm" name="town" id="town" required>
+                        </div>
+                        <div class="checkout__input">
+                            <p>State<span>*</span></p>
+                            <input type="text" form="addressForm" name="state" id="state" required>
+                        </div>
+                        <div class="checkout__input">
+                            <p>Postcode / ZIP<span>*</span></p>
+                            <input type="text" form="addressForm" name="postcode" id="postcode" required>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" form="addressForm" id="submit_b" class="site-btn ">Sumbit</button>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

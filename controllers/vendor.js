@@ -152,13 +152,16 @@ module.exports = {
         let categoryData=req.body
         categoryHelper.updateCategory(categoryId,categoryData)
         res.redirect('/vendor/viewCategory')
-
     },
     getOrders:async(req,res)=>{
         vendor = req.session.vendor
         let orders=await orderHelper.getOrders(vendor._id)
         console.log(orders);
-        res.render('vendor/order-details',{ layout: 'admin-layout', vendorHeader: true,vendor,orders})
-    }
+        res.render('vendor/view-orders',{ layout: 'admin-layout', vendorHeader: true,vendor,orders})
+    },
+    getChangeOrderStatus:(req,res)=>{
+        console.log(req.body)
+        
+    },
 
 }

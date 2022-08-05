@@ -1,0 +1,100 @@
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>My Orders</h4>
+                    <div class="breadcrumb__links">
+                        <a href="/">Home</a>
+                        <a href="./shop.html">Shop</a>
+                        <span>My Orders</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+<section class="shopping-cart spad">
+    <div class="container">
+        {{#if products}}
+        <div class="col-lg-12 ">
+
+            <div class="shopping__cart__table_1">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Qnty</th>
+                            <th>Adress</th>
+                            <th>Date</th>
+                            <th>Status</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each products}}
+                        <tr>
+                            <td class="product__cart__item_1">
+                                <div class="product__cart__item__pic_1">
+                                    <a href="/viewProduct?id={{this.product._id}}"><img
+                                            src="/product-images/{{this.product.images.[0]}}" alt=""></a>
+                                </div>
+
+                            </td>
+
+                            <td class="quantity__item">
+                                {{this.product.name}} <br><strong>₹{{this.product.price}}</strong>
+
+                            </td>
+                            <td class="cart__price">₹{{this.productTotal}}</td>
+                            <td class="quantity__item">
+                                {{this.products.quantity}}
+                            </td>
+                            <td class="cart__close">{{this.deliveryDetails.firstName}}{{this.deliveryDetails.lastName}}
+                                <br>Ph:{{this.deliveryDetails.phone}}<br>
+                                {{this.deliveryDetails.addressLineOne}} <br>{{this.deliveryDetails.addressLineTwo}}
+                                <br>{{this.deliveryDetails.town}}, {{this.deliveryDetails.state}},
+                                {{this.deliveryDetails.country}}, {{this.deliveryDetails.postcode}} </td>
+                            <td class="cart__close"> <span class="badge rounded-pill bg-white">{{this.date}}</span>
+                            </td>
+                            <td class="cart__close"><span class="badge text-white bg-dark">{{this.status}}</span></td>
+
+                        </tr>
+                        {{/each}}
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 mt-5">
+                    <div class="continue__btn">
+                        <a href="/">Continue Shopping</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 mt-5">
+                    <div class="continue__btn update__btn">
+                        <a href="#"><i class="fa fa-home"></i>go to Home </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {{else}}
+        <div class="container">
+
+            <div class="col-sm-12 empty-cart-cls text-center mt-5">
+                <img src="/user/img/icon/shopping-cart.png" width="130" height="130" class="img-fluid mb-5 mr-3">
+                <h3 class="mb-5"><strong>No Orders Found</strong></h3>
+                <a href="/" class="primary-btn mt-5 ">Shop now </a>
+
+            </div>
+
+
+        </div>
+        {{/if}}
+</section>

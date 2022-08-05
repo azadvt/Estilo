@@ -56,11 +56,18 @@ router.post('/checkOut',verifyLogin,usercontroller.postPlaceOrder)
 
 router.get('/orderSuccess',verifyLogin,usercontroller.getOrderPlaced)
 
-router.get('/orderDetails',verifyLogin,usercontroller.getOrderDetails)
+router.get('/viewOrders',verifyLogin,usercontroller.getviewOrders)
 
 router.post('/verifyPayment',verifyLogin,usercontroller.postVerifyPayment)
 
 router.post('/couponCode',verifyLogin,usercontroller.postCouponCode)
 
+router.get('/profile',verifyLogin,usercontroller.getProfile)
+
+router.post('/editAddress',verifyLogin,usercontroller.postEditAddress)
+
+router.get('/deleteAddress/:id',verifyLogin,usercontroller.deleteAddress)
+
+router.get('/orderDetails',verifyLogin,usercontroller.getOrderDetails)
 
 module.exports = router;

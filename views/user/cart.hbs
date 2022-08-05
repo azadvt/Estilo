@@ -21,12 +21,12 @@
 
     <div class="container">
         {{#if products}}
-        <div class="row">
+        <div class="row ">
             <div class="col-lg-8">
 
                 <div class="shopping__cart__table">
 
-                    <table>
+                    <table id="refresh">
                         <thead>
                             <tr>
                                 <th>Product</th>
@@ -43,7 +43,7 @@
                                     </div>
                                     <div class="product__cart__item__text">
                                         <h6>{{this.product.name}}</h6>
-                                        <h5>₹{{this.product.price}}/-</h5>
+                                        <h5 id="{{this.product._id}}1">{{this.product.price}}</h5>
                                     </div>
                                 </td>
 
@@ -60,8 +60,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <span id="productId" hidden>{{this.product._id}}</span>
-                                <td class="cart__price"><span id="{{this.product._id}}1"></span></td>
+                                <td class="cart__price" id="{{this.product._id}}2"> {{this.productTotal}}</td>
                                 <td class="cart__close"><a href="javascript:void(0)"
                                         onclick="remove('{{this._id}}','{{this.product._id}}')"><i
                                             class="fa fa-close"></i></a></td>
@@ -108,8 +107,7 @@
                 <a href="/" class="primary-btn mt-5 mb-5">Shop now </a>
 
             </div>
-
-            {{/if}}
         </div>
+        {{/if}}
 </section>
 

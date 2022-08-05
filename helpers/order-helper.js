@@ -13,28 +13,34 @@ var instance = new Razorpay({
 
 module.exports = {
 
-    placeOrder: async(orderData,userId, products, total) => {
+    placeOrder: (orderData, userId, products, total) => {
         var currentdate = new Date();
         var date = currentdate.getDate() + "/"
             + (currentdate.getMonth() + 1) + "/"
             + currentdate.getFullYear()
-        return new Promise((resolve, reject) => {
-            let address=await db.get().collection(collection.USER_COLLECTION).aggregate([
+        return new Promise(async (resolve, reject) => {
+            let userData = await db.get().collection(collection.USER_COLLECTION).aggregate([
                 {
-                    $match:{_id:ObjectId(userId)}
+                    $match: { _id: ObjectId(userId) }
+                },
+                {
+                    $unwind: "$address"
+                },
+                {
+                    $match: { "address._id": ObjectId(orderData.addressId) }
                 }
-            ])
+            ]).toArray()
 
-
-
+            console.log(userData[0].address);
+            let deliveryDetails = userData[0].address
 
             let OrderObj = {
-                user: ObjectId(order.userId),
+                user: ObjectId(userId),
                 date: date,
-
+                deliveryDetails,
                 products: products,
                 totalAmount: total,
-                paymentMethod: order.paymentMethod,
+                paymentMethod: orderData.paymentMethod,
                 status: 'pending'
             }
 
@@ -43,9 +49,9 @@ module.exports = {
 
             db.get().collection(collection.ORDER_COLLECTION).insertOne(OrderObj).then((response) => {
 
-                if (order.paymentMethod == "cashOnDelivery") {
+                if (orderData.paymentMethod == "cashOnDelivery") {
 
-    
+
                     resolve(response.insertedId)
                 }
 
@@ -79,11 +85,21 @@ module.exports = {
 
                 {
                     $unwind: '$product'
+                },{
+                    '$addFields': {
+                        'productTotal': {
+                            '$sum': {
+                                '$multiply': [
+                                    '$products.quantity', '$product.price'
+                                ]
+                            }
+                        }
+                    }
                 },
                 {
                     $match: {
                         status: {
-                            $eq: "placed"
+                            $ne: "pending"
                         }
                     }
                 }
@@ -111,6 +127,16 @@ module.exports = {
                 },
                 {
                     $unwind: "$product"
+                },{
+                    '$addFields': {
+                        'productTotal': {
+                            '$sum': {
+                                '$multiply': [
+                                    '$products.quantity', '$product.price'
+                                ]
+                            }
+                        }
+                    }
                 },
                 {
                     $match: {
@@ -125,7 +151,7 @@ module.exports = {
 
 
             ]).toArray()
-
+            console.log(orders)
             resolve(orders)
         })
     },

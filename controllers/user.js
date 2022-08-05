@@ -152,7 +152,7 @@ module.exports = {
     postRemoveProductFromCart: (req, res) => {
         console.log(req.body);
         cartHelper.removeProductFromCart(req.body).then((response) => {
-            res.json(response)
+            res.json({status:true})
         })
     },
     getAddToWishlist: (req, res) => {
@@ -192,20 +192,21 @@ module.exports = {
         console.log('worked');
         userId=req.session.user._id
         console.log(req.body);
-        userHelper.updateUserAddress(userId,req.body).then((response)=>{
+        userHelper.addUserAddress(userId,req.body).then((response)=>{
             console.log(response);
-            res.json(response)
+            res.json({status:true})
         })
     },
     postPlaceOrder: async (req, res) => {
         console.log(req.body);
-       
         userId=req.session.user._id
         let products = await cartHelper.getCartProductList(userId)
         let total = await cartHelper.getTotalAmount(userId)
-        orderHelper.placeOrder(req.body,userId, products, total).then((orderId) => {
+        console.log("ddd");
+        console.log(products);
+        orderHelper.placeOrder(req.body,userId, products).then((orderId) => {
             if (req.body.paymentMethod == "cashOnDelivery") {
-                orderHelper.changeStatus(orderId).then(() => {
+                orderHelper.changeStatus(orderId,req.body.paymentMethod).then(() => {
                     cartHelper.deleteCart(userId).then(()=>{
 
                     })
@@ -239,14 +240,38 @@ module.exports = {
         let user = req.session.user
         res.render('user/order-placed', { layout: 'user-layout', user })
     },
-    getOrderDetails: async (req, res) => {
+    getviewOrders: async (req, res) => {
         let user = req.session.user
         let products = await orderHelper.getOrderdProducts(user._id)
         console.log("products", products);
-        res.render('user/order-details', { layout: 'user-layout', user, products })
+        res.render('user/view-orders', { layout: 'user-layout', user, products })
     },
+    
     postCouponCode: (req, res) => {
         console.log(req.body);
+    },
+    getProfile:async(req,res)=>{
+        let user = req.session.user
+        let address  = await userHelper.getUserAddress(user._id)
+        res.render('user/profile',{layout:'user-layout',user,address})
+    },
+    postEditAddress:(req,res)=>{
+        console.log(req.body)
+                    
+        userHelper.updateUserAddress(req.body).then((response)=>{
+            res.json({staus:true})
+        })
+
+    },
+    deleteAddress:(req,res)=>{
+        console.log(req.params.id)
+        userHelper.deleteAddress(req.params.id).then((response)=>{
+            res.json({status:true})
+        })
+    },
+    getOrderDetails:(req,res)=>{
+        let user = req.session.user 
+        res.render('user/order-details',{ layout: 'user-layout', user})
     }
 
 

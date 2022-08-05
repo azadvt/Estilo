@@ -46,7 +46,6 @@ module.exports = {
                 })
             }
 
-
             let product = await db.get().collection(collection.WISHLIST_COLLECTION).findOne({ user: ObjectId(userId) },
                 {
                     products: { $elemMatch: { $eq: ObjectId(productId) } }
@@ -94,7 +93,18 @@ module.exports = {
                     $project: {
                         item: 1, quantity: 1, product: { $arrayElemAt: ['$product', 0] }
                     }
-                }
+                }, 
+                {
+                    '$addFields': {
+                      'productTotal': {
+                        '$sum': {
+                          '$multiply': [
+                            '$quantity', '$product.price'
+                          ]
+                        }
+                      }
+                    }
+                  }
 
 
             ]).toArray()
@@ -142,7 +152,6 @@ module.exports = {
         })
     },
     removeProductFromCart: (details) => {
-
         let productId = details.productId
         let cartId = details.cartId
         return new Promise((resolve, reject) => {
@@ -151,7 +160,7 @@ module.exports = {
                     $pull: { products: { item: ObjectId(productId) } }
                 }
             ).then((response) => {
-                resolve({ productRemoved: true })
+                resolve(response)
             })
         })
 
@@ -164,7 +173,7 @@ module.exports = {
                 },
                 {
                     $unwind: '$products'
-                },
+                },  
                 {
                     $project: {
                         item: '$products.item',
@@ -207,10 +216,34 @@ module.exports = {
     
     getCartProductList:(userId)=>{
         return new Promise(async(resolve, reject) => {
-            let cart=await db.get().collection(collection.CART_COLLECTION).findOne({user:ObjectId(userId)})
-            if(cart){
-                resolve(cart.products)
-            }
+            let date= Date.now()
+            let cart=await db.get().collection(collection.CART_COLLECTION).aggregate([
+                {
+                  '$match': {
+                    'user': ObjectId(userId)
+                  }
+                }, {
+                  '$unwind': {
+                    'path': '$products'
+                  }
+                }, {
+                  '$project': {
+                    'products': 1,'_id':0
+                  }
+                }, {
+                  '$addFields': {
+                    'products.status': 'pending', 
+                    'products.active': true,
+                    'products.date' : date
+                  }
+                },{
+                    '$replaceRoot': {
+                      'newRoot': '$products'
+                    }
+                  }
+              ]).toArray()
+              resolve(cart)
+              console.log(cart);
             
         })
     },

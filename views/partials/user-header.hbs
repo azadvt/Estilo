@@ -35,7 +35,7 @@
             <div class="header__top__right">
                 <div class="header__top__links">
                     {{#if user}}
-                    <a href="#">{{user.firstName}} {{user.lastName}}</a>
+                    <a href="/profile">{{user.firstName}} {{user.lastName}}</a>
                     <a href="/logout">Log Out</a>
                     {{else}}
                     <a href="/login">Log in</a>
@@ -67,7 +67,7 @@
                                 <li><a href="./blog-details.html">Blog Details</a></li>
                             </ul>
                         </li>
-                        <li><a href="/orderDetails">My Orders</a></li>
+                        <li><a href="/viewOrders">My Orders</a></li>
                         <li><a href="./contact.html">Contacts</a></li>
                     </ul>
                 </nav>
