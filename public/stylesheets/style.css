@@ -1,10 +1,10 @@
 .error {
-    color: red;
- }
+	color: red;
+}
 
 
 
- .shopping__cart__table_1 {
+.shopping__cart__table_1 {
 	margin-bottom: 30px;
 }
 
@@ -34,65 +34,68 @@
 }
 
 
- .shopping__cart__table_1 {
-    overflow-y: auto;
+.shopping__cart__table_1 {
+	overflow-y: auto;
 }
+
 .shopping__cart__table_1 table tbody tr td.product__cart__item_1 .product__cart__item__pic_1 {
-    float: none;
-    margin-right: 0;
+	float: none;
+	margin-right: 0;
 }
 
 .shopping__cart__table_1 table tbody tr td.product__cart__item_1 {
-    width: 150px;
+	width: 150px;
 }
 
 .shopping__cart__table_1 table tbody tr td.product__cart__item_1 .product__cart__item__pic_1 {
-    float: left;
-    margin-right: 30px;
-    width: 100px; height: 100px;
+	float: left;
+	margin-right: 30px;
+	width: 100px;
+	height: 100px;
 
 }
 
 .shopping__cart__table_1 table tbody tr td.product__cart__item_1 .product__cart__item__text_1 {
-    overflow: hidden;
-    padding-top: 21px;
+	overflow: hidden;
+	padding-top: 21px;
 }
 
 .shopping__cart__table_1 table tbody tr td.product__cart__item_1 .product__cart__item__text_1 h6 {
-    color: #111111;
-    font-size: 15px;
-    font-weight: 600;
-    margin-bottom: 10px;
+	color: #111111;
+	font-size: 15px;
+	font-weight: 600;
+	margin-bottom: 10px;
 }
 
 .shopping__cart__table_1 table tbody tr td.product__cart__item_1 .product__cart__item__text_1 h5 {
-    color: #0d0d0d;
-    font-weight: 700;
+	color: #0d0d0d;
+	font-weight: 700;
 }
 
 .shopping__cart__table_1 table tbody tr td.quantity__item_1 {
-    width: 175px;
+	width: 175px;
 }
 
 .shopping__cart__table_1 table tbody tr td.quantity__item_1 .quantity .pro-qty-2 {
-    width: 110px;
+	width: 110px;
 }
 
-.shopping__cart__table_1 table tbody tr td.quantity__item_1 .quantity .pro-qty-2 span{
-    padding: 20px;
-    border: none;
-    text-align: center;
-    color: #111111;
-    font-size: 16px;	
+.shopping__cart__table_1 table tbody tr td.quantity__item_1 .quantity .pro-qty-2 span {
+	padding: 20px;
+	border: none;
+	text-align: center;
+	color: #111111;
+	font-size: 16px;
 }
 
 .shopping__cart__table_1 table tbody tr td.quantity__item_1 .quantity .pro-qty-2 .qtybtn {
-    font-size: 16px;
-    color: #888888;
-    width: 15px;
-    cursor: pointer;
-    border: none;
+	font-size: 16px;
+	color: #888888;
+	width: 15px;
+	cursor: pointer;
+	border: none;
 }
+
 .shopping__cart__table_1 table tbody tr td.cart__price {
 	color: #111111;
 	font-size: 18px;
@@ -123,11 +126,10 @@
 	border: 1px solid #e1e1e1;
 	padding: 14px 35px;
 }
-.continue__btn_1 :hover{
-	color:	#111111;
+
+.continue__btn_1 :hover {
+	color: #111111;
 }
-
-
 
 
 .continue__btn_1.update__btn a {
@@ -136,4 +138,127 @@
 	border-color: #111111;
 }
 
+.noHover {
+	color: #000000;
+}
 
+.noHover :hover {
+	color: #000000;
+}
+
+/* product Details bar */
+.card {
+	position: relative;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	min-width: 0;
+	word-wrap: break-word;
+	background-color: #fff;
+	background-clip: border-box;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 0.10rem
+}
+
+.card-header:first-child {
+	border-radius: calc(0.37rem - 1px) calc(0.37rem - 1px) 0 0
+}
+
+.card-header {
+	padding: 0.75rem 1.25rem;
+	margin-bottom: 0;
+	background-color: #fff;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1)
+}
+
+.track {
+	position: relative;
+	background-color: #ddd;
+	height: 7px;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	margin-bottom: 60px;
+	margin-top: 50px
+}
+
+.track .step {
+	-webkit-box-flex: 1;
+	-ms-flex-positive: 1;
+	flex-grow: 1;
+	width: 25%;
+	margin-top: -18px;
+	text-align: center;
+	position: relative
+}
+
+.track .step.active:before {
+	background: #000000
+}
+
+.track .step::before {
+	height: 7px;
+	position: absolute;
+	content: "";
+	width: 100%;
+	left: 0;
+	top: 18px
+}
+
+
+.track .step.active .icon {
+	background: #000000;
+	color: #fff
+}
+
+.track .step.active-cancel:before {
+	background: #eb0606
+}
+.track .step.active-cancel .icon{
+	background: #f30303;
+	color: #fff
+}
+
+.track .icon {
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	position: relative;
+	border-radius: 100%;
+	background: #ddd
+}
+
+.track .step.active .text {
+	font-weight: 400;
+	color: #000
+}
+
+.track .text {
+	display: block;
+	margin-top: 7px
+}
+
+.itemside {
+	position: relative;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	width: 100%
+}
+
+.itemside .aside {
+	position: relative;
+	-ms-flex-negative: 0;
+	flex-shrink: 0
+}
+
+.img-sm {
+	width: 180px;
+	height: 180px;
+	padding: 7px
+}

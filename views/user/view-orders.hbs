@@ -30,10 +30,9 @@
                             <th>Name</th>
                             <th>Price</th>
                             <th>Qnty</th>
-                            <th>Adress</th>
                             <th>Date</th>
                             <th>Status</th>
-
+                            <th>Details</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,14 +54,11 @@
                             <td class="quantity__item">
                                 {{this.products.quantity}}
                             </td>
-                            <td class="cart__close">{{this.deliveryDetails.firstName}}{{this.deliveryDetails.lastName}}
-                                <br>Ph:{{this.deliveryDetails.phone}}<br>
-                                {{this.deliveryDetails.addressLineOne}} <br>{{this.deliveryDetails.addressLineTwo}}
-                                <br>{{this.deliveryDetails.town}}, {{this.deliveryDetails.state}},
-                                {{this.deliveryDetails.country}}, {{this.deliveryDetails.postcode}} </td>
+                            
                             <td class="cart__close"> <span class="badge rounded-pill bg-white">{{this.date}}</span>
                             </td>
-                            <td class="cart__close"><span class="badge text-white bg-dark">{{this.status}}</span></td>
+                            <td class="cart__close"><span class="badge text-white bg-dark">{{this.products.status}}</span></td>
+                            <td> <a href="/orderDetails?proId={{this.product._id}}&orderId={{this._id}}" class="btn-sm btn-dark" role="button" >View Details</a> </td>
 
                         </tr>
                         {{/each}}

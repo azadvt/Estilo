@@ -1,88 +1,297 @@
 <body>
-<!-- Page Preloder -->
-<div id="preloder">
-    <div class="loader"></div>
-</div>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
 
-<!-- Offcanvas Menu Begin -->
-<div class="offcanvas-menu-overlay"></div>
-<div class="offcanvas-menu-wrapper">
-    <div class="offcanvas__option">
-        <div class="offcanvas__links">
-            {{#if user}}
-            <a href="#">{{user.firstName}} {{user.lastName}}</a>
-            <a href="/loggout">Log Out</a>
-            {{else}}
-            <a href="/login">Log in</a>
-            <a href="/signup">Sign up</a>
-            {{/if}}
+    <!-- Offcanvas Menu Begin -->
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-wrapper">
+        <div class="offcanvas__option">
+            <div class="offcanvas__links">
+                {{#if user}}
+                <a href="#">{{user.firstName}} {{user.lastName}}</a>
+                <a href="/loggout">Log Out</a>
+                {{else}}
+
+                <button type="button" class="btn text-white primary-btn2" data-toggle="modal"
+                    data-target="#exampleModalCenter15">
+                    log in
+                </button>
+                <button type="button" class="btn text-white primary-btn2" data-toggle="modal"
+                    data-target="#exampleModalCenter25">
+                    Sign up
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade sugun" id="exampleModalCenter15" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                ...
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn  site-btn2" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn text-white primary-btn2">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="exampleModalCenter25" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                ...
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn  site-btn2" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn text-white primary-btn2">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+            </div>
         </div>
-    </div>
-    <div class="offcanvas__nav__option">
-        <a href="#" class="search-switch"><img src="/user/img/icon/search.png" alt=""></a>
-        <a href="/wishlist"><img src="/user/img/icon/heart.png" alt=""> <span class="badge badge-light ml-3 mb-4" id="wishlist">{{wishlistcount}}</span></a>
-        <a href="/cart"><img src="/user/img/icon/cart.png" alt=""> <span class="badge badge-light ml-3 mb-4" id="cartCount">{{cartCount}}</span></a>
-    </div>
-    <div id="mobile-menu-wrap"></div>
+        <div class="offcanvas__nav__option">
+            <a href="#" class="search-switch"><img src="/user/img/icon/search.png" alt=""></a>
+            <a href="/wishlist"><img src="/user/img/icon/heart.png" alt=""> <span class="badge badge-light ml-3 mb-4"
+                    id="wishlist">{{user.wishlistcount}}</span></a>
+            <a href="/cart"><img src="/user/img/icon/cart.png" alt=""> <span class="badge badge-light ml-3 mb-4"
+                    id="cartCount">{{user.cartCount}}</span></a>
+            <a href="/profile"><img src="/user/img/icon/user1.png" alt=""><span
+                    class="badge badge-light ml-3 mb-4"></span> </a>
 
-</div>
-<!-- Offcanvas Menu End -->
+        </div>
+        <div id="mobile-menu-wrap"></div>
 
-<!-- Header Section Begin -->
-<header class="header">
-    <div class="header__top ">
+    </div>
+    <!-- Offcanvas Menu End -->
+
+    <!-- Header Section Begin -->
+    <header class="header">
+        <div class="header__top ">
+            <div class="container">
+                <div class="header__top__right">
+                    <div class="header__top__links">
+                        {{#if user}}
+                        <a href="/profile">{{user.firstName}} {{user.lastName}}</a>
+                        <a href="/logout">Log Out</a>
+                        {{else}}
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn text-white primary-btn2" data-toggle="modal"
+                            data-target="#exampleModalCenter">
+                            log in
+                        </button>
+                        <button type="button" class="btn text-white primary-btn2" data-toggle="modal"
+                            data-target="#exampleModalCenter2">
+                            Sign up
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header ">
+                                        <h2 class="modal-title " id="exampleModalLongTitle">Login</h2>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        {{#if userLogErr}}
+                                        <div class="alert alert-danger alert-dismissible" role="alert">
+                                            {{userLogErr}}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        {{/if}}
+                                        <form action="/userLogin" method="post" name="login" id="form"
+                                            onsubmit="return validateLogin()">
+
+                                            <div class="form-outline form-white  mb-4">
+                                                <label for="">Email</label>
+                                                <input type="email" id="email" name="email" placeholder="Email"
+                                                    class="form-control form-control-lg" required />
+                                                <span id="requiredEmail" class="text-danger"> </span>
+
+                                            </div>
+
+
+                                            <div class="form-outline form-white mb-4">
+                                                <label for="">Password</label>
+                                                <input type="password" id="password" name="password"
+                                                    placeholder="Password" class="form-control form-control-lg"
+                                                    required />
+                                                <span id="requiredPassword" class="text-danger"> </span>
+
+
+                                            </div>
+                                            <button type="submit" class="btn text-white primary-btn2">Login</button>
+
+
+                                        </form>
+
+
+                                    </div>
+
+                                    <div class="text-center">
+                                        <p class="mt-4">Don't have an account? <a href="/signup"
+                                                class="text-black-50 fw-bold">Sign
+                                                Up</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade sugun" id="exampleModalCenter2" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Sign Up</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{#if userExistErr}}
+                                        <div class="alert alert-danger alert-dismissible" role="alert">
+                                            {{userExistErr}}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        {{/if}}
+                                        <form action="/userSignUp" method="post" name="usersignup" id="form">
+                                            <div class="row">
+                                                <div class="col-md-6 mb-4 pb-1">
+
+                                                    <div class="form-outline">
+                                                        <input type="text" id="firstName" name="firstName"
+                                                            class="form-control form-control-lg" autocomplete="off"
+                                                            placeholder="First name" required />
+                                                        <span id="firstNameerr" class="text-danger"> </span>
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-6 mb-4 pb-1">
+
+                                                    <div class="form-outline">
+                                                        <input type="text" id="lastName" name="lastName"
+                                                            class="form-control form-control-lg" autocomplete="off"
+                                                            placeholder="Last name" required />
+                                                        <span id="lastNameerr" class="text-danger"> </span>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="mb-4">
+                                                <div class="form-outline form-white">
+                                                    <input type="text" id="email" name="email"
+                                                        class="form-control form-control-lg" autocomplete="off"
+                                                        placeholder="Your Email" required />
+
+                                                    <span id="emailerr" class="text-danger"> </span>
+                                                </div>
+                                            </div>
+                                            <div class="mb-4 pb-1">
+
+                                                <div class="form-outline form-white">
+                                                    <input type="number" id="phone" name="phone"
+                                                        class="form-control form-control-lg" autocomplete="off"
+                                                        placeholder="Phone Number" required />
+                                                    <span id="phoneerr" class="text-danger"> </span>
+                                                </div>
+
+                                            </div>
+                                            <div class="mb-4 pb-1">
+                                                <div class="form-outline">
+                                                    <input type="password" id="password" name="password"
+                                                        class="form-control form-control-lg" autocomplete="off"
+                                                        placeholder="Password" required />
+                                                    <span id="passworderr" class="text-danger"> </span>
+                                                </div>
+                                            </div>
+                                            <div class="mb-4 pb-1">
+                                                <div class="form-outline">
+                                                    <input type="password" name="c_password" id="c_password"
+                                                        class="form-control form-control-lg" autocomplete="off"
+                                                        placeholder="Confirm Password" required />
+                                                    <span id="confirmPassworderr" class="text-danger"> </span>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn  site-btn2" data-dismiss="modal">Close</button>
+                                        <button class="btn text-white primary-btn2" type="submit">Submit</button>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {{/if}}
+
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="container">
-            <div class="header__top__right">
-                <div class="header__top__links">
-                    {{#if user}}
-                    <a href="/profile">{{user.firstName}} {{user.lastName}}</a>
-                    <a href="/logout">Log Out</a>
-                    {{else}}
-                    <a href="/login">Log in</a>
-                    <a href="/signup">Sign up</a>
-                    {{/if}}
+            <div class="row">
+                <div class="col-lg-3 col-md-3 ">
+                    <div class="header__logo">
+                        <a href="/"><img src="/user/img/logo.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <nav class="header__menu mobile-menu">
+                        <ul>
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/shop">Shop</a></li>
+                            <li><a href="#">Pages</a>
+                                <ul class="dropdown">
+                                    <li><a href="./about.html">About Us</a></li>
+                                    <li><a href="./shop-details.html">Shop Details</a></li>
+                                    <li><a href="./shopping-cart.html">Shopping Cart</a></li>
+                                    <li><a href="./checkout.html">Check Out</a></li>
+                                    <li><a href="./blog-details.html">Blog Details</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="/viewOrders">My Orders</a></li>
+                            <li><a href="./contact.html">Contacts</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="header__nav__option">
+                        <a href="#" class="search-switch"><img src="/user/img/icon/search.png" alt=""></a>
+                        <a href="/wishlist"><img src="/user/img/icon/heart.png" alt=""> <span
+                                class="badge badge-light ml-3 mb-4" id="wishlist-Count">{{wishlistcount}}</span< /a>
+                                <a href="/cart"><img src="/user/img/icon/cart.png" alt=""><span
+                                        class="badge badge-light ml-3 mb-4" id="cart-Count">{{cartCount}}</span> </a>
+                                <a href="/profile"><img src="/user/img/icon/user1.png" alt=""><span
+                                        class="badge badge-light ml-3 mb-4"></span> </a>
 
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-md-3 ">
-                <div class="header__logo">
-                    <a href="/"><img src="/user/img/logo.png" alt=""></a>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-6">
-                <nav class="header__menu mobile-menu">
-                    <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="./shop.html">Shop</a></li>
-                        <li><a href="#">Pages</a>
-                            <ul class="dropdown">
-                                <li><a href="./about.html">About Us</a></li>
-                                <li><a href="./shop-details.html">Shop Details</a></li>
-                                <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                                <li><a href="./checkout.html">Check Out</a></li>
-                                <li><a href="./blog-details.html">Blog Details</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="/viewOrders">My Orders</a></li>
-                        <li><a href="./contact.html">Contacts</a></li>
-                    </ul>
-                </nav>
-            </div>
-            <div class="col-lg-3 col-md-3">
-                <div class="header__nav__option">
-                    <a href="#" class="search-switch"><img src="/user/img/icon/search.png" alt=""></a>
-                    <a href="/wishlist"><img src="/user/img/icon/heart.png" alt=""> <span class="badge badge-light ml-3 mb-4" id="wishlist-Count">{{wishlistcount}}</span</a>
-                    <a href="/cart"><img src="/user/img/icon/cart.png" alt=""><span class="badge badge-light ml-3 mb-4" id="cart-Count">{{cartCount}}</span> </a>
-                    
-                </div>
-            </div>
-        </div>
-        <div class="canvas__open"><i class="fa fa-bars"></i></div>
-    </div>
-</header>
-<!-- Header Section End -->
 
+                    </div>
+                </div>
+            </div>
+            <div class="canvas__open"><i class="fa fa-bars"></i></div>
+        </div>
+    </header>
+    <!-- Header Section End -->

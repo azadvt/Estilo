@@ -163,5 +163,8 @@ module.exports = {
         console.log(req.body)
         
     },
+    getProfile:(req,res)=>{
+        res.render('vendor/profile',{ layout: 'admin-layout', vendorHeader: true,vendor})
+    }
 
 }

@@ -1,23 +1,23 @@
 //add to cart
-function addToCart(productId){
+function addToCart(productId) {
     $.ajax({
-        url:'/addToCart/'+productId,
-        method:'get',
-        success:(response)=>{
-            if(response.status){
-                let count=$('#cart-Count').html()
+        url: '/addToCart/' + productId,
+        method: 'get',
+        success: (response) => {
+            if (response.status) {
+                let count = $('#cart-Count').html()
                 console.log(count)
-                count =parseInt(count)+1
+                count = parseInt(count) + 1
                 $("#cart-Count").html(count)
                 $("#cartCount").html(count)
-                
-    swal("Added to Cart", "Please Check your Cart", "success");
+
+                swal("Added to Cart", "Please Check your Cart", "success");
             }
-            else{
+            else {
                 swal("Please login")
             }
         },
-        error:(response)=>{
+        error: (response) => {
             alert('err')
         }
     })
@@ -26,25 +26,25 @@ function addToCart(productId){
 
 //add to cart from wishlist
 
-function addToCartWishlist(productId){
+function addToCartWishlist(productId) {
     $.ajax({
-        url:'/addToCart/'+productId,
-        method:'get',
-        success:(response)=>{
-            if(response.status){
-                let count=$('#cart-Count').html()
+        url: '/addToCart/' + productId,
+        method: 'get',
+        success: (response) => {
+            if (response.status) {
+                let count = $('#cart-Count').html()
                 console.log(count)
-                count =parseInt(count)+1
+                count = parseInt(count) + 1
                 $("#cart-Count").html(count)
                 $("#cartCount").html(count)
-    swal("Added to Cart", "Please Check your Cart", "success");
-    setTimeout(function(){
-        window.location.reload(1);
-     }, 1000);
-    
+                swal("Added to Cart", "Please Check your Cart", "success");
+                setTimeout(function () {
+                    window.location.reload(1);
+                }, 1000);
+
             }
         },
-        error:(response)=>{
+        error: (response) => {
             alert('err')
         }
     })
@@ -52,33 +52,34 @@ function addToCartWishlist(productId){
 
 //add to wish list
 
-function addToWishlist(productId){
+function addToWishlist(productId) {
     $.ajax({
-        url:'/addToWishlist/'+productId,
-        method:'get',
-        success:(response)=>{   
+        url: '/addToWishlist/' + productId,
+        method: 'get',
+        success: (response) => {
             console.log(response)
-            if(response.added){
-                let count=$('#wishlist-Count').html()
+            if (response.added) {
+                let count = $('#wishlist-Count').html()
                 console.log(count)
-                count =parseInt(count)+1
+                count = parseInt(count) + 1
                 $("#wishlist-Count").html(count)
                 $("#wishlistCount").html(count)
                 swal("Added to Wishlist", "Please Check your wishlist", "success")
-                
+
             }
-           else if(response.removed){
-            let count=$('#wishlist-Count').html()
+            else if (response.removed) {
+                let count = $('#wishlist-Count').html()
                 console.log(count)
-                count =parseInt(count)-1
+                count = parseInt(count) - 1
                 $("#wishlist-Count").html(count)
                 $("#wishlistCount").html(count)
                 swal("Removed form Wishlist", "Please Check your wishlist", "warning")
             }
-            else{
-            swal("Please login")                }
+            else {
+                swal("Please login")
+            }
         },
-        error:(response)=>{
+        error: (response) => {
             alert('err')
         }
     })
@@ -90,10 +91,10 @@ function addToWishlist(productId){
 
 //change product quantity
 
-function changeQty(cartId, productId,userId,count) {
+function changeQty(cartId, productId, userId, count) {
     let quantity = parseInt(document.getElementById(productId).innerHTML)
-    let proPrice = parseInt(document.getElementById(productId+1).innerHTML)
-    let qnt=quantity+count
+    let proPrice = parseInt(document.getElementById(productId + 1).innerHTML)
+    let qnt = quantity + count
     console.log(proPrice);
     $.ajax({
         url: '/changeProductQuantity',
@@ -102,7 +103,7 @@ function changeQty(cartId, productId,userId,count) {
             productId: productId,
             cartId: cartId,
             quantity: quantity,
-            userId:userId
+            userId: userId
         },
         method: 'post',
         success: (response) => {
@@ -111,14 +112,14 @@ function changeQty(cartId, productId,userId,count) {
                 alert('product removed')
                 location.reload()
             } else {
-                
+
                 document.getElementById(productId).innerHTML = quantity + count
-                document.getElementById('total').innerHTML="₹"+response.total
-                document.getElementById('sub-total').innerHTML="₹"+response.total
-                document.getElementById(productId+2).innerHTML=proPrice*qnt
+                document.getElementById('total').innerHTML = "₹" + response.total
+                document.getElementById('sub-total').innerHTML = "₹" + response.total
+                document.getElementById(productId + 2).innerHTML = proPrice * qnt
 
             }
-        }   
+        }
 
     })
 }
@@ -132,38 +133,36 @@ function remove(cartId, productId) {
         icon: "warning",
         buttons: true,
         dangerMode: true,
-      })
-      .then((willDelete) => {
-        if (willDelete) {
-            $.ajax({
-                url: '/removeProductFromCart',
-                data: {
-                    cartId: cartId,
-                    productId: productId
-                },
-                method: 'post',
-                success: (response) => {
-                    console.log(response)
-                    if (response.status) {
-                        swal("Poof! Your imaginary file has been deleted!", {
-                            icon: "success",
-                          });
-                          $("#refresh").load(location.href+" #refresh")
+    })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    url: '/removeProductFromCart',
+                    data: {
+                        cartId: cartId,
+                        productId: productId
+                    },
+                    method: 'post',
+                    success: (response) => {
+                        console.log(response)
+                        if (response.status) {
+                            swal("Product removed From Cart", {
+                                icon: "success",
+                            });
+                            $("#refresh").load(location.href + " #refresh")
+                        }
+                        else {
+                            alert('false')
+                        }
+                    },
+                    error: (response) => {
+                        alert('err')
                     }
-                    else {
-                        alert('false')
-                    }
-                },
-                error: (response) => {
-                    alert('err')
-                }
-            })
-         
-        } else {
-          swal("Your imaginary file is safe!");
-        }
-      });
-   
+                })
+
+            }
+        });
+
 }
 
 //remove product from wishlist
@@ -204,15 +203,15 @@ function deleteAddress(id) {
         dangerMode: true,
     })
         .then((willDelete) => {
-            
+
             if (willDelete) {
                 $.ajax({
-                url: '/deleteAddress/' + id,
-                method: 'get',
-                success: (response) => {
-                    console.log(response)
-                }
-            })
+                    url: '/deleteAddress/' + id,
+                    method: 'get',
+                    success: (response) => {
+                        console.log(response)
+                    }
+                })
                 swal("Your Address has been deleted!", {
                     icon: "success",
                 });
@@ -228,19 +227,21 @@ function editAddressForm(id) {
         data: $('#editAddressForm' + id).serialize(),
         success: (response) => {
             console.log(response)
-            if(response.staus){
-            swal({
-                title: "Address Edited Successfully!",
-                text: "Please Select Your Address",
-                icon: "success",
-                button: "Ok",
-            });
-            $('#accordionExample').load(location.href+ " #accordionExample>*","");
+            if (response.staus) {
+                swal({
+                    title: "Address Edited Successfully!",
+                    text: "Please Select Your Address",
+                    icon: "success",
+                    button: "Ok",
+                });
+                setTimeout(function () {
+                    window.location.reload(1);
+                }, 1000);
             }
-            else{
+            else {
                 alert("err")
             }
-            
+
         }
     })
 }
@@ -259,26 +260,71 @@ function submitAddressForm() {
                 icon: "success",
                 button: "Ok",
             });
+            setTimeout(function () {
+                window.location.reload(1);
+            }, 1000);
         }
     });
 
 }
 
+//change product status
 
+function changeProductStatus(orderId, productId, status) {
+    console.log(orderId, productId)
+    swal({
+        title: "Are you sure?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    url: '/updateOrderStatus',
+                    data: {
+                        orderId: orderId,
+                        productId: productId,
+                        status: status
+                    },
+                    method: 'post',
+                    success: (response) => {
+                        if (response.status) {
+                            location.reload()
+                            setTimeout(() => {
+                                swal("Your Order has been Canceled", {
+                                    icon: "success",
+                                });
+                            }, "1000")
+
+                        }
+                    }
+                })
+
+
+            }
+        });
+
+}
 
 ////////////////////////
 
-$('#formCouponCode').submit((e)=>{
+$('#formCouponCode').submit((e) => {
     e.preventDefault()
     $.ajax({
-        url:'/couponCode',
-        method:'post',
-        data:$('#formCouponCode').serialize(),
-        success:(response)=>{
+        url: '/couponCode',
+        method: 'post',
+        data: $('#formCouponCode').serialize(),
+        success: (response) => {
             alert(response)
-            if(response.status){
-                location.href='/orderSuccess'
+            if (response.status) {
+                location.href = '/orderSuccess'
             }
         }
     })
 })
+
+
+
+
+

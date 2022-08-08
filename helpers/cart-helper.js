@@ -232,7 +232,7 @@ module.exports = {
                   }
                 }, {
                   '$addFields': {
-                    'products.status': 'pending', 
+                    'products.status': 'Pending', 
                     'products.active': true,
                     'products.date' : date
                   }

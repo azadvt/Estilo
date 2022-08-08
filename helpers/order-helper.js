@@ -18,6 +18,7 @@ module.exports = {
         var date = currentdate.getDate() + "/"
             + (currentdate.getMonth() + 1) + "/"
             + currentdate.getFullYear()
+
         return new Promise(async (resolve, reject) => {
             let userData = await db.get().collection(collection.USER_COLLECTION).aggregate([
                 {
@@ -41,11 +42,7 @@ module.exports = {
                 products: products,
                 totalAmount: total,
                 paymentMethod: orderData.paymentMethod,
-                status: 'pending'
             }
-
-
-
 
             db.get().collection(collection.ORDER_COLLECTION).insertOne(OrderObj).then((response) => {
 
@@ -58,11 +55,11 @@ module.exports = {
                 resolve(response.insertedId)
             })
 
-
         })
 
 
     },
+
     //users ordered product
     getOrderdProducts: (userId) => {
         return new Promise(async (resolve, reject) => {
@@ -98,14 +95,19 @@ module.exports = {
                 },
                 {
                     $match: {
-                        status: {
-                            $ne: "pending"
+                        "products.status": {
+                            $ne: "Pending"
                         }
                     }
+                },{
+                    $sort: {
+                        date: -1
+                    }
                 }
+                
 
             ]).toArray()
-            console.log("products=", orderedProducts.product);
+            console.log("products=", orderedProducts);
             resolve(orderedProducts)
         })
     },
@@ -196,18 +198,63 @@ module.exports = {
     },
     changeStatus: (orderId) => {
         return new Promise((resolve, reject) => {
-            console.log(orderId);
-            db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(orderId) },
+
+                db.get().collection(collection.ORDER_COLLECTION).updateOne(
+                    {_id:ObjectId(orderId)},{$set:{'products.$[].status':"Placed"}}).then((response) => {
+                        console.log(response);
+                        resolve()
+                    })
+               
+           
+        })
+    },
+    changeOrderdProductStatus:(orderId,productId,status)=>{
+        console.log(orderId,productId,status);
+
+            return new Promise((resolve, reject) => {
+                db.get().collection(collection.ORDER_COLLECTION).updateOne(
+                    {_id:ObjectId(orderId),
+                    'products.item':ObjectId(productId)
+                },
                 {
-                    $set: {
-                        status: 'placed'
+                    $set:{
+                        'products.$.status':status
                     }
                 }
-
-            ).then((response) => {
-                console.log(response);
-                resolve()
+                ).then((response) => {
+                    resolve(response)
+                })
             })
+    },
+    getOneOrder:(orderId,productId)=>{
+        return new Promise(async(resolve, reject) => {
+           let orderedProduct= await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    '$match': {
+                        '_id': ObjectId(orderId)
+                    }
+                }, {
+                    '$unwind': {
+                        'path': '$products'
+                    }
+                }, {
+                    '$match': {
+                        'products.item': ObjectId(productId)
+                    }
+                }, {
+                    '$lookup': {
+                        'from': 'products', 
+                        'localField': 'products.item', 
+                        'foreignField': '_id', 
+                        'as': 'product'
+                    }
+                }, {
+                    '$unwind': {
+                        'path': '$product'
+                    }
+                }
+            ]).toArray()
+            resolve(orderedProduct[0])
         })
     }
 }

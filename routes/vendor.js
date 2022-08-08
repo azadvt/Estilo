@@ -52,6 +52,6 @@ router.get('/orders',verifyLogin,vendorController.getOrders)
 
 router.post('/changeOrderStatus',verifyLogin,vendorController.getChangeOrderStatus)
 
-
+router.get('/profile',verifyLogin,vendorController.getProfile)
 
 module.exports = router;

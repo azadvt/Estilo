@@ -7,7 +7,7 @@ var logger = require('morgan');
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
 var vendorRouter = require('./routes/vendor')
-
+const handlebars = require('koa-handlebars')
 let hbs = require('express-handlebars')
 var app = express();
 let db = require('./config/connection');
@@ -17,12 +17,27 @@ const nocache = require("nocache");
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+
+const isEqualHelperHandlerbar = function(a, b, opts) {
+  if (a == b) {
+    console.log(a);
+    console.log("=======handlebars");
+      return opts.fn(this) 
+  } else { 
+      return opts.inverse(this) 
+  } 
+}
+
 app.engine('hbs', hbs.engine({
   helpers:{
+    if_equal : isEqualHelperHandlerbar,
   inc:function(value,options){
     return parseInt(value)+1;
+    
   }
 },extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/layout', userDir:__dirname + '/views/user',adminDir:__dirname + '/views/admin', partialsDir:__dirname + '/views/partials/'}));
+
+
 app.use(nocache());
 
 app.use(logger('dev'));

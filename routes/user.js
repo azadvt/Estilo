@@ -9,7 +9,7 @@ const verifyLogin=(req,res,next)=>{
     if(req.session.userLoggedIn){
         next()
     }else{
-        res.redirect('/login')
+        res.redirect('/')
     }
 
 }
@@ -18,15 +18,11 @@ const verifyLogin=(req,res,next)=>{
 /* GET home page. */
 router.get('/', usercontroller.getHome);
 
-router.get('/login', usercontroller.getLogin);
-
-router.get('/signup', usercontroller.getSignUp);
-
 router.post('/userLogin', usercontroller.postLogin)
 
 router.post('/userSignUp', usercontroller.postSignUp)
 
-router.get('/otp',verifyLogin, usercontroller.getOTP)
+router.get('/otp',usercontroller.getOTP)
 
 router.post('/otp', usercontroller.postOTP)
 
@@ -69,5 +65,9 @@ router.post('/editAddress',verifyLogin,usercontroller.postEditAddress)
 router.get('/deleteAddress/:id',verifyLogin,usercontroller.deleteAddress)
 
 router.get('/orderDetails',verifyLogin,usercontroller.getOrderDetails)
+
+router.post('/updateOrderStatus',usercontroller.updateOrderStatus)
+
+router.get('/shop',verifyLogin,usercontroller.getShop)
 
 module.exports = router;

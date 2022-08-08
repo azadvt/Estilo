@@ -14,30 +14,25 @@ module.exports = {
         productHelper.getAllProduct().then(async (productData) => {
             if (req.session.userLoggedIn) {
                 let user = req.session.user
-                let cartCount = await cartHelper.getCartCount(user._id)
-                let wishlistcount = await wishlistHelper.getWishlistCount(user._id)
+                cartCount = await cartHelper.getCartCount(user._id)
+                wishlistcount = await wishlistHelper.getWishlistCount(user._id)
                 res.render('user/home', { layout: 'user-layout', user, productData, cartCount, wishlistcount });
             } else {
-                res.render('user/home', { layout: 'user-layout', productData })
+                res.render('user/home', { layout: 'user-layout', productData,userExistErr: req.session.userExistErr,userLogErr: req.session.userLogErr })
+                req.session.userLogErr = false;
+                req.session.userExistErr = false
             }
+
         })
     },
-    getLogin: (req, res, next) => {
-        if (req.session.userLoggedIn) {
-            res.redirect('/')
-        }
-        else {
-            res.render('user/user-login', { userLogErr: req.session.userLogErr })
-            req.session.userLogErr = false;
-        }
-    },
+   
     getSignUp: (req, res) => {
         if (req.session.userLoggedIn) {
             res.redirect('/')
         }
         else {
             res.render('user/user-signup', { userExistErr: req.session.userExistErr })
-            req.session.userExistErr = false
+            
         }
 
     },
@@ -46,7 +41,7 @@ module.exports = {
             console.log(response);
             if (response.blockedUser) {
                 req.session.userLogErr = "your account is blocked "
-                res.redirect('/login')
+                res.redirect('/')
             }
             else if (response.status) {
                 req.session.userLoggedIn = true
@@ -54,7 +49,7 @@ module.exports = {
                 res.redirect('/')
             } else {
                 req.session.userLogErr = "Invalid Email or Password";
-                res.redirect('/login')
+                res.redirect('/')
             }
         })
 
@@ -64,15 +59,15 @@ module.exports = {
             console.log("response=", response);
             if (response.existEmail && response.existPhone) {
                 req.session.userExistErr = "Allready registerd Email and Phone"
-                res.redirect('/signup')
+                res.redirect('/')
             }
             else if (response.existEmail) {
                 req.session.userExistErr = "Allready registered Email"
-                res.redirect('/signup')
+                res.redirect('/')
             }
             else if (response.existPhone) {
                 req.session.userExistErr = "Allready registerd Phone Number"
-                res.redirect('/signup')
+                res.redirect('/')
             }
             else {
                 req.session.body = req.body
@@ -114,7 +109,7 @@ module.exports = {
     },
     getLogout: (req, res) => {
         req.session.userLoggedIn = false
-        res.redirect('/login')
+        res.redirect('/')
     },
     getViewProduct: (req, res) => {
         console.log('product id')
@@ -204,11 +199,10 @@ module.exports = {
         let total = await cartHelper.getTotalAmount(userId)
         console.log("ddd");
         console.log(products);
-        orderHelper.placeOrder(req.body,userId, products).then((orderId) => {
+        orderHelper.placeOrder(req.body,userId, products,total).then((orderId) => {
             if (req.body.paymentMethod == "cashOnDelivery") {
-                orderHelper.changeStatus(orderId,req.body.paymentMethod).then(() => {
+                orderHelper.changeStatus(orderId).then(() => {
                     cartHelper.deleteCart(userId).then(()=>{
-
                     })
                     res.json({ codSuccess: true })
                 })
@@ -271,7 +265,29 @@ module.exports = {
     },
     getOrderDetails:(req,res)=>{
         let user = req.session.user 
-        res.render('user/order-details',{ layout: 'user-layout', user})
+        let productId = req.query.proId
+        let orderId = req.query.orderId
+        console.log(orderId)
+        orderHelper.getOneOrder(orderId,productId).then((orderedProduct)=>{
+            console.log(orderedProduct)
+            res.render('user/order-details',{ layout: 'user-layout', user,orderedProduct})
+        })
+        
+    },
+    updateOrderStatus:(req,res)=>{
+        let orderId=req.body.orderId
+        let productId=req.body.productId
+        let status=req.body.status
+        console.log(req.body);
+        orderHelper.changeOrderdProductStatus(orderId,productId,status).then((response)=>{
+            res.json({status:true})
+        })
+    },
+    getShop:(req,res)=>{
+        let user = req.session.user 
+        productHelper.getAllProduct().then( (productData) => {
+        res.render('user/shop',{ layout: 'user-layout', user,productData})
+    })
     }
 
 
