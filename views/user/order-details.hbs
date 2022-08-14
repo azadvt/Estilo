@@ -26,8 +26,12 @@
                     <div class="col"> <strong>Orderd Date:</strong> <br>{{orderedProduct.date}}</div>
                     <div class="col"> <strong>Shipping BY:</strong> <br> ESTILO, | <i class="fa fa-phone"></i>
                         +1598675986 </div>
-                    <div class="col"> <strong>Status:</strong> <br> <span
-                            class="badge text-white bg-dark">{{orderedProduct.products.status}}</span></div>
+                    <div class="col"> <strong>Status:</strong> <br> 
+                    {{#if_equal orderedProduct.products.status "Cancel"}}
+                    <span class="badge text-white bg-danger">{{orderedProduct.products.status}}</span></div>
+                    {{else}}
+                    <span class="badge text-white bg-dark">{{orderedProduct.products.status}}</span></div>
+                    {{/if_equal}}
                     <div class="col"> <strong>Payment</strong> <br> {{#if_equal orderedProduct.paymentMethod "cashOnDelivery"}}Cash on Delivery{{/if_equal}}{{#if_equal orderedProduct.paymentMethod "onlinePayment"}}Online Payment{{/if_equal}}</div>
                 </div>
 
@@ -79,7 +83,9 @@
 
                 <p class="title">
                     {{orderedProduct.product.name}}<br><strong>{{orderedProduct.product.brand}}</strong>
-                </p> <span class="text-muted">₹{{orderedProduct.product.price}} </span>
+                    <input type="text" id="priceValue" value="{{orderedProduct.product.price}}" hidden></input>
+                    <input type="text" id="quantity" value="{{orderedProduct.products.quantity}}" hidden></input>
+                </p> <br>({{orderedProduct.products.quantity}} Items) <br> <span id="price">₹{{orderedProduct.product.price}} </span>
             </div>
 
             <hr>
@@ -108,4 +114,10 @@ function printFunc() {
     newWin.print();
     newWin.close();
     }
+
+    var a=document.getElementById('priceValue').value
+    var b=document.getElementById('quantity').value
+    document.getElementById('price').innerHTML="₹"+a*b
+    console.log(a)
+
 </script>

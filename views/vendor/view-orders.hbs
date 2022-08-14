@@ -9,7 +9,7 @@
             </div>
 
             <div class="table-responsive ">
-                <table class="table table-hover table-bordered">
+                <table class="table table-hover table-bordered" id="viewOrders">
                     <thead>
                         <tr>
                             <th scope="col">Sl NO.</th>
@@ -20,7 +20,7 @@
                             <th>Quantity</th>
                             <th>Amount</th>
                             <th>Status</th>
-                            <th>change Status</th>
+                            <th> </th>
 
                         </tr>
                     </thead>
@@ -42,14 +42,17 @@
                                 {{this.deliveryDetails.country}}, {{this.deliveryDetails.postcode}}</td>
                             <td>{{this.products.quantity}}</td>
                             <td>₹{{this.productTotal}}</td>
-                            <td class="cart__close"><span
-                                    class="badge text-white bg-dark">{{this.products.status}}</span></td>
+                            <td class="cart__close">
+                                {{#if_equal this.products.status "Cancel"}}
+                                <span class="badge text-white bg-danger">{{this.products.status}}</span>
+                                {{else}}
+                                <span class="badge text-white bg-dark">{{this.products.status}}</span>{{/if_equal}}</td>
                             <td>
+                                {{#if_equal this.products.status "Placed"}}
                                 <select>
-                                    <option
+                                    <option selected disabled
                                         >
                                         Placed</option>
-                                    <option
                                     <option
                                         data-value='{"orderId":"{{this._id}}","productId":"{{this.product._id}}","status":"Shipped"}'>
                                         Shipped</option>
@@ -63,6 +66,55 @@
                                         data-value='{"orderId":"{{this._id}}","productId":"{{this.product._id}}","status":"Cancel"}'>
                                         Cancel</option>
                                 </select>
+                                {{/if_equal}}
+                                {{#if_equal this.products.status "Shipped"}}
+                                <select>
+                                    
+                                    <option
+                                        selected disabled>
+                                        Shipped</option>
+                                    <option
+                                        data-value='{"orderId":"{{this._id}}","productId":"{{this.product._id}}","status":"Arrived"}'>
+                                        Arrived</option>
+                                    <option
+                                        data-value='{"orderId":"{{this._id}}","productId":"{{this.product._id}}","status":"Delivered"}'>
+                                        Delivered</option>
+                                    <option
+                                        data-value='{"orderId":"{{this._id}}","productId":"{{this.product._id}}","status":"Cancel"}'>
+                                        Cancel</option>
+                                </select>
+                                {{/if_equal}}
+                                {{#if_equal this.products.status "Arrived"}}
+                                <select>
+                                    <option
+                                        selected disabled>
+                                        Arrived</option>
+                                    <option
+                                        data-value='{"orderId":"{{this._id}}","productId":"{{this.product._id}}","status":"Delivered"}'>
+                                        Delivered</option>
+                                    <option
+                                        data-value='{"orderId":"{{this._id}}","productId":"{{this.product._id}}","status":"Cancel"}'>
+                                        Cancel</option>
+                                </select>
+                                 {{/if_equal}}
+                                 {{#if_equal this.products.status "Delivered"}}
+                                 <select>
+                                    
+                                    <option
+                                        selected disabled>
+                                        Delivered</option>
+                                    <option
+                                        data-value='{"orderId":"{{this._id}}","productId":"{{this.product._id}}","status":"Cancel"}'>
+                                        Cancel</option>
+                                </select>
+                                {{/if_equal}}
+                                {{#if_equal this.products.status "Cancel"}}
+                                <select>
+                                <option
+                                        selected >Canceled
+                                        </option>
+                                        </select>
+                                {{/if_equal}}
                             </td>
                         </tr>
                         {{/each}}
@@ -74,7 +126,8 @@
     </div>
 </div>
 
-
+     
+   
 <script>
 
     $('select').change(function () {
@@ -90,7 +143,7 @@
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: '/updateOrderStatus',
+                        url: '/vendor/updateOrderStatus',
                         data: {
                             orderId: orderedProduct.orderId,
                             productId: orderedProduct.productId,
@@ -119,6 +172,16 @@
     });
 
 
+    $(document).ready(function () {
+
+
+        $('#viewOrders').wrap('<div id="hide" style="display:none"/>');
+
+        $('#hide').css('display', 'block');
+    });
+
+
+    var table = $('#viewOrders').DataTable();
 
 
 </script>

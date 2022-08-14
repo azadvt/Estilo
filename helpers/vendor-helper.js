@@ -56,9 +56,21 @@ module.exports = {
     },
     blockVendor:(vendorId)=>{
         console.log(vendorId);
-        return new Promise((resolve,reject)=>{
-            db.get().collection(collection.VENDOR_COLLECTION).updateOne({_id:ObjectId(vendorId)},{$set:{blockedVendor:true}})
-        })
+        return new Promise(async(resolve, reject) => {
+            let vendor= await db.get().collection(collection.VENDOR_COLLECTION).findOne({_id:ObjectId(vendorId)})
+  
+            console.log(vendor);
+            if(vendor.blockedVendor){
+              db.get().collection(collection.VENDOR_COLLECTION).updateOne({ _id: ObjectId(vendorId) }, { $set: { blockedVendor: false } }).then((response) => {
+                  resolve(response)
+              })
+            }
+            else{
+              db.get().collection(collection.VENDOR_COLLECTION).updateOne({ _id: ObjectId(vendorId) }, { $set: { blockedVendor: true } }).then((response) => {
+                  resolve(response)
+              })
+            }
+          })
     },
     unBlockVendor:(vendorId)=>{
         console.log(vendorId);

@@ -16,6 +16,7 @@
                             <th scope="col">Sl NO.</th>
                             <th>Name</th>
                             <th>Brand</th>
+                            <th>Vendor</th>
                             <th>Price</th>
                             <th>Image</th>
                             <th>Category</th>
@@ -30,12 +31,14 @@
                             <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{this.name}}</strong>
                             </td>
                             <td>{{this.brand}}</td>
+                            <td>{{this.vendor.name}} <br><strong>{{this.vendor.businessName}}</strong></td>
                             <td>{{this.price}}</td>
 
                             <td><img src="/product-images/{{this.images.[0]}}" style="width: 50px; height: 50px;"></td>
                             <td>{{this.categoryName}}</td>
 
                             <td><span class="badge bg-label-primary me-1">Active</span></td>
+                            
                             
                         </tr>
                     {{/each}}

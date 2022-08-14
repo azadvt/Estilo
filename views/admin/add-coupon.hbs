@@ -1,0 +1,281 @@
+<div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y ">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Add Coupon</h5>
+                    </div>
+                    <div class="card-body">
+                        <form action="javascript:void(0)" id="coupon_form" method="post">
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-default-fullname">Coupon Code</label>
+                                <input type="text" class="form-control" id="basic-default-fullname" name="couponCode"
+                                    placeholder="Coupon Code" required />
+                                <h5 class="error_form text-danger" id="couponcode_error_message"></h5>
+
+                                <p id="ccodeerr" class="text-danger"></p>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 mb-3">
+                                    <label class="form-label" for="basic-default-email">Validity</label>
+                                    <input type="text" id="expireDate" class="form-control"
+                                        placeholder="Coupon expiry in Days" name="validity" required />
+                                    <h5 class="error_form text-danger" id="expiry_error_message"></h5>
+                                </div>
+                                <div class="col-lg-6 mb-3">
+                                    <label class="form-label" for="basic-default-company">Discount %</label>
+                                    <input type="number" class="form-control" id="discount" placeholder="Discount %"
+                                        name="discount" required />
+                                    <h5 class="error_form text-danger" id="discount_error_message"></h5>
+                                    <p id="cvalueerr" class="text-danger"></p>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" form="coupon_form"
+                                id="submit_addCoupon">submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-12">
+                <div class="card">
+                    <h5 class="card-header">Coupons</h5>
+                    <hr>
+                    <div class="card-body">
+                        {{#each coupons}}
+                        <div class="d-flex mb-3">
+
+                            <div class="flex-grow-1 row">
+                                <div class="col-8 col-sm-7 mb-sm-0 mb-2">
+                                    <h6 class="mb-0">Coupon: {{this.couponCode}}</h6><br>
+                                    <h6 class="mb-0">Discount: {{this.discount}}</h6><br>
+                                    <small class="text-muted"><strong>Validity:</strong> {{this.validity}}</small>
+                                </div>
+                                <div class="col-4 col-sm-5 text-end">
+                                    <button type="button" onclick="deleteCoupon('{{this._id}}')"
+                                        class="btn btn-icon btn-outline-secondary">
+                                        <i class="bx bx-trash-alt"></i>
+                                    </button>
+                                </div>
+                                <hr>
+                            </div>
+
+                        </div>
+                        {{/each}}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<script>
+
+    function deleteCoupon(id) {
+
+        swal({
+            title: "Are you sure?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+
+                if (willDelete) {
+                    $.ajax({
+                        url: '/admin/deleteCoupon/' + id,
+                        method: 'get',
+                        success: (response) => {
+                            if (response.status) {
+                                swal("Your Address has been deleted!", {
+                                    icon: "success",
+                                });
+                                setTimeout(function () {
+                                    window.location.reload(1);
+                                }, 1000);
+                            }
+                        }
+                    
+                    });
+                }
+
+
+
+    })
+
+}
+
+
+    $("#coupon_form").submit(function (event) {
+        event.preventDefault();
+
+        var a = $('#coupon_form').serialize()
+        console.log(a)
+        console.log('heiee')
+        $.ajax({
+            url: '/admin/addCoupon',
+            method: 'post',
+            data: $('#coupon_form').serialize(),
+            success: (response) => {
+                if (response.status) {
+                    swal("Coupon Added", {
+                        icon: "success",
+                    });
+                    setTimeout(function () {
+                        window.location.reload(1);
+                    }, 1000);
+                }
+                else {
+                    alert(err)
+                }
+
+            }
+
+        })
+    });
+
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+
+    today = yyyy + '-' + mm + '-' + dd;
+    $('#expireDate').attr('min', today);
+    $('#startingDate').attr('min', today);
+
+
+    let cvalue;
+    $('#discount').on('input', function () {
+        this.value = this.value.replace(/[^0-9]/, '').replace(/(\..*)\./, '$1');
+        var phone = $(this).val()
+        if (phone.length > 2) {
+            cvalue = false;
+            $("#cvalueerr").html("offer should be less than 99%");
+
+        } else {
+            cvalue = true;
+            $("#cvalueerr").html(" ");
+
+        }
+    })
+
+    function validate() {
+        var phone = $('#discount').val()
+        if (parseInt(phone) > 99) {
+            cvalue = false;
+            $("#cvalueerr").html("offer should be less than 99%");
+            return false;
+        } else {
+            cvalue = true;
+            $("#cvalueerr").html(" ");
+            return true;
+        }
+    }
+
+
+
+</script>
+
+
+<script type="text/javascript">
+    $("#couponcode_error_message").hide()
+    $("#description_error_message").hide()
+    $("#discount_error_message").hide()
+    var error_couponcode = false;
+    var error_description = false;
+    var error_discount = false;
+
+
+
+
+    $("#form_couponcode").focusout(function () {
+        check_couponcode();
+    });
+
+    $("#form_description").focusout(function () {
+        check_description()
+    });
+
+
+
+
+
+    function check_couponcode() {
+        var pattern = /^[a-zA-Z" "0-9]*$/;
+        var pname = $("#form_couponcode").val();
+        if (pattern.test(pname) && pname !== '') {
+            $("#couponcode_error_message").hide();
+            $("#form_couponcode")
+        } else {
+            $("#couponcode_error_message").html("Please enter the coupon code");
+            $("#couponcode_error_message").show();
+            $("#form_couponcode")
+            error_couponcode = true;
+        }
+    }
+    function check_description() {
+        var pattern = /^[a-zA-Z " "0-9]*$/;
+        var description = $("#form_description").val()
+        if (pattern.test(description) && description !== '') {
+            $("#description_error_message").hide();
+            $("#form_description")
+        } else {
+            $("#description_error_message").html("Please enter the description");
+            $("#description_error_message").show();
+            $("#form_description")
+            error_description = true;
+        }
+    }
+
+    function check_discount() {
+        var pattern = /^[0-9]+$/
+        var discount = $("#discount").val();
+        if (pattern.test(discount) && discount !== '') {
+            $("#discount_error_message").hide();
+            $("#discount")
+        } else {
+            $("#discount_error_message").html("Please enter the discount");
+            $("#discount_error_message").show();
+            $("#discount")
+            error_discount = true;
+        }
+    }
+
+
+
+
+
+
+
+    $("#coupon_form").submit(function () {
+        error_couponcode = false;
+        error_description = false;
+        error_discount = false;
+
+
+
+
+        check_couponcode()
+        check_description()
+        check_discount()
+
+
+        if (error_couponcode === false && error_description === false && error_discount === false) {
+            return true;
+        } else {
+
+            swal("Oops!", "Please fill the Details!", "error");
+            return false;
+        }
+    });
+
+
+
+
+</script>

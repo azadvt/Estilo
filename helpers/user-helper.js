@@ -75,24 +75,29 @@ module.exports = {
             resolve(userDetails)
         })
     },
-    blockUser: (userId) => {
-        return new Promise((resolve, reject) => {
-            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, { $set: { blockedUser: true } })
-        }).then((response) => {
-            resolve(response)
-        })
-    },
-    unBlockUser: (userId) => {
-        return new Promise((resolve, reject) => {
-            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, { $set: { blockedUser: false } })
-        }).then((response) => {
-            resolve(response)
+    blockUnBlockUser: async (userId) => {
+        console.log(userId);
+        return new Promise(async (resolve, reject) => {
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: ObjectId(userId) })
+
+            console.log(user);
+            if (user.blockedUser) {
+                db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, { $set: { blockedUser: false } }).then((response) => {
+                    resolve(response)
+                })
+            }
+            else {
+                db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, { $set: { blockedUser: true } }).then((response) => {
+                    resolve(response)
+                })
+
+            }
         })
     },
     addUserAddress: (userId, userAddress) => {
         console.log(userId);
         const addressId = new ObjectId()
-        userAddress.deletedAddress=false
+        userAddress.deletedAddress = false
         userAddress._id = addressId
         let address = [userAddress]
         return new Promise(async (resolve, reject) => {
@@ -102,7 +107,6 @@ module.exports = {
             console.log('hei');
             if (userDetails.address) {
                 db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, {
-
                     $push: {
                         address: userAddress
                     }
@@ -128,7 +132,7 @@ module.exports = {
     updateUserAddress: (address) => {
         let addressObj = address
         addressObj._id = ObjectId(address._id)
-        addressObj.deletedAddress=false
+        addressObj.deletedAddress = false
         return new Promise((resolve, reject) => {
             db.get().collection(collection.USER_COLLECTION)
                 .updateOne(
@@ -144,7 +148,7 @@ module.exports = {
                         $set: {
                             "address.$": addressObj
                         }
-                    }).then((response)=>{
+                    }).then((response) => {
                         resolve(response)
                     })
         })
@@ -166,16 +170,16 @@ module.exports = {
                     }
                 }, {
                     '$project': {
-                        'address': "$address", 
+                        'address': "$address",
                         '_id': 0
                     }
-                },{
+                }, {
                     '$replaceRoot': {
-                      'newRoot': '$address'
+                        'newRoot': '$address'
                     }
-                  }
+                }
             ]).toArray()
-                console.log(addressArr);
+            console.log(addressArr);
             if (addressArr) {
                 console.log(addressArr);
                 const address = addressArr.slice(-3).reverse()
@@ -191,21 +195,42 @@ module.exports = {
         return new Promise((resolve, reject) => {
             db.get().collection(collection.USER_COLLECTION).updateOne(
                 {
-                    address:{
-                        $elemMatch:{
-                            _id:ObjectId(addressId)
+                    address: {
+                        $elemMatch: {
+                            _id: ObjectId(addressId)
                         }
                     }
                 },
                 {
-                    $set:{
-                        "address.$.deletedAddress":true
+                    $set: {
+                        "address.$.deletedAddress": true
                     }
-                }).then((response)=>{
+                }).then((response) => {
                     resolve(response)
                 })
         })
-}
+    },
+    updateUserData:(userData)=>{
+        console.log(userData);
+        return new Promise((resolve, reject) => {
+            
+            db.get().collection(collection.USER_COLLECTION).updateOne({_id:ObjectId(userData.id)},
+                {
+                    $set:{
+                        "firstName":userData.firstName,
+                        "lastName":userData.lastName,
+                        "email":userData.email,
+                        "phone":userData.phone
+                    }
+                    
+                }
+            ).then((response)=>{
+                response.user
+                resolve(response)
+            })
+            
+        })
+    }
 
 
 }

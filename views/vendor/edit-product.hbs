@@ -2,11 +2,11 @@
 
     <div class="content-wrapper">
 
-        <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="container-xxl flex-grow-1 container-p-y col-md-6 my-5"  style="background-color: white;">
 
             <div class=" container row">
-                <div class="ml-5 col-md-6">
-                    <h2 class=" mt-5">Edit Products</h2>
+                <div class="ml-5 ">
+                    <h2 class=" mt-5 text-center">Edit Products</h2>
                         {{#if productData}} 
 
                     <form action="/vendor/updateProduct?id={{productData._id}}" method="post" 
@@ -58,7 +58,7 @@
 
                         </div>
                         
-                        <div>
+                        <div class="text-center">
                             <button type="submit" class="btn btn-success mt-4 ">Submit</button>
 
                         </div>

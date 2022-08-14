@@ -13,12 +13,13 @@ var instance = new Razorpay({
 
 module.exports = {
 
-    placeOrder: (orderData, userId, products, total) => {
+    placeOrder: (orderData, userId, products, total,discountData) => {
         var currentdate = new Date();
         var date = currentdate.getDate() + "/"
             + (currentdate.getMonth() + 1) + "/"
             + currentdate.getFullYear()
-
+console.log('//////////');
+console.log(discountData);
         return new Promise(async (resolve, reject) => {
             let userData = await db.get().collection(collection.USER_COLLECTION).aggregate([
                 {
@@ -34,13 +35,13 @@ module.exports = {
 
             console.log(userData[0].address);
             let deliveryDetails = userData[0].address
-
+            let netAmount =(discountData) ? discountData.amount : total
             let OrderObj = {
                 user: ObjectId(userId),
                 date: date,
                 deliveryDetails,
                 products: products,
-                totalAmount: total,
+                totalAmount: netAmount,
                 paymentMethod: orderData.paymentMethod,
             }
 
@@ -101,7 +102,7 @@ module.exports = {
                     }
                 },{
                     $sort: {
-                        date: -1
+                        date: 1
                     }
                 }
                 
@@ -162,7 +163,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
 
             var options = {
-                amount: total,
+                amount: total*100,
                 currency: "INR",
                 receipt: "" + orderId
             };
@@ -256,5 +257,79 @@ module.exports = {
             ]).toArray()
             resolve(orderedProduct[0])
         })
+    },
+    getFullOrders: () => {
+        return new Promise(async (resolve, reject) => {
+            let orders = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                  '$unwind': {
+                    'path': '$products'
+                  }
+                }, {
+                  '$lookup': {
+                    'from': 'products', 
+                    'localField': 'products.item', 
+                    'foreignField': '_id', 
+                    'as': 'product'
+                  }
+                }, {
+                  '$unwind': {
+                    'path': '$product'
+                  }
+                }, {
+                  '$addFields': {
+                    'productTotal': {
+                      '$sum': {
+                        '$multiply': [
+                          '$products.quantity', '$product.price'
+                        ]
+                      }
+                    }
+                  }
+                }, {
+                  '$lookup': {
+                    'from': 'vendor', 
+                    'localField': 'product.vendor', 
+                    'foreignField': '_id', 
+                    'as': 'vendor'
+                  }
+                }, {
+                  '$unwind': {
+                    'path': '$vendor'
+                  }
+                }
+              ]).toArray()
+            console.log(orders)
+            resolve(orders)
+        })
+    },
+    getTotalForAdmin:()=>{
+        return new Promise(async(resolve, reject) => {
+            let total = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                
+                    {
+                      '$match': {
+                        'products.status': 'Delivered'
+                      }
+                    }, {
+                      '$group': {
+                        '_id': null, 
+                        'totalAmount': {
+                          '$sum': '$totalAmount'
+                        }
+                      }
+                    }
+                  
+              ]
+
+            ).toArray()
+            if(total.length==0){
+                resolve(total)
+            }else{
+                resolve(total[0].totalAmount)
+            }
+            
+        })
     }
+    
 }

@@ -1,7 +1,7 @@
 var express = require('express');
 const { response } = require('../app');
 var router = express.Router();
-const admincontroller = require('../controllers/admin')
+const adminController = require('../controllers/admin')
 
 
 const verifyLogin=(req,res,next)=>{
@@ -15,27 +15,66 @@ const verifyLogin=(req,res,next)=>{
 }
 
 /* GET users listing. */
-router.get('/',verifyLogin, admincontroller.getDashBoard);
+router.get('/',verifyLogin, adminController.getDashBoard);
 
-router.get('/login', admincontroller.getLogin)
+router.get('/login', adminController.getLogin)
 
-router.post('/adminLogin', admincontroller.postLogin)
+router.get('/signup',adminController.getSignUp);
 
-router.get('/logOut', admincontroller.getLogout)
+router.post('/signup',adminController.postSignUp)
 
-router.get('/viewUsers',verifyLogin,admincontroller.getViewUsers)
+router.post('/adminLogin', adminController.postLogin)
 
-router.get('/viewVendors',verifyLogin,admincontroller.getViewVendors)
+router.get('/logOut', adminController.getLogout)
 
-router.get('/blockUser',verifyLogin,admincontroller.getBlockUser)
+router.get('/viewUsers',verifyLogin,adminController.getViewUsers)
 
-router.get('/unBlockUser',verifyLogin,admincontroller.getUnBlockUser)
+router.get('/viewVendors',verifyLogin,adminController.getViewVendors)
 
-router.get('/blockVendor',verifyLogin,admincontroller.getBlockVendor)
+router.get('/blockUnBlockUser/:id',verifyLogin,adminController.getblockUnBlockUser)
 
-router.get('/unBlockVendor',verifyLogin,admincontroller.getUnBlockVendor)
+router.get('/blockUnBlockVendor/:id',verifyLogin,adminController.getBlockVendor)
 
-router.get('/viewProduct',verifyLogin,admincontroller.getViewProduct)
+router.get('/unBlockVendor',verifyLogin,adminController.getUnBlockVendor)
+
+router.get('/viewProduct',verifyLogin,adminController.getViewProduct)
+
+
+router.get('/addProduct',verifyLogin,adminController.getAddProduct)
+
+router.post('/addProduct',verifyLogin,store.array('image',4),adminController.postAddProduct)
+
+router.get('/editProduct',verifyLogin,adminController.getEditProduct)
+
+router.get('/deleteProduct',verifyLogin,adminController.getDeleteProduct)
+
+router.post('/updateProduct',verifyLogin,store.array('image',4),adminController.postUpdateProduct)
+
+router.get('/viewCategory',verifyLogin,adminController.getViewCategory)
+
+router.get('/addCategory',verifyLogin,adminController.getAddCategory)
+
+router.post('/addCategory',verifyLogin,adminController.postAddCategory)
+
+router.get('/editCategory',verifyLogin,adminController.getEditCategory)
+
+router.post('/editCategory',verifyLogin,adminController.postEditCategory)
+    
+router.get('/deleteCategory',verifyLogin,adminController.getDeleteCategory)
+
+router.get('/viewOwnProduct',verifyLogin,adminController.getViewOwnProduct)
+
+router.get('/ordersForAdmin',verifyLogin,adminController.getOrdersForAdmin)
+
+router.get('/ordersForVendors',verifyLogin,adminController.getOrdersForVendors)
+
+router.post('/updateOrderStatus',verifyLogin,adminController.updateOrderStatus)
+
+router.get('/coupon',verifyLogin,adminController.getCoupon)
+
+router.post('/addCoupon',verifyLogin,adminController.postAddCoupon)
+
+router.get('/deleteCoupon/:id',verifyLogin,adminController.getDeleteCoupon)
 
 
 module.exports = router;

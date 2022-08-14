@@ -12,58 +12,9 @@
                 {{#if user}}
                 <a href="#">{{user.firstName}} {{user.lastName}}</a>
                 <a href="/loggout">Log Out</a>
-                {{else}}
 
-                <button type="button" class="btn text-white primary-btn2" data-toggle="modal"
-                    data-target="#exampleModalCenter15">
-                    log in
-                </button>
-                <button type="button" class="btn text-white primary-btn2" data-toggle="modal"
-                    data-target="#exampleModalCenter25">
-                    Sign up
-                </button>
-
-                <!-- Modal -->
-                <div class="modal fade sugun" id="exampleModalCenter15" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                ...
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn  site-btn2" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn text-white primary-btn2">Save changes</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal fade" id="exampleModalCenter25" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                ...
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn  site-btn2" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn text-white primary-btn2">Save changes</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+               
+                
                 {{/if}}
             </div>
         </div>
@@ -104,29 +55,28 @@
 
                         <!-- Modal -->
                         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true" id="loginModal">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header ">
-                                        <h2 class="modal-title " id="exampleModalLongTitle">Login</h2>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
+                                        <h2>Login</h2>
+
                                     </div>
                                     <div class="modal-body text-center">
-                                        {{#if userLogErr}}
-                                        <div class="alert alert-danger alert-dismissible" role="alert">
-                                            {{userLogErr}}
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                aria-label="Close"></button>
+                                        <div class="alert alert-danger" id="emailOrPass" role="alert">
+                                            <p>Your email and password does not match</p>
                                         </div>
-                                        {{/if}}
-                                        <form action="/userLogin" method="post" name="login" id="form"
-                                            onsubmit="return validateLogin()">
+                                        <div class="alert alert-danger" id="blockedErr" role="alert">
+                                            <p>your account is blocked</p>
+                                        </div>
+
+
+
+                                        <form action="javascript:void(0)" method="post" name="userLogin" id="userLogin">
 
                                             <div class="form-outline form-white  mb-4">
                                                 <label for="">Email</label>
-                                                <input type="email" id="email" name="email" placeholder="Email"
+                                                <input type="email" id="email2" name="email" placeholder="Email"
                                                     class="form-control form-control-lg" required />
                                                 <span id="requiredEmail" class="text-danger"> </span>
 
@@ -142,7 +92,8 @@
 
 
                                             </div>
-                                            <button type="submit" class="btn text-white primary-btn2">Login</button>
+                                            <button type="submit" onclick="submitLogin()"
+                                                class="btn text-white primary-btn2">Login</button>
 
 
                                         </form>
@@ -151,33 +102,28 @@
                                     </div>
 
                                     <div class="text-center">
-                                        <p class="mt-4">Don't have an account? <a href="/signup"
-                                                class="text-black-50 fw-bold">Sign
+                                        <p class="mt-4">Don't have an account? <a data-toggle="modal"
+                                                data-target="#exampleModalCenter2" class="text-black-50 btn"
+                                                data-dismiss="modal">Sign
                                                 Up</a>
                                         </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal fade sugun" id="exampleModalCenter2" tabindex="-1" role="dialog"
+                        <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog"
                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLongTitle">Sign Up</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
                                     </div>
                                     <div class="modal-body">
-                                        {{#if userExistErr}}
-                                        <div class="alert alert-danger alert-dismissible" role="alert">
-                                            {{userExistErr}}
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                aria-label="Close"></button>
+                                        <div class="alert alert-danger" id="signUpErr" role="alert">
+                                            <p id="errMessege"></p>
                                         </div>
-                                        {{/if}}
-                                        <form action="/userSignUp" method="post" name="usersignup" id="form">
+                                        <form action="javascript:void(0)" method="post" name="userSignup"
+                                            id="userSignup">
                                             <div class="row">
                                                 <div class="col-md-6 mb-4 pb-1">
 
@@ -222,7 +168,7 @@
                                             </div>
                                             <div class="mb-4 pb-1">
                                                 <div class="form-outline">
-                                                    <input type="password" id="password" name="password"
+                                                    <input type="password" id="password2" name="password"
                                                         class="form-control form-control-lg" autocomplete="off"
                                                         placeholder="Password" required />
                                                     <span id="passworderr" class="text-danger"> </span>
@@ -239,7 +185,8 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn  site-btn2" data-dismiss="modal">Close</button>
-                                        <button class="btn text-white primary-btn2" type="submit">Submit</button>
+                                        <button class="btn text-white primary-btn2" onclick="submitSignUp()"
+                                            type="submit">Submit</button>
                                     </div>
                                     </form>
                                 </div>
@@ -293,5 +240,136 @@
             </div>
             <div class="canvas__open"><i class="fa fa-bars"></i></div>
         </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter3" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="container py-3 d-flex justify-content-center align-items-center">
+                            <div class="card otpcard p-2 text-center">
+                                 <p class="text-danger" id="invalidOtp">Invalid OTP</p>
+                                <form action="javascript:void(0)" id="otpForm" method="post">
+                                    <h6>Please enter the one time password <br> to verify your account</h6>
+                                    <div> <span>A code has been sent to</span> <small id="userPhone"></small> </div>
+                                    <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
+
+                                        <input class="m-2 text-center form-control rounded" type="text" id="first"
+                                            maxlength="1" form="otpForm" name="otp" /> <input
+                                            class="m-2 text-center form-control rounded" type="text" id="second"
+                                            maxlength="1" form="otpForm" name="otp" /> <input
+                                            class="m-2 text-center form-control rounded" type="text" id="third"
+                                            maxlength="1" form="otpForm" name="otp" /> <input
+                                            class="m-2 text-center form-control rounded" type="text" id="fourth"
+                                            maxlength="1" form="otpForm" name="otp" /> <input
+                                            class="m-2 text-center form-control rounded" type="text" id="fifth"
+                                            maxlength="1" name="otp"/> <input class="m-2 text-center form-control rounded"
+                                            type="text" id="sixth" maxlength="1" form="otpForm" name="otp" />
+
+                                    </div>
+                                    <div class="mt-4"> <button onclick="submitOtp()"
+                                            class="btn btn-dark px-4 validate">Validate</button> </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </header>
     <!-- Header Section End -->
+
+
+    <script>
+
+        
+        document.addEventListener("DOMContentLoaded", function (event) {
+
+            function OTPInput() {
+                const inputs = document.querySelectorAll('#otp > *[id]');
+                for (let i = 0; i < inputs.length; i++) { inputs[i].addEventListener('keydown', function (event) { if (event.key === "Backspace") { inputs[i].value = ''; if (i !== 0) inputs[i - 1].focus(); } else { if (i === inputs.length - 1 && inputs[i].value !== '') { return true; } else if (event.keyCode > 47 && event.keyCode < 58) { inputs[i].value = event.key; if (i !== inputs.length - 1) inputs[i + 1].focus(); event.preventDefault(); } else if (event.keyCode > 64 && event.keyCode < 91) { inputs[i].value = String.fromCharCode(event.keyCode); if (i !== inputs.length - 1) inputs[i + 1].focus(); event.preventDefault(); } } }); }
+            } OTPInput();
+        });
+
+ document.getElementById("emailOrPass").hidden = true
+        document.getElementById("blockedErr").hidden = true
+        document.getElementById("signUpErr").hidden = true
+        document.getElementById("invalidOtp").hidden = true
+       
+        
+
+        function submitLogin() {
+            $('#userLogin').submit();
+            $.ajax({
+                url: '/userLogin',
+                method: 'post',
+                data: $('#userLogin').serialize(),
+                success: function (response) {
+                    console.log(response)
+                    if (response.status) {
+                        window.location.reload(1);
+
+
+                    }
+                    if (response.userBlockErr) {
+                        document.getElementById("blockedErr").hidden = false
+                    }
+                    if (response.userLogErr) {
+                        document.getElementById("emailOrPass").hidden = false
+                    }
+                }
+            })
+        }
+        function submitSignUp() {
+            $('#userSignup').submit();
+
+            $.ajax({
+                url: '/userSignup',
+                method: 'post',
+                data: $('#userSignup').serialize(),
+                success: function (response) {
+                    if (response.status) {
+                        document.getElementById('userPhone').innerHTML = response.phone
+                        $('#exampleModalCenter3').modal('toggle');
+                        $('#exampleModalCenter2').modal('hide');
+
+                    }
+
+                    else if (response.existErr) {
+                        console.log(response)
+                        document.getElementById("signUpErr").hidden = false
+                        document.getElementById('errMessege').innerHTML = response.existErr
+
+
+                        setTimeout(function () {
+                            $('#signUpErr').fadeOut('fast');
+                        }, 3000);
+                    }
+
+                }
+            })
+        }
+
+        function submitOtp() {
+            $('#otpForm').submit();
+            var a = $('#otpForm').serialize()
+            console.log(a)
+            $.ajax({
+                url: '/otp',
+                method: 'post',
+                data: $('#otpForm').serialize(),
+                success: (response) => {
+                    if (response.status) {
+                         window.location.reload(1);
+                    }else{
+                        document.getElementById("invalidOtp").hidden = false
+                    }
+                }
+            })
+        }
+
+
+
+    </script>

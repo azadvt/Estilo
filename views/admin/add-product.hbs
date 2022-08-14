@@ -1,0 +1,134 @@
+<div class="content-wrapper">
+
+        <div class="container-xxl flex-grow-1 container-p-y col-md-6 my-5"  style="background-color: white;">
+
+                <div class=" container row ">
+                    <div class="ml-5 ">
+                        <h2 class="text-center mt-5">Add Products</h2>
+
+                        <form action="/admin/addProduct" method="post" name="addProduct" id="form"
+                            enctype="multipart/form-data">
+                            <label for="">Name</label> <br>
+                            <span id="requiredProductName" class="text-danger letter"> </span>
+
+                            <div class="mb-3"><input type="text" name="name" class="form-control"
+                                    placeholder="Enter your Product Name">
+
+                            </div>
+                            <div class="mb-3"><label for="">Brand</label><br>
+                                <span id="requiredBrand" class="text-danger letter"> </span>
+
+                                <input type="text" name="brand" id="brand" class="form-control"
+                                    placeholder="Enter your Product Brand">
+                            </div>
+
+
+                            <div class="mb-4"><label for="">Price</label><br>
+                                <span id="requiredPrice" class="text-danger"> </span>
+
+                                <input type="Number" name="price" id="price" class="form-control"
+                                    placeholder="Enter your Product Price">
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="inputGroupSelect01">Category</label>
+                                <select name="categoryName" class="form-select" id="inputGroupSelect01">
+                                    {{#each categoryData}}
+                                    <option value={{this.categoryName}}>{{this.categoryName}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label>Product Description</label>
+                                <textarea class="form-control" name="productDescription" id="productDescription" placeholder="Enter your Product Description" rows="2"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <img src="" style="width: 100px; height: 100px;" id="image-1" alt="image1">
+                                <img src="" style="width: 100px; height: 100px;" id="image-2" alt="image2">
+                                <img src="" style="width: 100px; height: 100px;" id="image-3" alt="image3">
+                                <img src="" style="width: 100px; height: 100px;" id="image-4" alt="image4">
+                            </div>
+
+
+
+                            <div class="mb-3"><label for="">Images </label><br>
+                                <span id="requiredImage" class="text-danger"> </span>
+                                <input type="file" id="image" name="image" class="form-control" accept="image/*"
+                                    onchange="viewImage(event)" multiple>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-success mt-4 ">Submit</button>
+
+                            </div>
+
+                            
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+  
+<script>
+    function validateEditProduct() {
+
+        var name = document.addProduct.name.value
+        var brand = document.addProduct.brand.value
+        var price = document.addProduct.price.value
+        var category = document.addProduct.category.value
+        var image = document.addProduct.image.value
+        if (name == "" && brand == "" && price == "" && category == "" && image == "") {
+
+            document.getElementById('requiredProductName').innerHTML = "Enter your Product Name";
+            document.getElementById('requiredBrand').innerHTML = " Enter your Brand Name";
+            document.getElementById('requiredPrice').innerHTML = " Enter your Price";
+            document.getElementById('requiredCategory').innerHTML = " Enter your Category";
+            document.getElementById('requiredImage').innerHTML = "Please Upload 3 Images";
+
+            return false
+        }
+
+        if (name == "") {
+            document.getElementById('requiredProductName').innerHTML = "Enter your Product Name";
+            return false
+        }
+        if (brand == "") {
+            document.getElementById('requiredBrand').innerHTML = " Enter your Brand Name";
+            return false
+
+        }
+        if (price == "") {
+            document.getElementById('requiredPrice').innerHTML = " Enter your Price";
+            return false
+
+        }
+        if (category == "") {
+            document.getElementById('requiredCategory').innerHTML = " Enter your Category";
+            return false
+        }
+        if (image == "") {
+            document.getElementById('requiredImage').innerHTML = "Please Upload 3 Images";
+        }
+
+        else true
+
+    }
+
+    function viewImage(event) {
+        document.getElementById('image-1').src = URL.createObjectURL(event.target.files[0])
+        document.getElementById('image-2').src = URL.createObjectURL(event.target.files[1])
+        document.getElementById('image-3').src = URL.createObjectURL(event.target.files[2])
+        document.getElementById('image-4').src = URL.createObjectURL(event.target.files[3])
+
+    }
+
+    
+        
+</script>

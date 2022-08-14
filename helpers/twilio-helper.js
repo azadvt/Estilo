@@ -18,13 +18,13 @@ module.exports = {
             })
         })
     },
-    otpVerify: (otpData, userphone) => {
-        console.log(otpData, userphone);
+    otpVerify: (otp, userphone) => {
+        
         let resp = {}
         return new Promise(async (resolve, reject) => {
             client.verify.services(serviceSid).verificationChecks.create({
                 to: `+91${userphone}`,
-                code: otpData.otp
+                code: otp
             }).then((resp) => {
                 console.log("verification success");
                 console.log(resp);

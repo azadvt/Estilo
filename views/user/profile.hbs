@@ -3,8 +3,8 @@
         <div class="col-md-3 border-right">
             <div class="d-flex flex-column align-items-center text-center pt-5 "><img class="rounded-circle "
                     width="100px" src="/user/img/icon/user.png"><span class="font-weight-bold">{{user.firstName}}
-                    {{user.lastName}}</span><span class="text-black-50">{{user.email}}</span><span class="mt-3">Edit
-                    profile </span></div>
+                    {{user.lastName}}</span><span class="text-black-50">{{user.email}}</span>
+                    <a class="mt-3 btn" onclick="showEdit()" id="hel">Edit profile </a></div>
             <div class="list mt-5">
                 <ul class="list-group">
                     <a class="noHover"  href="#"><li class="list-group-item">Address</li></a>
@@ -17,6 +17,54 @@
         </div>
 
         <div class="col-lg-8 col-md-6">
+            <div class="py-5 " id="profile">
+                <form class="mb-0 is-readonly" id="editProfile" method="post"  action="javascript:void(0)">
+
+                    <input type="hidden" name="id" id="form9Example1" class="form-control input-custom"
+                        value="{{user._id}}" disabled/>
+                    <div class="row mb-4">
+                        <div class=" col-md-6">
+                            <div class="form-outline">
+                                <input placeholder="Name" type="text" name="firstName" id="form_name"
+                                    class="form-control input-custom" value="{{user.firstName}}" disabled/>
+							 <span style="color: red;" class="error_form" id="name_error_message"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-outline">
+                                <input placeholder="LastName" type="text" name="lastName" id="form_mob"
+                                    class="form-control input-custom" value="{{user.lastName}}" disabled/>
+                                    <span  style="color: red;" class="error_form" id="mob_error_message"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="form-outline">
+                                <input placeholder="Email" id="form_email" type="email" name="email"
+                                    class="form-control input-custom" value="{{user.email}}" disabled/>
+                                    <span  style="color: red;" class="error_form" id="email_error_message"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-outline">
+                                <input placeholder="Phone Number" type="number" name="phone" id="form_mob"
+                                    class="form-control input-custom" value="{{user.phone}}" disabled/>
+                                    <span  style="color: red;" class="error_form" id="mob_error_message"></span>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+
+
+                    <button type="button" class="btn btn-default btn-edit js-edit">Edit</button>
+                 <button type="submit" onclick="submitUserForm()" class="btn btn-dark btn-save js-save">Save</button>
+
+                </form>
+            </div>
             <div class="accordion" id="accordionExample">
                 {{#if address}}
                 <div class="card ">
@@ -228,3 +276,57 @@
     </div>
 </div>
 
+<script>
+
+    document.getElementById("profile").hidden=true
+  
+function showEdit(){
+        document.getElementById("profile").hidden=false
+        
+
+}
+
+$(document).ready(function(){
+	$('.js-edit').on('click', function(){
+  	var $form = $(this).closest('form');
+  	$form.toggleClass('is-readonly is-editing');
+    var isReadonly  = $form.hasClass('is-readonly');
+    $form.find('input,textarea').prop('disabled', isReadonly);
+  });
+});
+
+function submitUserForm() {
+    $('#editProfile').submit();
+    console.log('jus')
+    var a=$('#editProfile').serialize()
+   if(Object.keys(a).length === 0){
+    swal({
+                title: "Change Any Field!",
+                icon: "warning",
+                button: "Ok",
+            });
+   } else{
+        $.ajax({
+        url: '/editProfile',
+        method: 'post',
+        data: $('#editProfile').serialize(),
+        success: function (response) {
+            if(response.status){
+            swal({
+                title: "Updated Successfully!",
+                icon: "success",
+                button: "Ok",
+            });
+            setTimeout(function () {
+                window.location.reload(1);
+            }, 1000);
+            }
+            
+        }
+    });
+   }
+    
+    
+
+}
+</script>

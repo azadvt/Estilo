@@ -20,8 +20,6 @@ app.set('view engine', 'hbs');
 
 const isEqualHelperHandlerbar = function(a, b, opts) {
   if (a == b) {
-    console.log(a);
-    console.log("=======handlebars");
       return opts.fn(this) 
   } else { 
       return opts.inverse(this) 
@@ -35,7 +33,7 @@ app.engine('hbs', hbs.engine({
     return parseInt(value)+1;
     
   }
-},extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/layout', userDir:__dirname + '/views/user',adminDir:__dirname + '/views/admin', partialsDir:__dirname + '/views/partials/'}));
+},extname: 'hbs', defaultLayout: 'user-layout', layoutsDir: __dirname + '/views/layout', userDir:__dirname + '/views/user',adminDir:__dirname + '/views/admin', partialsDir:__dirname + '/views/partials/'}));
 
 
 app.use(nocache());

@@ -13,10 +13,8 @@ module.exports = {
         }
         return new Promise(async (resolve, reject) => {
             let userCart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: ObjectId(userId) })
-            console.log(userCart);
             if (userCart) {
                 let productExist = userCart.products.findIndex(product => product.item == productId)
-                console.log("productExist=", productExist);
                 if (productExist != -1) {
                     db.get().collection(collection.CART_COLLECTION).updateOne({ user: ObjectId(userId), 'products.item': ObjectId(productId) },
                         {
@@ -165,7 +163,7 @@ module.exports = {
         })
 
     },
-    getTotalAmount: (userId) => {
+    getTotalAmount: (userId,coupon) => {
         return new Promise(async (resolve, reject) => {
             let total = await db.get().collection(collection.CART_COLLECTION).aggregate([
                 {
@@ -202,12 +200,23 @@ module.exports = {
 
             ]).toArray()
 
+            if(coupon){
+                console.log(coupon);
+
+            }
+
+        
+            console.log(total);
             if (total.length == 0) {
                 resolve(total)
+                console.log(total);
             }
             else {
                 resolve(total[0].total)
+                console.log(total);
             }
+
+            
 
         })
     },
@@ -253,6 +262,43 @@ module.exports = {
             resolve()
         })
         
+        
+    },
+    addToCartWithQnty:(productData,userId)=>{
+        console.log(productData);
+          let productObj = {
+            item: ObjectId(productData.productId),
+            quantity: parseInt(productData.quantity)
+        }
+        let cartObj = {
+            user: ObjectId(userId),
+            products: [productObj]
+        }
+        return new Promise(async(resolve, reject) => {
+            let userCart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: ObjectId(userId) })
+            if(userCart){
+                let productExist = userCart.products.findIndex(product => product.item == productData.productId)
+                if (productExist != -1) {
+                    db.get().collection(collection.CART_COLLECTION).updateOne({ user: ObjectId(userId), cartObj })
+                    .then((response) => {
+                        resolve(response)
+                    })
+                }
+                else{
+                    db.get().collection(collection.CART_COLLECTION).insertOne(cartObj).then((response) => {
+                        resolve(response)
+                    })
+                }
+            } else{
+                db.get().collection(collection.CART_COLLECTION).insertOne(cartObj).then((response) => {
+                    resolve(response)
+                })
+            }
+                
+
+
+            
+        })
         
     }
 }

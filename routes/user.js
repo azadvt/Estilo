@@ -22,8 +22,6 @@ router.post('/userLogin', usercontroller.postLogin)
 
 router.post('/userSignUp', usercontroller.postSignUp)
 
-router.get('/otp',usercontroller.getOTP)
-
 router.post('/otp', usercontroller.postOTP)
 
 router.get('/logout', usercontroller.getLogout)
@@ -41,6 +39,8 @@ router.post('/removeProductFromCart',verifyLogin,usercontroller.postRemoveProduc
 router.get('/wishlist',verifyLogin,usercontroller.getwishlist)
 
 router.get('/addToWishlist/:id',verifyLogin,usercontroller.getAddToWishlist)
+
+router.post('/viewProductAddToCart',verifyLogin,usercontroller.postAddToCartFromViewProduct)
 
 router.post('/removeProductFromWishlist',verifyLogin,usercontroller.postRemoveProductFromWishlist)
 
@@ -66,8 +66,8 @@ router.get('/deleteAddress/:id',verifyLogin,usercontroller.deleteAddress)
 
 router.get('/orderDetails',verifyLogin,usercontroller.getOrderDetails)
 
-router.post('/updateOrderStatus',usercontroller.updateOrderStatus)
-
 router.get('/shop',verifyLogin,usercontroller.getShop)
+
+router.post('/editProfile',verifyLogin,usercontroller.updateProfile)
 
 module.exports = router;

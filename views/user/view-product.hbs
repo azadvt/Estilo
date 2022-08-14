@@ -72,45 +72,29 @@
                 </div>
                 <div class="col-lg-4 col-md-3">
                     <div class="product__details__text">
-                        <div class="mb-5">
-                        <h4>{{productData.name}}</h4>  
+                        <div class="mt-5">
+                        <h4>{{productData.name}}</h4> 
+                        <h6>{{productData.brand}}</h6> 
                         </div>
                         
                         <h3>₹ {{productData.price}} <span>700.00</span></h3>
-                        <p>{{productData.productDescription}}</p>
-                        <div class="product__details__option">
-                            <div class="product__details__option__size">
-                                <span>Size:</span>
-                                <label for="xxl">xxl
-                                    <input type="radio" id="xxl">
-                                </label>
-                                <label class="active" for="xl">xl
-                                    <input type="radio" id="xl">
-                                </label>
-                                <label for="l">l
-                                    <input type="radio" id="l">
-                                </label>
-                                <label for="sm">s
-                                    <input type="radio" id="sm">
-                                </label>
-                            </div>
-                        </div>
+                        <p style=" word-wrap: break-word; ">{{productData.productDescription}}</p>
+                        
                         <div class="product__details__cart__option mt-5 mb-5">
                             <div class="quantity">
                                 <div class="pro-qty">
-                                    <input type="text" value="1">
+                                    <span class="fa fa-angle-up dec qtybtn"></span>
+                                    <input type="text" id="quantity" value="1">
+                                    <span class="fa fa-angle-down inc qtybtn"></span>
                                 </div>
                             </div>
-                             <a href="javascript:void(0)" onclick="addToCart('{{productData._id}}')" class="primary-btn"> Add To Cart</a>
+                             <a href="javascript:void(0)" onclick="viewProductAddToCart('{{productData._id}}')" class="primary-btn"> Add To Cart</a>
 
                         </div>
                         <div class="product__details__btns__option">
-                            <a href="#"><i class="fa fa-heart"></i> add to wishlist</a>
+                            <a href="javascript:void(0)r" onclick="addToWishlist('{{productData._id}}')"><i class="fa fa-heart"></i> add to wishlist</a>
                         </div>
-                        <div class="product__details__last__option">
-                            <h5><span>Guaranteed Safe Checkout</span></h5>
-                            <img src="/user/img/shop-details/details-payment.png" alt="">
-                        </div>
+                       
                     </div>
                 </div>
 
@@ -121,3 +105,39 @@
     
 </section>
 <!-- Shop Details Section End -->
+
+<script>
+      var proQty = $('.pro-qty');
+
+    proQty.on('click', '.qtybtn', function () {
+        var $button = $(this);
+        var oldValue = $button.parent().find('input').val();
+        console.log(oldValue)
+        if ($button.hasClass('inc')) {
+            var newVal = parseFloat(oldValue) + 1;
+        } else {
+            // Don't allow decrementing below zero
+            if (oldValue > 0) {
+                var newVal = parseFloat(oldValue) - 1;
+            } else {
+                newVal = 0;
+            }
+        }
+    });
+
+  function  viewProductAddToCart(id){
+     let quantity = $('#quantity').val()
+    console.log(quantity)
+    $.ajax({
+        url:'/viewProductAddToCart',
+        data:{
+            productId:id,
+            quantity:quantity
+        },
+        method:'post',
+        success:(response)=>{
+            console.log(response)
+        }
+    })
+    }
+</script>

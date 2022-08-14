@@ -20,10 +20,11 @@
 <!-- Checkout Section Begin -->
 <section class="checkout spad">
     <div class="container">
+
         <h6 class="checkout__title">Billing Details</h6>
+
         <div class="checkout__form">
             <div class="row">
-
                 <div class="col-lg-8 col-md-6">
                     <div class="accordion coupon__code" id="accordionExample">
                         {{#if address}}
@@ -55,9 +56,9 @@
                                                 {{this.country}}, {{this.postcode}}
                                             </p>
                                             <button type="button" class="btn-sm btn-secondary " data-toggle="modal"
-                                    data-target="#exampleModalLong{{this._id}}">Edit</button>
-                                <button type="button" class="btn-sm btn-dark "
-                                    onclick="deleteAddress('{{this._id}}')">Delete</button>
+                                                data-target="#exampleModalLong{{this._id}}">Edit</button>
+                                            <button type="button" class="btn-sm btn-dark "
+                                                onclick="deleteAddress('{{this._id}}')">Delete</button>
 
                                         </label>
 
@@ -65,97 +66,105 @@
 
                                 </div>
                                 <div class="modal fade" id="exampleModalLong{{this._id}}" tabindex="-1" role="dialog"
-                        aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Edit Address</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="javascript:void(0)" method="post" id="editAddressForm{{this._id}}">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="checkout__input">
-                                                    <p>First Name<span>*</span></p>
-                                                    <input type="text" form="editAddressForm{{this._id}}" name="_id"
-                                                        value="{{this._id}}" hidden>
-                                                    <input type="text" form="editAddressForm{{this._id}}"
-                                                        name="firstName" id="firstName" value="{{this.firstName}}"
-                                                        required>
-                                                </div>
+                                    aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Edit Address</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
                                             </div>
-                                            <div class="col-lg-6">
-                                                <div class="checkout__input">
-                                                    <p>Last Name<span>*</span></p>
-                                                    <input type="text" form="editAddressForm{{this._id}}"
-                                                        name="lastName" id="lastName" value="{{this.lastName}}"
-                                                        required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="checkout__input">
-                                                    <p>Phone<span>*</span></p>
-                                                    <input type="text" form="editAddressForm{{this._id}}" name="phone"
-                                                        id="phone" value="{{this.phone}}" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="checkout__input">
-                                                    <p>Email<span>*</span></p>
-                                                    <input type="text" form="editAddressForm{{this._id}}" name="email"
-                                                        id="email" value="{{this.email}}" required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="checkout__input">
-                                            <p>Country<span>*</span></p>
-                                            <input type="text" form="editAddressForm{{this._id}}" name="country"
-                                                id="country" value="{{this.country}}" required>
-                                        </div>
-                                        <div class="checkout__input">
-                                            <p>Address<span>*</span></p>
-                                            <input type="text" form="editAddressForm{{this._id}}" name="addressLineOne"
-                                                id="addressLineOne" placeholder="Street Address"
-                                                class="checkout__input__add" value="{{this.addressLineOne}}" required>
-                                            <input type="text" form="editAddressForm{{this._id}}" name="addressLineTwo"
-                                                id="addressLineTwo" placeholder="Apartment, suite, unite ect (optinal)"
-                                                value="{{this.addressLineTwo}}" required>
-                                        </div>
-                                        <div class="checkout__input">
-                                            <p>Town/City<span>*</span></p>
-                                            <input type="text" form="editAddressForm{{this._id}}" name="town" id="town"
-                                                value="{{this.town}}" required>
-                                        </div>
-                                        <div class="checkout__input">
-                                            <p>State<span>*</span></p>
-                                            <input type="text" form="editAddressForm{{this._id}}" name="state"
-                                                id="state" value="{{this.state}}" required>
-                                        </div>
-                                        <div class="checkout__input">
-                                            <p>Postcode / ZIP<span>*</span></p>
-                                            <input type="text" form="editAddressForm{{this._id}}" name="postcode"
-                                                id="postcode" value="{{this.postcode}}" required>
-                                        </div>
+                                            <div class="modal-body">
+                                                <form action="javascript:void(0)" method="post"
+                                                    id="editAddressForm{{this._id}}">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="checkout__input">
+                                                                <p>First Name<span>*</span></p>
+                                                                <input type="text" form="editAddressForm{{this._id}}"
+                                                                    name="_id" value="{{this._id}}" hidden>
+                                                                <input type="text" form="editAddressForm{{this._id}}"
+                                                                    name="firstName" id="firstName"
+                                                                    value="{{this.firstName}}" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="checkout__input">
+                                                                <p>Last Name<span>*</span></p>
+                                                                <input type="text" form="editAddressForm{{this._id}}"
+                                                                    name="lastName" id="lastName"
+                                                                    value="{{this.lastName}}" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="checkout__input">
+                                                                <p>Phone<span>*</span></p>
+                                                                <input type="text" form="editAddressForm{{this._id}}"
+                                                                    name="phone" id="phone" value="{{this.phone}}"
+                                                                    required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="checkout__input">
+                                                                <p>Email<span>*</span></p>
+                                                                <input type="text" form="editAddressForm{{this._id}}"
+                                                                    name="email" id="email" value="{{this.email}}"
+                                                                    required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="checkout__input">
+                                                        <p>Country<span>*</span></p>
+                                                        <input type="text" form="editAddressForm{{this._id}}"
+                                                            name="country" id="country" value="{{this.country}}"
+                                                            required>
+                                                    </div>
+                                                    <div class="checkout__input">
+                                                        <p>Address<span>*</span></p>
+                                                        <input type="text" form="editAddressForm{{this._id}}"
+                                                            name="addressLineOne" id="addressLineOne"
+                                                            placeholder="Street Address" class="checkout__input__add"
+                                                            value="{{this.addressLineOne}}" required>
+                                                        <input type="text" form="editAddressForm{{this._id}}"
+                                                            name="addressLineTwo" id="addressLineTwo"
+                                                            placeholder="Apartment, suite, unite ect (optinal)"
+                                                            value="{{this.addressLineTwo}}" required>
+                                                    </div>
+                                                    <div class="checkout__input">
+                                                        <p>Town/City<span>*</span></p>
+                                                        <input type="text" form="editAddressForm{{this._id}}"
+                                                            name="town" id="town" value="{{this.town}}" required>
+                                                    </div>
+                                                    <div class="checkout__input">
+                                                        <p>State<span>*</span></p>
+                                                        <input type="text" form="editAddressForm{{this._id}}"
+                                                            name="state" id="state" value="{{this.state}}" required>
+                                                    </div>
+                                                    <div class="checkout__input">
+                                                        <p>Postcode / ZIP<span>*</span></p>
+                                                        <input type="text" form="editAddressForm{{this._id}}"
+                                                            name="postcode" id="postcode" value="{{this.postcode}}"
+                                                            required>
+                                                    </div>
 
 
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn-sm btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="submit" form="editAddressForm"
+                                                    onclick="editAddressForm('{{this._id}}')" id="submit_b"
+                                                    class="btn-sm btn-dark ">Save
+                                                    changes</button>
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn-sm btn-secondary"
-                                        data-dismiss="modal">Close</button>
-                                    <button type="submit" form="editAddressForm"
-                                        onclick="editAddressForm('{{this._id}}')" id="submit_b"
-                                        class="btn-sm btn-dark ">Save
-                                        changes</button>
-                                </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
                             </div>
                             {{/each}}
 
@@ -174,66 +183,71 @@
                             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
                                 data-parent="#accordionExample">
                                 <div class="card-body">
-                                   <form action="javascript:void(0)" method="post" id="addressForm">
-                                <div class="row">
-                                    <div class="col-lg-6">
+                                    <form action="javascript:void(0)" method="post" id="addressForm">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="checkout__input">
+                                                    <p>Fist Name<span>*</span></p>
+                                                    <input type="text" form="addressForm" name="firstName"
+                                                        id="firstName" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="checkout__input">
+                                                    <p>Last Name<span>*</span></p>
+                                                    <input type="text" form="addressForm" name="lastName" id="lastName"
+                                                        required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="checkout__input">
+                                                    <p>Phone<span>*</span></p>
+                                                    <input type="text" form="addressForm" name="phone" id="phone"
+                                                        required>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="checkout__input">
+                                                    <p>Email<span>*</span></p>
+                                                    <input type="text" form="addressForm" name="email" id="email"
+                                                        required>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="checkout__input">
-                                            <p>Fist Name<span>*</span></p>
-                                            <input type="text" form="addressForm" name="firstName" id="firstName"
+                                            <p>Country<span>*</span></p>
+                                            <input type="text" form="addressForm" name="country" id="country" required>
+                                        </div>
+                                        <div class="checkout__input">
+                                            <p>Address<span>*</span></p>
+                                            <input type="text" form="addressForm" name="addressLineOne"
+                                                id="addressLineOne" placeholder="Street Address"
+                                                class="checkout__input__add" required>
+                                            <input type="text" form="addressForm" name="addressLineTwo"
+                                                id="addressLineTwo" placeholder="Apartment, suite, unite ect (optinal)"
                                                 required>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-6">
                                         <div class="checkout__input">
-                                            <p>Last Name<span>*</span></p>
-                                            <input type="text" form="addressForm" name="lastName" id="lastName"
+                                            <p>Town/City<span>*</span></p>
+                                            <input type="text" form="addressForm" name="town" id="town" required>
+                                        </div>
+                                        <div class="checkout__input">
+                                            <p>State<span>*</span></p>
+                                            <input type="text" form="addressForm" name="state" id="state" required>
+                                        </div>
+                                        <div class="checkout__input">
+                                            <p>Postcode / ZIP<span>*</span></p>
+                                            <input type="text" form="addressForm" name="postcode" id="postcode"
                                                 required>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="checkout__input">
-                                            <p>Phone<span>*</span></p>
-                                            <input type="text" form="addressForm" name="phone" id="phone" required>
+                                        <div class="text-center">
+                                            <button type="submit" form="addressForm" onclick="submitAddressForm()"
+                                                id="submit_b" class="site-btn ">Sumbit</button>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="checkout__input">
-                                            <p>Email<span>*</span></p>
-                                            <input type="text" form="addressForm" name="email" id="email" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="checkout__input">
-                                    <p>Country<span>*</span></p>
-                                    <input type="text" form="addressForm" name="country" id="country" required>
-                                </div>
-                                <div class="checkout__input">
-                                    <p>Address<span>*</span></p>
-                                    <input type="text" form="addressForm" name="addressLineOne" id="addressLineOne"
-                                        placeholder="Street Address" class="checkout__input__add" required>
-                                    <input type="text" form="addressForm" name="addressLineTwo" id="addressLineTwo"
-                                        placeholder="Apartment, suite, unite ect (optinal)" required>
-                                </div>
-                                <div class="checkout__input">
-                                    <p>Town/City<span>*</span></p>
-                                    <input type="text" form="addressForm" name="town" id="town" required>
-                                </div>
-                                <div class="checkout__input">
-                                    <p>State<span>*</span></p>
-                                    <input type="text" form="addressForm" name="state" id="state" required>
-                                </div>
-                                <div class="checkout__input">
-                                    <p>Postcode / ZIP<span>*</span></p>
-                                    <input type="text" form="addressForm" name="postcode" id="postcode" required>
-                                </div>
-                                <div class="text-center">
-                                    <button type="submit" form="addressForm" onclick="submitAddressForm()" id="submit_b"
-                                        class="site-btn ">Sumbit</button>
-                                </div>
 
-                            </form>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -243,7 +257,17 @@
 
 
 
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-4 col-md-6 pb-4">
+                    <div class="cart__discount">
+                        <h6>Discount codes</h6>
+                        <form action="/" id="formCouponCode">
+                            <input type="text" name="couponCode" id="couponId" placeholder="Coupon code">
+                            <button type="submit">Apply</button>
+                        </form>
+                        <div id="couponCheck" class="alert alert-light" role="alert">
+                    </div>
+
+                    </div>
                     <div class="checkout__order">
                         <h4 class="order__title">Your order</h4>
                         <div class="checkout__order__products">Product <span>Total</span></div>
@@ -251,32 +275,37 @@
                         <ul class="checkout__total__products">
 
                             <li>{{this.product.name}}<br>({{this.quantity}} items)<span>
-                             ₹{{this.product.price}}</span></li>
+                                    ₹{{this.product.price}}</span></li>
 
                         </ul>
                         {{/each}}
                         <ul class="checkout__total__all">
-                            <li>Subtotal <span>₹ {{total}}</span></li>
-                            <li>Total <span>₹ {{total}}</span></li>
+                            <input type="text" id="totalInput" value="{{total}}" hidden>
+                            <li>Subtotal <span id="sub-total">₹{{total}}</span></li>
+                            <li id="discountField">Discount <span id="discount">₹0</span></li>
+                            <li id="deliveryCharge">Delivery Charges <span id="delivery">FREE</span></li>
+                            <li>Total Payable<span id="total">₹{{total}}</span></li>
                         </ul>
-                            <form action="javascript:void(0)" id="checkoutForm"> 
-                        <div class="form-check checkout__input__checkbox">
-                            <input class="form-check-input" form="checkoutForm" type="radio" name="paymentMethod"
-                                value="cashOnDelivery">
-                            <label class="form-check-label" for="cashOnDelivery">
-                                Cash on Delivery
-                            </label>
-                        </div>
-                        <div class="form-check checkout__input__checkbox">
-                            <input class="form-check-input" form="checkoutForm" type="radio" name="paymentMethod"
-                                value="onlinePayment" checked>
-                            <label class="form-check-label" for="onlinePayment">
-                                Online Payment
-                            </label>
-                        </div>
-                        <button type="submit" form="checkoutForm" id="submit_a" onclick="checkoutForm()" class="site-btn">PLACE
-                            ORDER</button>
-                         </form>
+                        <form action="javascript:void(0)" id="checkoutForm">
+                            <input type="text" form="checkoutForm" name="coupon" id="couponValue" hidden> </input>
+                            <div class="form-check checkout__input__checkbox">
+                                <input class="form-check-input" form="checkoutForm" type="radio" name="paymentMethod"
+                                    value="cashOnDelivery">
+                                <label class="form-check-label" for="cashOnDelivery">
+                                    Cash on Delivery
+                                </label>
+                            </div>
+                            <div class="form-check checkout__input__checkbox">
+                                <input class="form-check-input" form="checkoutForm" type="radio" name="paymentMethod"
+                                    value="onlinePayment" checked>
+                                <label class="form-check-label" for="onlinePayment">
+                                    Online Payment
+                                </label>
+                            </div>
+                            <button type="submit" form="checkoutForm" id="submit_a" onclick="checkoutForm()"
+                                class="site-btn">PLACE
+                                ORDER</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -336,93 +365,94 @@
 
     })
 
-    
 
 
-     function checkoutForm(){
-     var a=   $('#checkoutForm').serialize()
-     console.log(a)
-        console.log('heiee')
-         $.ajax({
-             url: '/checkOut',
-             method: 'post',
-             data: $('#checkoutForm').serialize(),
-             success: (response) => {
-        
-                 console.log(response)
-                 if (response.codSuccess) {
-                     location.href = '/orderSuccess'
-                 }
-                 else {
-                     razorPayment(response)
-                 }
-             }
-         })
-     }
- 
-     function razorPayment(order) {
-         var options = {
-             "key": "rzp_test_Tb6ZhkuDrH8ukr",
-             "amount": order.prize * 100,
-             "currency": "INR",
-             "name": "estilo",
-             "description": "Test Transaction",
-             "image": "https://example.com/your_logo",
-             "order_id": order.id,
-             "handler": function (response) {
-                 /*alert(response.razorpay_payment_id);
-                 alert(response.razorpay_order_id);
-                 alert(response.razorpay_signature)*/
- 
-                 console.log('verify befor')
-                 verifyPayment(response, order)
-                 console.log('verify after')
- 
-             },
-             "prefill": {
-                 "name": "Gaurav Kumar",
-                 "email": "gaurav.kumar@example.com",
-                 "contact": "9999999999"
-             },
-             "notes": {
-                 "address": "Razorpay Corporate Office"
-             },
-             "theme": {
-                 "color": "#111111"
-             }
-         };
-         var rzp1 = new Razorpay(options);
-         rzp1.on('payment.failed', function (response) {
-             alert(response.error.code);
-             alert(response.error.description);
-             alert(response.error.source);
-             alert(response.error.step);
-             alert(response.error.reason);
-             alert(response.error.metadata.order_id);
-             alert(response.error.metadata.payment_id);
-         });
- 
-         rzp1.open();
- 
-     }
- 
-     function verifyPayment(payment, order) {
-         console.log('verify stateed')
-         $.ajax({
-             url: '/verifyPayment',
-             data: {
-                 payment,
-                 order
-             },
-             method: 'post',
-             success: (response) => {
-                 if (response.status) {
-                     location.href = '/orderSuccess'
-                 } else {
-                     alert('payment failed')
-                 }
-             }
-         })
-     }
+
+    function checkoutForm() {
+        let coupon = $('#couponId').val()
+        document.getElementById('couponValue').value = coupon
+       let checkOut= $('#checkoutForm').serialize()
+        console.log(checkOut)
+        $.ajax({
+            url: '/checkOut',
+            method: 'post',
+            data: $('#checkoutForm').serialize(),
+            success: (response) => {
+
+                console.log(response)
+                if (response.codSuccess) {
+                    location.href = '/orderSuccess'
+                }
+                else {
+                    razorPayment(response)
+                }
+            }
+        })
+    }
+
+    function razorPayment(order) {
+        var options = {
+            "key": "rzp_test_Tb6ZhkuDrH8ukr",
+            "amount": order.price,
+            "currency": "INR",
+            "name": "estilo",
+            "description": "Test Transaction",
+            "image": "https://example.com/your_logo",
+            "order_id": order.id,
+            "handler": function (response) {
+                /*alert(response.razorpay_payment_id);
+                alert(response.razorpay_order_id);
+                alert(response.razorpay_signature)*/
+
+                console.log('verify befor')
+                verifyPayment(response, order)
+                console.log('verify after')
+
+            },
+            "prefill": {
+                "name": "Gaurav Kumar",
+                "email": "gaurav.kumar@example.com",
+                "contact": "9999999999"
+            },
+            "notes": {
+                "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+                "color": "#111111"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.on('payment.failed', function (response) {
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+        });
+
+        rzp1.open();
+
+    }
+
+    function verifyPayment(payment, order) {
+        console.log('verify stateed')
+        $.ajax({
+            url: '/verifyPayment',
+            data: {
+                payment,
+                order
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.status) {
+                    location.href = '/orderSuccess'
+                } else {
+                    alert('payment failed')
+                }
+            }
+        })
+    }
 
 </script>

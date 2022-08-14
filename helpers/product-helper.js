@@ -6,7 +6,7 @@ const ObjectId = require('mongodb').ObjectId
 
 module.exports = {
     addProduct: (productData, images,vendorId) => {
-        let price = Number(productData.price) 
+        let price = Number(productData.price)  
         return new Promise((resolve, reject) => {
             db.get().collection(collection.PRODUCT_COLLECTION).insertOne({
                 vendor:ObjectId(vendorId),
@@ -21,9 +21,30 @@ module.exports = {
         })
 
     },
-    getAllProduct: () => {
+    getAllProductForAdmin: () => {
         return new Promise(async (resolve, reject) => {
-            let productData = await db.get().collection(collection.PRODUCT_COLLECTION).find({deletedProduct:false}).sort({ name: 1 }).toArray()
+            let productData = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
+                {
+                  '$lookup': {
+                    'from': 'vendor', 
+                    'localField': 'vendor',
+                    'foreignField': '_id', 
+                    'as': 'vendor'
+                  }
+                }, {
+                  '$unwind': {
+                    'path': '$vendor'
+                  }
+                }, {
+                  '$match': {
+                    'deletedProduct': false
+                  }
+                }, {
+                  '$sort': {
+                    'name': 1
+                  }
+                }
+              ]).toArray()
             resolve(productData)
         })
     },
@@ -49,6 +70,46 @@ module.exports = {
                 images
             }
         })
+    },
+    getProductsForVendor:(vendorId)=>{
+      return new Promise(async(resolve, reject) => {
+        let productData = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
+          {
+            '$match': {
+              'vendor': new ObjectId(vendorId)
+            }
+          }, {
+            '$match': {
+              'deletedProduct': false
+            }
+          }
+        ]).toArray()
+        console.log(productData);
+        resolve(productData)
+      })
+    },
+    getAdminOwnProducts:(adminId)=>{
+      return new Promise(async(resolve, reject) => {
+        let productData = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
+          {
+            '$match': {
+              'vendor': new ObjectId(adminId)
+            }
+          }, {
+            '$match': {
+              'deletedProduct': false
+            }
+          }
+        ]).toArray()
+        console.log(productData);
+        resolve(productData)
+      })
+    },
+    getAllProducts:(req,res)=>{
+      return new Promise(async (resolve, reject) => {
+        let productData = await db.get().collection(collection.PRODUCT_COLLECTION).find({deletedProduct:false}).sort({ name: 1 }).toArray()
+        resolve(productData)
+    })
     }
 }
 

@@ -4,14 +4,15 @@ const productHelper = require('../helpers/product-helper');
 const cartHelper = require('../helpers/cart-helper');
 const { response } = require('../app');
 const wishlistHelper = require('../helpers/wishlist-helper');
-const orderHelper = require('../helpers/order-helper')
-
+const orderHelper = require('../helpers/order-helper');
+const couponHelper = require('../helpers/coupon-helper');
+let couponData =[]
 module.exports = {
 
     getHome: function (req, res, next) {
 
 
-        productHelper.getAllProduct().then(async (productData) => {
+        productHelper.getAllProducts().then(async (productData) => {
             if (req.session.userLoggedIn) {
                 let user = req.session.user
                 cartCount = await cartHelper.getCartCount(user._id)
@@ -40,16 +41,14 @@ module.exports = {
         userHelper.doLogin(req.body).then((response) => {
             console.log(response);
             if (response.blockedUser) {
-                req.session.userLogErr = "your account is blocked "
-                res.redirect('/')
+                res.json({userBlockErr:true})
             }
             else if (response.status) {
                 req.session.userLoggedIn = true
                 req.session.user = response.user
-                res.redirect('/')
+                res.json({status:true})
             } else {
-                req.session.userLogErr = "Invalid Email or Password";
-                res.redirect('/')
+                res.json({userLogErr:true})
             }
         })
 
@@ -57,56 +56,51 @@ module.exports = {
     postSignUp: (req, res) => {
         userHelper.checkUnique(req.body).then((response) => {
             console.log("response=", response);
+            delete req.body.c_password
             if (response.existEmail && response.existPhone) {
-                req.session.userExistErr = "Allready registerd Email and Phone"
-                res.redirect('/')
+                let existErr = "Allready registerd Email and Phone"
+                res.json({existErr})
             }
             else if (response.existEmail) {
-                req.session.userExistErr = "Allready registered Email"
-                res.redirect('/')
+                let existErr = "Allready registered Email"
+                res.json({existErr})
             }
             else if (response.existPhone) {
-                req.session.userExistErr = "Allready registerd Phone Number"
-                res.redirect('/')
+                let existErr = "Allready registerd Phone Number"
+                res.json({existErr})
             }
             else {
-                req.session.body = req.body
                 console.log(req.body);
+                req.session.body=req.body
                 twilioHelpers.dosms(req.session.body).then((data) => {
                     if (data) {
-                        res.redirect('/otp')
+                        res.json({status:true,phone:req.body.phone})
                     }
                 })
             }
         })
     },
-    getOTP: (req, res) => {
-        if (req.session.userLoggedIn) {
-            res.redirect('/')
-        }
-        else {
-
-            userphone = req.session.body.phone
-            res.render('user/otp', { userphone, otpErr: req.session.otpErr })
-            req.session.otpErr = false
-        }
-    },
+    
     postOTP: (req, res) => {
-        userphone = req.session.body.phone
-
-        twilioHelpers.otpVerify(req.body, userphone).then((response) => {
+      let  userphone = req.session.body.phone
+        console.log(req.body);
+        let otp=req.body.otp.join('')
+       console.log(otp);
+        twilioHelpers.otpVerify(otp, userphone).then((response) => {
+            console.log(response);
             if (response.valid) {
                 userHelper.doSignup(req.session.body).then((response) => {
                     req.session.userLoggedIn = true
                     req.session.user = req.session.body
-                    res.redirect('/');
+                    console.log(userphone);
+                    res.json({status:true})
                 })
             } else {
-                req.session.otpErr = true
-                res.redirect('/otp')
+                res.json({status:false})
             }
         })
     },
+    
     getLogout: (req, res) => {
         req.session.userLoggedIn = false
         res.redirect('/')
@@ -144,6 +138,12 @@ module.exports = {
             res.json(response)
         })
     },
+    postAddToCartFromViewProduct:(req,res)=>{
+        let userId = req.session.user._id
+        cartHelper.addToCartWithQnty(req.body,userId).then(() => {
+            res.json({ status: true })
+        })
+    },
     postRemoveProductFromCart: (req, res) => {
         console.log(req.body);
         cartHelper.removeProductFromCart(req.body).then((response) => {
@@ -173,13 +173,26 @@ module.exports = {
             res.json(response)
         })
     },
-
+    postCouponCode: async(req, res) => {
+        console.log(req.body);
+      let user = req.session.user
+      let total = await cartHelper.getTotalAmount(user._id)
+       couponHelper.applyCoupon(req.body.couponCode,total).then((response)=>{
+        console.log('hiiiiiiiiii');
+        console.log(response);
+            res.json(response)
+       }).catch((response)=>{
+        res.json(response)
+        console.log('false');
+       })
+      
+    },
     getCheckOut: async (req, res) => {
         let user = req.session.user
         let products = await cartHelper.getCartProducts(user._id)
         let total = await cartHelper.getTotalAmount(user._id)
         let address  = await userHelper.getUserAddress(user._id)
-        console.log(address);
+    
         res.render('user/checkout', { layout: 'user-layout', user, products, total,address })
 
     },
@@ -193,23 +206,31 @@ module.exports = {
         })
     },
     postPlaceOrder: async (req, res) => {
-        console.log(req.body);
+     
+        console.log(req.body.addressId);
         userId=req.session.user._id
         let products = await cartHelper.getCartProductList(userId)
         let total = await cartHelper.getTotalAmount(userId)
         console.log("ddd");
         console.log(products);
-        orderHelper.placeOrder(req.body,userId, products,total).then((orderId) => {
+        if(req.body.coupon){
+            await couponHelper.applyCoupon(req.body.coupon,total).then((response)=>{
+                discountData=response
+            }).catch(()=>discountData=null)
+        }
+        orderHelper.placeOrder(req.body,userId, products,total,discountData).then((orderId) => {
             if (req.body.paymentMethod == "cashOnDelivery") {
                 orderHelper.changeStatus(orderId).then(() => {
                     cartHelper.deleteCart(userId).then(()=>{
                     })
                     res.json({ codSuccess: true })
                 })
-
             }
             else {
-                orderHelper.generateRazorpay(orderId, total).then((response) => {
+                let netAmount =(discountData) ? discountData.amount : total
+
+                console.log(netAmount);
+                orderHelper.generateRazorpay(orderId, netAmount).then((response) => {
                     res.json(response)
                 })
             }
@@ -241,9 +262,7 @@ module.exports = {
         res.render('user/view-orders', { layout: 'user-layout', user, products })
     },
     
-    postCouponCode: (req, res) => {
-        console.log(req.body);
-    },
+    
     getProfile:async(req,res)=>{
         let user = req.session.user
         let address  = await userHelper.getUserAddress(user._id)
@@ -251,7 +270,7 @@ module.exports = {
     },
     postEditAddress:(req,res)=>{
         console.log(req.body)
-                    
+        
         userHelper.updateUserAddress(req.body).then((response)=>{
             res.json({staus:true})
         })
@@ -274,20 +293,17 @@ module.exports = {
         })
         
     },
-    updateOrderStatus:(req,res)=>{
-        let orderId=req.body.orderId
-        let productId=req.body.productId
-        let status=req.body.status
-        console.log(req.body);
-        orderHelper.changeOrderdProductStatus(orderId,productId,status).then((response)=>{
-            res.json({status:true})
-        })
-    },
     getShop:(req,res)=>{
         let user = req.session.user 
-        productHelper.getAllProduct().then( (productData) => {
+        productHelper.getAllProducts().then( (productData) => {
         res.render('user/shop',{ layout: 'user-layout', user,productData})
     })
+    },
+    updateProfile:(req,res)=>{
+        userHelper.updateUserData(req.body).then((response)=>{
+            req.session.user = response.user
+            res.json({status:true})
+        })
     }
 
 

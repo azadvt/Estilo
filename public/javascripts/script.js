@@ -22,10 +22,7 @@ function addToCart(productId) {
         }
     })
 }
-
-
 //add to cart from wishlist
-
 function addToCartWishlist(productId) {
     $.ajax({
         url: '/addToCart/' + productId,
@@ -41,7 +38,6 @@ function addToCartWishlist(productId) {
                 setTimeout(function () {
                     window.location.reload(1);
                 }, 1000);
-
             }
         },
         error: (response) => {
@@ -95,33 +91,80 @@ function changeQty(cartId, productId, userId, count) {
     let quantity = parseInt(document.getElementById(productId).innerHTML)
     let proPrice = parseInt(document.getElementById(productId + 1).innerHTML)
     let qnt = quantity + count
-    console.log(proPrice);
-    $.ajax({
-        url: '/changeProductQuantity',
-        data: {
-            count: count,
-            productId: productId,
-            cartId: cartId,
-            quantity: quantity,
-            userId: userId
-        },
-        method: 'post',
-        success: (response) => {
-            console.log(response)
-            if (response.productRemoved) {
-                alert('product removed')
-                location.reload()
-            } else {
-
-                document.getElementById(productId).innerHTML = quantity + count
-                document.getElementById('total').innerHTML = "₹" + response.total
-                document.getElementById('sub-total').innerHTML = "₹" + response.total
-                document.getElementById(productId + 2).innerHTML = proPrice * qnt
-
+    console.log(qnt);
+    if(qnt==0){
+        swal({
+            title: "Are you sure?",
+            text: "Remove Product  From Cart",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            
+            if (willDelete) {
+                $.ajax({
+                    url: '/changeProductQuantity',
+                    data: {
+                        count: count,
+                        productId: productId,
+                        cartId: cartId,
+                        quantity: quantity,
+                        userId: userId
+                    },
+                    method: 'post',
+                    success: (response) => {
+                        console.log(response)
+                        if (response.productRemoved) {
+                            swal("Remove Product From Cart", {
+                                icon: "success",
+                              });
+                              setTimeout(function () {
+                                window.location.reload(1);
+                            }, 1000);
+                        } else {
+            
+                            document.getElementById(productId).innerHTML = quantity + count
+                            document.getElementById('total').innerHTML = "₹" + response.total
+                            document.getElementById('sub-total').innerHTML = "₹" + response.total
+                            document.getElementById(productId + 2).innerHTML = proPrice * qnt
+            
+                        }
+                    }
+            
+                })
+              
+            } 
+          });
+    }else{
+        $.ajax({
+            url: '/changeProductQuantity',
+            data: {
+                count: count,
+                productId: productId,
+                cartId: cartId,
+                quantity: quantity,
+                userId: userId
+            },
+            method: 'post',
+            success: (response) => {
+                console.log(response)
+                if (response.productRemoved) {
+                    alert('product removed')
+                    location.reload()
+                } else {
+    
+                    document.getElementById(productId).innerHTML = quantity + count
+                    document.getElementById('total').innerHTML = "₹" + response.total
+                    document.getElementById('sub-total').innerHTML = "₹" + response.total
+                    document.getElementById(productId + 2).innerHTML = proPrice * qnt
+    
+                }
             }
-        }
-
-    })
+    
+        })
+    }
+    
 }
 
 
@@ -168,30 +211,43 @@ function remove(cartId, productId) {
 //remove product from wishlist
 
 function removeFromWishlist(wishlistId, productId) {
-    console.log(productId)
-    console.log(wishlistId)
-    $.ajax({
-        url: '/removeProductFromWishlist',
-        data: {
-            wishlistId: wishlistId,
-            productId: productId
-        },
-        method: 'post',
-        success: (response) => {
-
-            if (response.productRemoved) {
-
-                alert('product removed')
-                location.reload()
+    
+    swal({
+        title: "Are you sure?",
+        text: "This Product Remove from wishlist",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        $.ajax({
+            url: '/removeProductFromWishlist',
+            data: {
+                wishlistId: wishlistId,
+                productId: productId
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.productRemoved) {
+                    if (willDelete) {
+                        swal("product removed", {
+                          icon: "success",
+                        });
+                      } 
+                      setTimeout(function () {
+                        window.location.reload(1);
+                    }, 1000);
+                }
+               
+            },
+            error: (response) => {
+                alert('err')
             }
-            else {
-                alert('false')
-            }
-        },
-        error: (response) => {
-            alert('err')
-        }
-    })
+        })
+        
+      });
+
+   
 }
 
 //address///////////
@@ -215,6 +271,9 @@ function deleteAddress(id) {
                 swal("Your Address has been deleted!", {
                     icon: "success",
                 });
+                setTimeout(function () {
+                    window.location.reload(1);
+                }, 1000);
             }
         });
 
@@ -308,17 +367,34 @@ function changeProductStatus(orderId, productId, status) {
 }
 
 ////////////////////////
-
+document.getElementById("discountField").hidden = true
 $('#formCouponCode').submit((e) => {
     e.preventDefault()
+    
     $.ajax({
         url: '/couponCode',
         method: 'post',
         data: $('#formCouponCode').serialize(),
         success: (response) => {
-            alert(response)
+            console.log(response);
             if (response.status) {
-                location.href = '/orderSuccess'
+                $('#couponCheck').show()
+                document.getElementById('couponCheck').innerHTML = 'Valid Code'
+
+                setTimeout(()=>{
+                    $('#couponCheck').prop('readonly',true)
+                },1000)
+                document.getElementById('total').innerHTML = "₹" + response.amount
+                document.getElementById("discountField").hidden = false
+                document.getElementById('discount').innerHTML = "₹" + response.discount
+            }
+            else{
+                $('#couponCheck').show()
+                document.getElementById('couponCheck').innerHTML = 'Invalid Code'
+
+                setTimeout(()=>{
+                    $('#couponCheck').hide()
+                },1000)
             }
         }
     })

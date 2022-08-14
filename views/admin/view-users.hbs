@@ -28,15 +28,15 @@
 
                             <td>{{#if this.blockedUser}}
 
-                                    <a href="/admin/unBlockUser?id={{this._id}}"><button type="button"
-                                            class="btn btn-success btn-sm">Un Block</button></a>
+                                <a href="javascript:void(0)" onclick="blockAndUnblock('{{this._id}}')"><button
+                                        type="button" class="btn btn-success btn-sm">Un Block</button></a>
 
 
-                                    {{else}}
-                                    <a href="/admin/blockUser?id={{this._id}}"><button type="button"
-                                            class="btn btn-danger btn-sm">Block</button></a>
+                                {{else}}
+                                <a href="javascript:void(0)" onclick="blockAndUnblock('{{this._id}}')"><button
+                                        type="button" class="btn btn-danger btn-sm">Block</button></a>
 
-                                    {{/if}}
+                                {{/if}}
 
                             </td>
 
@@ -48,3 +48,41 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    function blockAndUnblock(id) {
+        swal({
+            title: "Are you sure?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+
+                if (willDelete) {
+                    $.ajax({
+                        url: '/admin/blockUnBlockUser/' + id,
+                        method: 'get',
+                        success: (response) => {
+                            if (response.status) {
+                                swal("Success", {
+                                    icon: "success",
+                                });
+                            }
+                        }
+
+
+                    })
+                    setTimeout(function () {
+                        window.location.reload(1);
+                    }, 1000);
+
+
+                }
+
+            });
+
+    }
+
+</script>

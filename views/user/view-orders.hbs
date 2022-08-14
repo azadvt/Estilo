@@ -29,7 +29,6 @@
                             <th>Product</th>
                             <th>Name</th>
                             <th>Price</th>
-                            <th>Qnty</th>
                             <th>Date</th>
                             <th>Status</th>
                             <th>Details</th>
@@ -48,16 +47,21 @@
 
                             <td class="quantity__item">
                                 {{this.product.name}} <br><strong>₹{{this.product.price}}</strong>
+                                ({{this.products.quantity}} Items)
 
                             </td>
                             <td class="cart__price">₹{{this.productTotal}}</td>
-                            <td class="quantity__item">
-                                {{this.products.quantity}}
-                            </td>
+                     
                             
                             <td class="cart__close"> <span class="badge rounded-pill bg-white">{{this.date}}</span>
                             </td>
-                            <td class="cart__close"><span class="badge text-white bg-dark">{{this.products.status}}</span></td>
+                            <td class="cart__close">
+                                {{#if_equal this.products.status "Cancel"}}
+                    <span class="badge text-white bg-danger">{{this.products.status}}</span>
+                    {{else}}
+                    <span class="badge text-white bg-dark">{{this.products.status}}</span>
+                    {{/if_equal}}
+                                </td>
                             <td> <a href="/orderDetails?proId={{this.product._id}}&orderId={{this._id}}" class="btn-sm btn-dark" role="button" >View Details</a> </td>
 
                         </tr>

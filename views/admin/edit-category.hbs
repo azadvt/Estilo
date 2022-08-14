@@ -1,0 +1,29 @@
+
+        <div class="content-wrapper">
+
+            <div class="container-xxl flex-grow-1 container-p-y">
+
+                <div class=" container row">
+                    <div class="ml-5 col-md-6">
+                        <h2 class="text-center mt-5">Edit Category</h2>
+                                 {{#if categoryData}}
+
+                        <form action="/vendor/editCategory?id={{categoryData._id}}" method="post" name="addCategory">
+                            <label for="">Category Name</label> <br>
+                            <span id="requiredCategoryName" class="text-danger letter"> </span>
+
+                            <div class="mb-3"><input type="text" name="categoryName" class="form-control"
+                                    placeholder="Enter your Category Name" value="{{categoryData.categoryName}}">
+
+                            </div>
+                            {{/if}}
+                            <div>
+                                <button type="submit" class="btn btn-success mt-4 ">Submit</button>
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>

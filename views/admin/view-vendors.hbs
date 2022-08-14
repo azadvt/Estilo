@@ -30,12 +30,12 @@
 
                             <td>{{#if this.blockedVendor}}
 
-                                    <a href="/admin/unBlockVendor?id={{this._id}}"><button type="button"
+                                    <a href="javascript:void(0)" onclick="blockAndUnblockVendor('{{this._id}}')"><button type="button"
                                             class="btn btn-success btn-sm">Un Block</button></a>
 
 
                                     {{else}}
-                                    <a href="/admin/blockVendor?id={{this._id}}"><button type="button"
+                                    <a href="javascript:void(0)" onclick="blockAndUnblockVendor('{{this._id}}')"><button type="button"
                                             class="btn btn-danger btn-sm">Block</button></a>
 
                                     {{/if}}
@@ -50,3 +50,37 @@
         </div>
     </div>
 </div>
+
+<script>
+     function blockAndUnblockVendor(id) {
+        swal({
+            title: "Are you sure?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                    url: '/admin/blockUnBlockVendor/' + id,
+                    method: 'get',
+                    success: (response) => {
+                        if (response.status) {
+swal("Success", {
+                        icon: "success",
+                    });
+                        }
+                    }
+                })
+                    
+                    setTimeout(function () {
+                    window.location.reload(1);
+                }, 1000);
+                }
+                
+                
+                
+            });
+
+    }
+</script>
