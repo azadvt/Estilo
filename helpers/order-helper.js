@@ -3,9 +3,9 @@ const collection = require('../config/collections')
 const { response } = require('../app')
 const ObjectId = require('mongodb').ObjectId
 const Razorpay = require('razorpay');
-const keys = require('../config/keys')
-const key_id = keys.YOUR_KEY_ID
-const key_secret = keys.YOUR_KEY_SECRET
+require('dotenv').config()
+const key_id = process.env.YOUR_KEY_ID
+const key_secret = process.env.YOUR_KEY_SECRET
 var instance = new Razorpay({
     key_id: key_id,
     key_secret: key_secret,

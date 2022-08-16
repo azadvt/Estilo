@@ -1,9 +1,8 @@
-const keys = require('../config/keys')
-const serviceSid=keys.SERVICE_SID
-const authToken=keys.TWILIO_AUTH_TOKEN
-const accountSid=keys.TWILIO_ACCOUNT_SID
+require('dotenv').config()
+const authToken=process.env.TWILIO_AUTH_TOKEN
+const accountSid=process.env.TWILIO_ACCOUNT_SID
 const client = require('twilio')(accountSid, authToken);
-
+const serviceSid=process.env.SERVICE_SID
 module.exports = {
     dosms: (userData) => {
         let res = {}
@@ -30,7 +29,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try{
                 client.verify.services(serviceSid).verificationChecks.create({
-                    to: `+91${userphone}`,
+                   to: `+91${userphone}`,
                     code: otp
                 }).then((resp) => {
                     console.log("verification success");

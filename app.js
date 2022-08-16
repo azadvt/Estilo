@@ -13,6 +13,9 @@ var app = express();
 let db = require('./config/connection');
 let session = require('express-session');
 const nocache = require("nocache");
+const dotenv=require('dotenv')
+dotenv.config()
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
