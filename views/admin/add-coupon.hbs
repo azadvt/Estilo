@@ -54,7 +54,7 @@
                                     <small class="text-muted"><strong>Validity:</strong> {{this.validity}}</small>
                                 </div>
                                 <div class="col-4 col-sm-5 text-end">
-                                    <button type="button" onclick="deleteCoupon('{{this._id}}')"
+                                    <button type="button" onclick="deleteCoupon('{{this._id}}','{{this.couponCode}}')"
                                         class="btn btn-icon btn-outline-secondary">
                                         <i class="bx bx-trash-alt"></i>
                                     </button>
@@ -77,10 +77,11 @@
 
 <script>
 
-    function deleteCoupon(id) {
+    function deleteCoupon(id,couponCode) {
 
         swal({
             title: "Are you sure?",
+            text:"Delete  "+couponCode,
             icon: "warning",
             buttons: true,
             dangerMode: true,

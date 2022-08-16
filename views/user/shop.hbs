@@ -37,15 +37,9 @@
                                     <div class="card-body">
                                         <div class="shop__sidebar__categories">
                                             <ul class="nice-scroll">
-                                                <li><a href="#">Men (20)</a></li>
-                                                <li><a href="#">Women (20)</a></li>
-                                                <li><a href="#">Bags (20)</a></li>
-                                                <li><a href="#">Clothing (20)</a></li>
-                                                <li><a href="#">Shoes (20)</a></li>
-                                                <li><a href="#">Accessories (20)</a></li>
-                                                <li><a href="#">Kids (20)</a></li>
-                                                <li><a href="#">Kids (20)</a></li>
-                                                <li><a href="#">Kids (20)</a></li>
+                                                {{#each category}}
+                                                <li><a class="cursor" onclick="filterCategory('{{this.categoryName}}')">{{this.categoryName}}</a></li>
+                                                {{/each}}
                                             </ul>
                                         </div>
                                     </div>
@@ -59,10 +53,9 @@
                                     <div class="card-body">
                                         <div class="shop__sidebar__brand">
                                             <ul>
-                                                <li><a href="#">Louis Vuitton</a></li>
-                                                <li><a href="#">Chanel</a></li>
-                                                <li><a href="#">Hermes</a></li>
-                                                <li><a href="#">Gucci</a></li>
+                                                {{#each productData}}
+                                                <li><a class="cursor" onclick="filterBrand('{{this.brand}}')">{{this.brand}}</a></li>
+                                                {{/each}}
                                             </ul>
                                         </div>
                                     </div>
@@ -113,9 +106,9 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row" >
                     {{#each productData}}
-                    <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="col-lg-4 col-md-6 col-sm-6 ">
                         <div class="product__item">
                             <div class="product__item__pic set-bg" data-setbg="/product-images/{{this.images.[0]}}">
                                 <span class="label">New</span>
@@ -169,3 +162,25 @@
         </div>
     </div>
 </section>
+<style>.cursor {
+    cursor: pointer;
+}</style>
+<script>
+
+    function filterCategory(category){
+        $.ajax({
+            url:'/filter/'+category,
+            method:'get',
+            success:(response)=>{
+                
+            }
+        })
+    }
+
+    function filterBrand(brand){
+        $.ajax({
+            url:'/filter/'+brand,
+            method:'get',
+        })
+    }
+</script>

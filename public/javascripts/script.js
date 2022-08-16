@@ -367,38 +367,7 @@ function changeProductStatus(orderId, productId, status) {
 }
 
 ////////////////////////
-document.getElementById("discountField").hidden = true
-$('#formCouponCode').submit((e) => {
-    e.preventDefault()
-    
-    $.ajax({
-        url: '/couponCode',
-        method: 'post',
-        data: $('#formCouponCode').serialize(),
-        success: (response) => {
-            console.log(response);
-            if (response.status) {
-                $('#couponCheck').show()
-                document.getElementById('couponCheck').innerHTML = 'Valid Code'
 
-                setTimeout(()=>{
-                    $('#couponCheck').prop('readonly',true)
-                },1000)
-                document.getElementById('total').innerHTML = "₹" + response.amount
-                document.getElementById("discountField").hidden = false
-                document.getElementById('discount').innerHTML = "₹" + response.discount
-            }
-            else{
-                $('#couponCheck').show()
-                document.getElementById('couponCheck').innerHTML = 'Invalid Code'
-
-                setTimeout(()=>{
-                    $('#couponCheck').hide()
-                },1000)
-            }
-        }
-    })
-})
 
 
 

@@ -274,15 +274,14 @@
                         {{#each products}}
                         <ul class="checkout__total__products">
 
-                            <li>{{this.product.name}}<br>({{this.quantity}} items)<span>
-                                    ₹{{this.product.price}}</span></li>
-
+                            <li>{{this.product.name}}<br>({{this.quantity}} items) ×  ₹{{this.product.price}}<span>
+                                    ₹{{this.productTotal}}</span></li>
                         </ul>
                         {{/each}}
                         <ul class="checkout__total__all">
                             <input type="text" id="totalInput" value="{{total}}" hidden>
-                            <li>Subtotal <span id="sub-total">₹{{total}}</span></li>
-                            <li id="discountField">Discount <span id="discount">₹0</span></li>
+                            <li>Subtotal <span id="sub-total">₹{{total}}.00</span></li>
+                            <li id="discountField">Discount <span id="discount">₹0.00</span></li>
                             <li id="deliveryCharge">Delivery Charges <span id="delivery">FREE</span></li>
                             <li>Total Payable<span id="total">₹{{total}}</span></li>
                         </ul>
@@ -454,5 +453,35 @@
             }
         })
     }
+document.getElementById("discountField").hidden = true
+    $('#formCouponCode').submit((e) => {
+    e.preventDefault()
+    $.ajax({
+        url: '/couponCode',
+        method: 'post',
+        data: $('#formCouponCode').serialize(),
+        success: (response) => {
+            console.log(response);
+            if (response.status) {
+                $('#couponCheck').show()
+                document.getElementById('couponCheck').innerHTML = 'Valid Code'
+                setTimeout(()=>{
+                    $('#couponCheck').prop('readonly',true)
+                },1000)
+                document.getElementById('total').innerHTML = "₹" + response.amount
+                document.getElementById("discountField").hidden = false
+                document.getElementById('discount').innerHTML = "₹" + response.discount
+            }
+            else{
+                $('#couponCheck').show()
+                document.getElementById('couponCheck').innerHTML = 'Invalid Code'
+
+                setTimeout(()=>{
+                    $('#couponCheck').hide()
+                },1000)
+            }
+        }
+    })
+})
 
 </script>

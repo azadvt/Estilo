@@ -76,5 +76,7 @@ router.post('/addCoupon',verifyLogin,adminController.postAddCoupon)
 
 router.get('/deleteCoupon/:id',verifyLogin,adminController.getDeleteCoupon)
 
+router.get('/banner',verifyLogin,adminController.getBanner)
+
 
 module.exports = router;
