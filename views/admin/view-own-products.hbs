@@ -9,8 +9,8 @@
                     </div>
                     
                 </div>
-            <div class="table-responsive text-nowrap">
-                <table class="table table-hover table-bordered">
+            <div class="table-responsive text-nowrap p-4">
+                <table class="table table-hover table p-3" style="width:100%" id="dataTable">
                     <thead>
                         <tr>
                             <th scope="col">Sl NO.</th>
@@ -19,7 +19,6 @@
                             <th>Price</th>
                             <th>Image</th>
                             <th>Category</th>
-                            <th>Stock</th>
                             <th>actions</th>
                         </tr>
                     </thead>
@@ -34,10 +33,7 @@
                             <td>{{this.price}}</td>
 
                             <td><img src="/product-images/{{this.images.[0]}}" style="width: 50px; height: 50px;"></td>
-                            <td>{{this.categoryName}}</td>
-
-                            <td><span class="badge bg-label-primary me-1">Active</span></td>
-                            
+                            <td>{{this.categoryName}}</td>                       
                             <td>
                                 <div class="dropdown">
                                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -60,3 +56,12 @@
         </div>
     </div>
 </div>
+
+<script>
+     $(document).ready(function () {
+    $('#dataTable').wrap('<div id="hide" style="display:none"/>');
+    $('#hide').css('display', 'block');
+  });
+  var table = $('#dataTable').DataTable();
+
+</script>

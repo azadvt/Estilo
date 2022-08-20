@@ -255,7 +255,6 @@ module.exports = {
         })
     },
     updateUserData:(userData)=>{
-        console.log(userData);
         return new Promise((resolve, reject) => {
             try{
                 db.get().collection(collection.USER_COLLECTION).updateOne({_id:ObjectId(userData.id)},
@@ -268,8 +267,9 @@ module.exports = {
                     }
                     
                 }
-            ).then((response)=>{
-                response.user
+            ).then(async(response)=>{
+                let user = await db.get().collection(collection.USER_COLLECTION).findOne({phone:userData.phone})
+                    response.user=user
                 resolve(response)
             })
             }catch(error){

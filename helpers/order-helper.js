@@ -18,8 +18,12 @@ module.exports = {
         var date = currentdate.getDate() + "/"
             + (currentdate.getMonth() + 1) + "/"
             + currentdate.getFullYear()
-console.log('//////////');
-console.log(discountData);
+            console.log('discount dataa');
+        console.log(discountData);
+        console.log('orderdata');
+        console.log(orderData);
+        console.log(products);
+        console.log(total);
         return new Promise(async (resolve, reject) => {
             try{
                 let userData = await db.get().collection(collection.USER_COLLECTION).aggregate([
@@ -43,6 +47,7 @@ console.log(discountData);
                     deliveryDetails,
                     products: products,
                     totalAmount: netAmount,
+                    coupon:orderData.coupon,
                     paymentMethod: orderData.paymentMethod,
                 }
     
@@ -62,58 +67,63 @@ console.log(discountData);
             
 
         })
-
-
     },
 
     //users ordered product
     getOrderdProducts: (userId) => {
         return new Promise(async (resolve, reject) => {
             try{
+              let orders = await db.get().collection(collection.ORDER_COLLECTION).find()
+              console.log(orders);
                 let orderedProducts = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
-                    {
-                        $match: { user: ObjectId(userId) }
-                    },
-                    {
-                        $unwind: '$products'
-                    },
-                    {
-                        $lookup:
-                        {
-                            from: 'products',
-                            localField: 'products.item',
-                            foreignField: '_id',
-                            as: 'product'
-                        }
-                    },
-    
-                    {
-                        $unwind: '$product'
-                    },{
-                        '$addFields': {
-                            'productTotal': {
-                                '$sum': {
-                                    '$multiply': [
-                                        '$products.quantity', '$product.price'
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    {
-                        $match: {
-                            "products.status": {
-                                $ne: "Pending"
-                            }
-                        }
-                    },{
-                        $sort: {
-                            date: 1
-                        }
-                    }
-                    
-    
-                ]).toArray()
+                  {
+                      '$match': {
+                          'user': ObjectId(userId)
+                      }
+                  }, {
+                      '$unwind': {
+                          'path': '$products'
+                      }
+                  }, {
+                      '$lookup': {
+                          'from': 'products', 
+                          'localField': 'products.item', 
+                          'foreignField': '_id', 
+                          'as': 'product'
+                      }
+                  }, {
+                      '$unwind': {
+                          'path': '$product'
+                      }
+                  }, {
+                      '$lookup': {
+                          'from': 'coupon', 
+                          'localField': 'coupon', 
+                          'foreignField': 'couponCode', 
+                          'as': 'coupon'
+                      }
+                  }, {
+                      '$addFields': {
+                          'productTotal': {
+                              '$sum': {
+                                  '$multiply': [
+                                      '$products.quantity', '$product.price'
+                                  ]
+                              }
+                          }
+                      }
+                  }, {
+                      '$match': {
+                          'products.status': {
+                              '$ne': 'Pending'
+                          }
+                      }
+                  }, {
+                      '$sort': {
+                          'date': 1
+                      }
+                  }
+              ]).toArray()
                 resolve(orderedProducts)
             }catch(error){
                 reject(error)
@@ -172,7 +182,6 @@ console.log(discountData);
         })
     },
     generateRazorpay: (orderId, total) => {
-        console.log(orderId);
         return new Promise((resolve, reject) => {
             try{
                 var options = {
@@ -345,31 +354,50 @@ console.log(discountData);
             
         })
     },
-    getTotalForAdmin:()=>{
+    getRevenue:(id)=>{
         return new Promise(async(resolve, reject) => {
             try{
                 let total = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
-                
                     {
+                      '$unwind': {
+                        'path': '$products'
+                      }
+                    }, {
+                      '$lookup': {
+                        'from': 'products', 
+                        'localField': 'products.item', 
+                        'foreignField': '_id', 
+                        'as': 'product'
+                      }
+                    }, {
+                      '$unwind': {
+                        'path': '$product'
+                      }
+                    }, {
                       '$match': {
-                        'products.status': 'Delivered'
+                        'products.status': 'Delivered', 
+                        'product.vendor': new ObjectId(id)
                       }
                     }, {
                       '$group': {
                         '_id': null, 
-                        'totalAmount': {
-                          '$sum': '$totalAmount'
+                        'total': {
+                          '$sum': {
+                            '$multiply': [
+                              '$products.quantity', '$product.price'
+                            ]
+                          }
                         }
                       }
                     }
-                  
-              ]
+                  ]
 
             ).toArray()
+                console.log(total)
             if(total.length==0){
-                resolve(total)
+                resolve(total=0)
             }else{
-                resolve(total[0].totalAmount)
+                resolve(total[0].total)   
             }
             }catch(error){
                 reject(error)
@@ -377,6 +405,280 @@ console.log(discountData);
             
             
         })
-    }
+    },
+        getTotalOrders:()=>{
+            return new Promise(async(resolve, reject) => {
+                try{
+                    let total = await db.get().collection(collection.ORDER_COLLECTION).count()
+                    
+
+                    console.log(total)
+                    resolve(total)
+                }catch(error){
+                        reject(error)
+                    }
+            })
+        },
+    getTotalUsers:()=>{
+        return new Promise(async(resolve, reject) => {
+            try{
+                let total = await db.get().collection(collection.USER_COLLECTION).count()
+                resolve(total)
+            }
+            catch(error){
+                reject(error)
+            }
+        })
+    },
+    getTotalVendors:()=>{
+        return new Promise(async(resolve, reject) => {
+            try{
+                let total = await db.get().collection(collection.VENDOR_COLLECTION).count()
+                resolve(total)
+            }
+            catch(error){
+                reject(error)
+            }
+        })
+    },
+    getTotalProducts:(id)=>{
+        return new Promise(async(resolve, reject) => {
+            try{
+                let total = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
+                    {
+                      '$match': {
+                        'vendor': new ObjectId(id)
+                      }
+                    }, {
+                      '$count': 'count'
+                    }
+                  ]).toArray()
+                  console.log(total);
+                  if(total.length==0){
+                    resolve(total=0)
+                }else{
+                    resolve(total[0].count)
+                }
+            }
+            catch(error){
+                reject(error)
+            }
+            
+        })
+    },
+    getOrdersCount:(id)=>{
+        return new Promise(async(resolve, reject) => {
+            try{
+                let total = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                    {
+                      '$unwind': {
+                        'path': '$products'
+                      }
+                    }, {
+                      '$lookup': {
+                        'from': 'products', 
+                        'localField': 'products.item', 
+                        'foreignField': '_id', 
+                        'as': 'product'
+                      }
+                    }, {
+                      '$unwind': {
+                        'path': '$product'
+                      }
+                    }, {
+                      '$match': {
+                        'product.vendor': new ObjectId(id)
+                      }
+                    }, {
+                      '$count': 'count'
+                    }
+                  ]).toArray()
+                  if(total.length==0){
+                    resolve(total=0)
+                }else{
+                    resolve(total[0].count)
+                }
+            }
+            catch(error){
+                reject(error)
+            }
+        })
+    },
+    getDeliveredOrdersCount:(id)=>{
+        return new Promise(async(resolve, reject) => {
+            try{
+                let total = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                    {
+                      '$unwind': {
+                        'path': '$products'
+                      }
+                    }, {
+                      '$lookup': {
+                        'from': 'products', 
+                        'localField': 'products.item', 
+                        'foreignField': '_id', 
+                        'as': 'product'
+                      }
+                    }, {
+                      '$unwind': {
+                        'path': '$product'
+                      }
+                    }, {
+                      '$match': {
+                        'product.vendor': new ObjectId(id),
+                        "products.status":"Delivered"
+
+                      }
+                    }, {
+                      '$count': 'count'
+                    }
+                  ]).toArray()
+                  if(total.length==0){
+                    resolve(total=0)
+                }else{
+                    resolve(total[0].count)
+                }
+            }
+            catch(error){
+                reject(error)
+            }
+        })
+    },
+    getCanceledOrdersCount:(id)=>{
+        return new Promise(async(resolve, reject) => {
+            try{
+                let total = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                    {
+                      '$unwind': {
+                        'path': '$products'
+                      }
+                    }, {
+                      '$lookup': {
+                        'from': 'products', 
+                        'localField': 'products.item', 
+                        'foreignField': '_id', 
+                        'as': 'product'
+                      }
+                    }, {
+                      '$unwind': {
+                        'path': '$product'
+                      }
+                    }, {
+                      '$match': {
+                        'product.vendor': new ObjectId(id),
+                        "products.status":"Cancel"
+
+                      }
+                    }, {
+                      '$count': 'count'
+                    }
+                  ]).toArray()
+                if(total.length==0){
+                    resolve(total=0)
+                }else{
+                    resolve(total[0].count)
+                }
+                  
+            }
+            catch(error){
+                reject(error)
+            }
+        })
+    },
+        getTotalAmountDeliveredOrders:()=>{
+            return new Promise(async(resolve, reject) => {
+                try{
+                    let total = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                        {
+                          '$unwind': {
+                            'path': '$products'
+                          }
+                        }, {
+                          '$lookup': {
+                            'from': 'products', 
+                            'localField': 'products.item', 
+                            'foreignField': '_id', 
+                            'as': 'product'
+                          }
+                        }, {
+                          '$unwind': {
+                            'path': '$product'
+                          }
+                        }, {
+                          '$match': {
+                            'products.status': 'Delivered'
+                          }
+                        }, {
+                          '$group': {
+                            '_id': null, 
+                            'total': {
+                              '$sum': {
+                                '$multiply': [
+                                  '$products.quantity', '$product.price'
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      ]).toArray()
+                      if(total.length==0){
+                          resolve(total=0)
+                      }else{
+                          resolve(total[0].total)
+                      }
+                }
+                catch(error){
+                    reject(error)
+                }
+            })
+        },
+        getMyCustomers:(id)=>{
+            return new Promise(async(resolve, reject) => {
+                try{
+                    let count= await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                        {
+                          '$unwind': {
+                            'path': '$products'
+                          }
+                        }, {
+                          '$lookup': {
+                            'from': 'products', 
+                            'localField': 'products.item', 
+                            'foreignField': '_id', 
+                            'as': 'product'
+                          }
+                        }, {
+                          '$unwind': {
+                            'path': '$product'
+                          }
+                        }, {
+                          '$match': {
+                            'product.vendor': new ObjectId(id)
+                          }
+                        }, {
+                          '$group': {
+                            '_id': {
+                              'user': '$user'
+                            }
+                          }
+                        }, {
+                          '$count': 'count'
+                        }
+                      ]).toArray()
+                      if(count.length==0){
+                        resolve(count=0)
+                    }else{
+                        resolve(count[0].count)
+                    }
+                }
+                catch(error){
+                    reject(error)
+                }
+            })
+            
+
+        }
+    
+
     
 }

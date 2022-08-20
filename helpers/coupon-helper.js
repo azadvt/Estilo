@@ -49,16 +49,15 @@ module.exports = {
                     }
                     else{
                         console.log('valid coupon');
-                        let offerPrice=parseFloat(total*response.discount)
+                        let offerPrice=parseFloat(total*response.discount).toFixed(2)
     
                         let newTotal = parseInt(total-offerPrice)
-                        
-                        resolve(response={
-                            couponCode:coupon,
-                            status:true,
-                            amount:newTotal,
-                            discount:offerPrice
-                        })
+                        let couponData =response
+                        couponData.couponCode=coupon
+                        couponData.status=true
+                        couponData.amount=newTotal
+                        couponData.discount=offerPrice
+                        resolve(couponData)
                     }
             }
             catch(error){
@@ -76,6 +75,10 @@ module.exports = {
         return new Promise(async(resolve, reject) => {
             try{
                 let response = await db.get().collection(collection.COUPON_COLLECTION).find().toArray()
+                for(var i=0; i<response.length;i++){
+                    response[i].discount=response[i].discount*100
+                }
+                console.log(response);
                 resolve(response)
             }
             catch(error){

@@ -1,3 +1,4 @@
+
 <body>
     <!-- Page Preloder -->
     <div id="preloder">
@@ -11,9 +12,18 @@
             <div class="offcanvas__links">
                 {{#if user}}
                 <a href="#">{{user.firstName}} {{user.lastName}}</a>
-                <a href="/loggout">Log Out</a>
+                <a href="/logout">Log Out</a>
 
-
+                {{else}}
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn text-white primary-btn2" data-toggle="modal"
+                            data-target="#loginModal">
+                            log in
+                        </button>
+                        <button type="button" class="btn text-white primary-btn2" data-toggle="modal"
+                            data-target="#signupModal">
+                            Sign up
+                        </button>
 
                 {{/if}}
             </div>
@@ -26,13 +36,11 @@
                     id="cartCount">{{user.cartCount}}</span></a>
             <a href="/profile"><img src="/user/img/icon/user1.png" alt=""><span
                     class="badge badge-light ml-3 mb-4"></span> </a>
-
         </div>
         <div id="mobile-menu-wrap"></div>
 
     </div>
     <!-- Offcanvas Menu End -->
-
     <!-- Header Section Begin -->
     <header class="header ">
         <div class="header__top ">
@@ -243,17 +251,9 @@
                         <ul>
                             <li><a href="/">Home</a></li>
                             <li><a href="/shop">Shop</a></li>
-                            <li><a href="#">Pages</a>
-                                <ul class="dropdown">
-                                    <li><a href="./about.html">About Us</a></li>
-                                    <li><a href="./shop-details.html">Shop Details</a></li>
-                                    <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                                    <li><a href="./checkout.html">Check Out</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
-                                </ul>
-                            </li>
+
                             <li><a href="/viewOrders">My Orders</a></li>
-                            <li><a href="./contact.html">Contacts</a></li>
+                            <li><a href="#">Contacts</a></li>
                         </ul>
                     </nav>
                 </div>

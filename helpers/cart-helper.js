@@ -194,7 +194,7 @@ module.exports = {
         })
 
     },
-    getTotalAmount: (userId,coupon) => {
+    getTotalAmount: (userId) => {
         return new Promise(async (resolve, reject) => {
             try{
                 let total = await db.get().collection(collection.CART_COLLECTION).aggregate([
@@ -232,13 +232,6 @@ module.exports = {
     
                 ]).toArray()
     
-                if(coupon){
-                    console.log(coupon);
-    
-                }
-    
-            
-                console.log(total);
                 if (total.length == 0) {
                     resolve(total)
                     console.log(total);

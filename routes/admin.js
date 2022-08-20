@@ -39,7 +39,6 @@ router.get('/unBlockVendor',verifyLogin,adminController.getUnBlockVendor)
 
 router.get('/viewProduct',verifyLogin,adminController.getViewProduct)
 
-
 router.get('/addProduct',verifyLogin,adminController.getAddProduct)
 
 router.post('/addProduct',verifyLogin,store.array('image',4),adminController.postAddProduct)
@@ -76,7 +75,14 @@ router.post('/addCoupon',verifyLogin,adminController.postAddCoupon)
 
 router.get('/deleteCoupon/:id',verifyLogin,adminController.getDeleteCoupon)
 
-router.get('/banner',verifyLogin,adminController.getBanner)
+router.get('/banner',verifyLogin,adminController.getSubBanner)
 
+router.post('/banners',verifyLogin,store.array('image',1),adminController.postBanner)
+
+router.get('/deleteBanner/:id',verifyLogin,adminController.deleteBanner)
+
+router.get('/editBanner/:id',verifyLogin,adminController.getEditBanner)
+
+router.post('/updateBanner',verifyLogin,store.array('image',1),adminController.updateBanner)
 
 module.exports = router;

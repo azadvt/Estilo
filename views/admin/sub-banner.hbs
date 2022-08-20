@@ -1,0 +1,156 @@
+<div class="container mt-4">
+    <section style="padding-bottom: 100px;">
+        <table class="table" id="adminTable">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <a href="#add" class="btn btn-primary  ml-auto" style="margin-top: 20px;">Add New
+                        Banner</a>
+                </div>
+            </div>
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Banner Name</th>
+                    <th scope="col">Banner</th>
+                    <th scope="col">Link</th>
+                    <th scope="col">Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each banners}}
+                <tr>
+                    <td >{{inc @index}}</td>
+                    <td width="20%" >{{this.bannerName}}</td>
+                    <td>
+                        <img style="height: 40px;width:70px" src="/product-images/{{this.image}}">             
+                    </td>
+                    <td>{{this.link}}</td>
+                    <td><a href="/admin/editBanner/{{this._id}}" class="btn btn-primary">edit</a>
+                        <button class="btn btn-danger" href="/admin/deleteBanner/{{this._id}}" name="{{this.bannerName}}"
+                            onclick="deleteBanner('{{this._id}}','{{this.bannerName}}')">delete</button>
+                    </td>
+                </tr>
+                {{/each}}
+
+            </tbody>
+        </table>
+    </section>
+</div>
+<hr>
+
+<section id="add">
+    <div class="container mt-4">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-md-6">
+                <h2 class="text-center">Add<strong> Banner</strong> </h2>
+                <form action="/admin/banners" method="post" enctype="multipart/form-data"
+                    id="bannerSection">
+                   <input type="text" name="bannerType" value="subBanner" hidden>
+                    <label for="inputName">Banner Name</label>
+                    <input type="text" class="form-control" id="inputName" name="bannerName">
+                 
+                    <div class="form-row mt-2">
+                        <div class="form-group col-md-6">
+                            <label for="inputName">Description 01</label>
+                            <input type="text" class="form-control" id="inputDescription1" name="description1">
+                        </div>
+
+
+                        <div class="form-group col-md-6">
+                            <label for="inputDescription">Description 02</label>
+                            <input type="text" class="form-control" id="inputDescription2" name="description2">
+                        </div>
+                    </div>
+
+         
+                    <label for="category">Button link</label>
+                    <select name="link" id="category" class="custom-select p-2">
+                        <option value="" selected>Choose a Link</option>
+                        {{#each categories}}
+                        <option value="{{this.categoryName}}">{{this.categoryName}}</option>
+                        {{/each}} 
+                    </select>
+                    <label for="exampleFormControlFile3">Banner Image</label>
+                    <img src="" style="width:auto;height:50px;display:none" id="imgView3"><br><br>
+                    <input type="file" class="form-control" name="image" id="exampleFormControlFile3"
+                        style="width: 250px;" accept="image/*" required onchange="viewImage3(event)">
+                    <div class="text-center">
+                        <input type="submit" class="btn btn-primary  mt-3" value="Add Banner" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<script>
+
+
+
+    function deleteBanner(id,bannerName) {
+
+        swal({
+            title: "Are you sure?",
+            text:"Delete  "+bannerName,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+
+                if (willDelete) {
+                    $.ajax({
+                        url: '/admin/deleteBanner/'+id,
+                        method: 'get',
+                        success: (response) => {
+                            if (response.status) {
+                                swal("Your Address has been deleted!", {
+                                    icon: "success",
+                                });
+                                setTimeout(function () {
+                                    window.location.reload(1);
+                                }, 1000);
+                            }
+                        }
+                    
+                    });
+                }
+
+
+
+    })
+    }
+
+
+
+
+
+
+
+
+
+
+
+    function viewImage3(event) {
+        document.getElementById('imgView3').src = URL.createObjectURL(event.target.files[0])
+        let file = event.target.files[0].name
+        let extension = file.split('.').pop()
+        if (extension == 'jpeg' || extension == 'png' || extension == 'jpg') {
+            $('#imgView3').show()
+            $('#sub').show()
+            $('#errMsg').hide()
+        }
+        else {
+            $('#sub').hide()
+            $('#errMsg').show()
+        }
+    }
+    if(status){
+        alert("success")
+    }
+
+</script>

@@ -43,10 +43,9 @@
                                 data-parent="#accordionExample">
 
                                 <div class="card-body">
-                                    <div class="form-check ">
-
-                                        <input class="form-check-input" form="checkoutForm" type="radio"
-                                            name="addressId" value="{{this._id}}">
+                                    <div class="form-check ">   
+                                        <input class="form-check-input"  form="checkoutForm" type="radio"
+                                            name="addressId"  id="addressId" value="{{this._id}}" required>
                                         <label class="form-check-label" for="address">
                                             <p>
                                                 {{this.firstName}} {{this.lastName}}<br>
@@ -59,7 +58,6 @@
                                                 data-target="#exampleModalLong{{this._id}}">Edit</button>
                                             <button type="button" class="btn-sm btn-dark "
                                                 onclick="deleteAddress('{{this._id}}')">Delete</button>
-
                                         </label>
 
                                     </div>
@@ -86,7 +84,7 @@
                                                                 <input type="text" form="editAddressForm{{this._id}}"
                                                                     name="_id" value="{{this._id}}" hidden>
                                                                 <input type="text" form="editAddressForm{{this._id}}"
-                                                                    name="firstName" id="firstName"
+                                                                    name="firstName" 
                                                                     value="{{this.firstName}}" required>
                                                             </div>
                                                         </div>
@@ -94,7 +92,7 @@
                                                             <div class="checkout__input">
                                                                 <p>Last Name<span>*</span></p>
                                                                 <input type="text" form="editAddressForm{{this._id}}"
-                                                                    name="lastName" id="lastName"
+                                                                    name="lastName" 
                                                                     value="{{this.lastName}}" required>
                                                             </div>
                                                         </div>
@@ -104,7 +102,7 @@
                                                             <div class="checkout__input">
                                                                 <p>Phone<span>*</span></p>
                                                                 <input type="text" form="editAddressForm{{this._id}}"
-                                                                    name="phone" id="phone" value="{{this.phone}}"
+                                                                    name="phone"  value="{{this.phone}}"
                                                                     required>
                                                             </div>
                                                         </div>
@@ -112,7 +110,7 @@
                                                             <div class="checkout__input">
                                                                 <p>Email<span>*</span></p>
                                                                 <input type="text" form="editAddressForm{{this._id}}"
-                                                                    name="email" id="email" value="{{this.email}}"
+                                                                    name="email"  value="{{this.email}}"
                                                                     required>
                                                             </div>
                                                         </div>
@@ -120,34 +118,34 @@
                                                     <div class="checkout__input">
                                                         <p>Country<span>*</span></p>
                                                         <input type="text" form="editAddressForm{{this._id}}"
-                                                            name="country" id="country" value="{{this.country}}"
+                                                            name="country"  value="{{this.country}}"
                                                             required>
                                                     </div>
                                                     <div class="checkout__input">
                                                         <p>Address<span>*</span></p>
                                                         <input type="text" form="editAddressForm{{this._id}}"
-                                                            name="addressLineOne" id="addressLineOne"
+                                                            name="addressLineOne" 
                                                             placeholder="Street Address" class="checkout__input__add"
                                                             value="{{this.addressLineOne}}" required>
                                                         <input type="text" form="editAddressForm{{this._id}}"
-                                                            name="addressLineTwo" id="addressLineTwo"
+                                                            name="addressLineTwo" 
                                                             placeholder="Apartment, suite, unite ect (optinal)"
                                                             value="{{this.addressLineTwo}}" required>
                                                     </div>
                                                     <div class="checkout__input">
                                                         <p>Town/City<span>*</span></p>
                                                         <input type="text" form="editAddressForm{{this._id}}"
-                                                            name="town" id="town" value="{{this.town}}" required>
+                                                            name="town"  value="{{this.town}}" required>
                                                     </div>
                                                     <div class="checkout__input">
                                                         <p>State<span>*</span></p>
                                                         <input type="text" form="editAddressForm{{this._id}}"
-                                                            name="state" id="state" value="{{this.state}}" required>
+                                                            name="state"  value="{{this.state}}" required>
                                                     </div>
                                                     <div class="checkout__input">
                                                         <p>Postcode / ZIP<span>*</span></p>
                                                         <input type="text" form="editAddressForm{{this._id}}"
-                                                            name="postcode" id="postcode" value="{{this.postcode}}"
+                                                            name="postcode"  value="{{this.postcode}}"
                                                             required>
                                                     </div>
 
@@ -189,13 +187,14 @@
                                                 <div class="checkout__input">
                                                     <p>Fist Name<span>*</span></p>
                                                     <input type="text" form="addressForm" name="firstName"
-                                                        id="firstName" required>
+                                                        
+                                                         required>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="checkout__input">
                                                     <p>Last Name<span>*</span></p>
-                                                    <input type="text" form="addressForm" name="lastName" id="lastName"
+                                                    <input type="text" form="addressForm" name="lastName" 
                                                         required>
                                                 </div>
                                             </div>
@@ -223,7 +222,7 @@
                                         <div class="checkout__input">
                                             <p>Address<span>*</span></p>
                                             <input type="text" form="addressForm" name="addressLineOne"
-                                                id="addressLineOne" placeholder="Street Address"
+                                                 placeholder="Street Address"
                                                 class="checkout__input__add" required>
                                             <input type="text" form="addressForm" name="addressLineTwo"
                                                 id="addressLineTwo" placeholder="Apartment, suite, unite ect (optinal)"
@@ -264,8 +263,11 @@
                             <input type="text" name="couponCode" id="couponId" placeholder="Coupon code">
                             <button type="submit">Apply</button>
                         </form>
-                        <div id="couponCheck" class="alert alert-light" role="alert">
-                    </div>
+                        
+                        <div id="couponCheckInvalid" class="alert alert-danger" role="alert">
+                        </div>
+                        <div id="couponCheckValid" class="alert alert-success" role="alert">
+                        </div>
 
                     </div>
                     <div class="checkout__order">
@@ -274,7 +276,7 @@
                         {{#each products}}
                         <ul class="checkout__total__products">
 
-                            <li>{{this.product.name}}<br>({{this.quantity}} items) ×  ₹{{this.product.price}}<span>
+                            <li>{{this.product.name}}<br>({{this.quantity}} items) × ₹{{this.product.price}}<span>
                                     ₹{{this.productTotal}}</span></li>
                         </ul>
                         {{/each}}
@@ -283,26 +285,25 @@
                             <li>Subtotal <span id="sub-total">₹{{total}}.00</span></li>
                             <li id="discountField">Discount <span id="discount">₹0.00</span></li>
                             <li id="deliveryCharge">Delivery Charges <span id="delivery">FREE</span></li>
-                            <li>Total Payable<span id="total">₹{{total}}</span></li>
+                            <li>Total Payable<span id="total">₹{{total}}.00</span></li>
                         </ul>
                         <form action="javascript:void(0)" id="checkoutForm">
                             <input type="text" form="checkoutForm" name="coupon" id="couponValue" hidden> </input>
                             <div class="form-check checkout__input__checkbox">
                                 <input class="form-check-input" form="checkoutForm" type="radio" name="paymentMethod"
-                                    value="cashOnDelivery">
+                                    value="cashOnDelivery" >
                                 <label class="form-check-label" for="cashOnDelivery">
                                     Cash on Delivery
                                 </label>
                             </div>
                             <div class="form-check checkout__input__checkbox">
                                 <input class="form-check-input" form="checkoutForm" type="radio" name="paymentMethod"
-                                    value="onlinePayment" checked>
+                                    value="onlinePayment"  checked>
                                 <label class="form-check-label" for="onlinePayment">
                                     Online Payment
                                 </label>
                             </div>
-                            <button type="submit" form="checkoutForm" id="submit_a" onclick="checkoutForm()"
-                                class="site-btn">PLACE
+                            <button type="submit" form="checkoutForm" id="submit_a" class="site-btn">PLACE
                                 ORDER</button>
                         </form>
                     </div>
@@ -315,79 +316,99 @@
 
 
 <script>
+    $('#couponCheckValid').hide()
+  $('#couponCheckInvalid').hide()
 
+
+$("#addressForm").validate({
+    errorClass: "error",
+    rules: {
+        firstName: {
+            required: true,
+            minlength: 3,
+            lettersonly: true
+
+        },
+        lastName: {
+            required: true,
+            minlength: 3,
+            lettersonly: true
+        },
+
+        email: {
+            required: true,
+            email: true,
+
+        },
+
+        phone: {
+            required: true,
+            minlength: 10
+        }
+    },
+    submitHandler: (from) => {
+        $.ajax({
+            url: '/userAddress',
+            method: 'post',
+            data: $('#addressForm').serialize(),
+            success: function (response) {
+                swal({
+                    title: "Address Added Successfully!",
+                    text: "Please Select Your Address",
+                    icon: "success",
+                    button: "Ok",
+                });
+                setTimeout(function () {
+                    window.location.reload(1);
+                }, 1000);
+            }
+        });
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
+///
     $("#checkoutForm").validate({
         errorClass: "error",
         rules: {
-            firstName: {
-                required: true,
-                minlength: 3,
+            addressId:{
+                required:true,
+                minlength:5
             },
-            lastName: {
-                required: true,
-                minlength: 3,
-            },
-            email: {
-                required: true,
-                email: true,
-
-            },
-            phone: {
-                required: true,
-                minlength: 10
-            },
-            country: {
-                required: true,
-                minlength: 3
-            },
-            addressLineOne: {
-                required: true,
-                minlength: 6,
-            },
-            addressLineTwo: {
-                required: true,
-                minlength: 6,
-            },
-            town: {
-                required: true,
-                minlength: 3,
-            },
-            state: {
-                required: true,
-                minlength: 3,
-            },
-            postcode: {
-                required: true,
-                minlength: 6,
+            paymentMethod:{
+                required:true
             }
+        },
+        submitHandler: (from) => {
+            let coupon = $('#couponId').val()
+            let da=$('#checkoutForm').serialize()
+            console.log(da)
+            document.getElementById('couponValue').value = coupon
+            let checkOut = $('#checkoutForm').serialize()
+            $.ajax({
+                url: '/checkOut',
+                method: 'post',
+                data: $('#checkoutForm').serialize(),
+                success: (response) => {
+                    if (response.codSuccess) {
+                        location.href = '/orderSuccess'
+                    }
+                    else {
+                        razorPayment(response)
+                    }
+                }
+            })
         }
-
     })
-
-
-
-
-    function checkoutForm() {
-        let coupon = $('#couponId').val()
-        document.getElementById('couponValue').value = coupon
-       let checkOut= $('#checkoutForm').serialize()
-        console.log(checkOut)
-        $.ajax({
-            url: '/checkOut',
-            method: 'post',
-            data: $('#checkoutForm').serialize(),
-            success: (response) => {
-
-                console.log(response)
-                if (response.codSuccess) {
-                    location.href = '/orderSuccess'
-                }
-                else {
-                    razorPayment(response)
-                }
-            }
-        })
-    }
 
     function razorPayment(order) {
         var options = {
@@ -403,9 +424,7 @@
                 alert(response.razorpay_order_id);
                 alert(response.razorpay_signature)*/
 
-                console.log('verify befor')
                 verifyPayment(response, order)
-                console.log('verify after')
 
             },
             "prefill": {
@@ -453,35 +472,35 @@
             }
         })
     }
-document.getElementById("discountField").hidden = true
+    document.getElementById("discountField").hidden = true
     $('#formCouponCode').submit((e) => {
-    e.preventDefault()
-    $.ajax({
-        url: '/couponCode',
-        method: 'post',
-        data: $('#formCouponCode').serialize(),
-        success: (response) => {
-            console.log(response);
-            if (response.status) {
-                $('#couponCheck').show()
-                document.getElementById('couponCheck').innerHTML = 'Valid Code'
-                setTimeout(()=>{
-                    $('#couponCheck').prop('readonly',true)
-                },1000)
-                document.getElementById('total').innerHTML = "₹" + response.amount
-                document.getElementById("discountField").hidden = false
-                document.getElementById('discount').innerHTML = "₹" + response.discount
-            }
-            else{
-                $('#couponCheck').show()
-                document.getElementById('couponCheck').innerHTML = 'Invalid Code'
+        e.preventDefault()
+        $.ajax({
+            url: '/couponCode',
+            method: 'post',
+            data: $('#formCouponCode').serialize(),
+            success: (response) => {
+                console.log(response);
+                if (response.status) {
+                    $('#couponCheckValid').show()
+                    document.getElementById('couponCheckValid').innerHTML = 'Valid Code You Saved ₹'+response.discount
+                    setTimeout(() => {
+                        $('#couponCheck').prop('readonly', true)
+                    }, 1000)
+                    document.getElementById('total').innerHTML = "₹" + response.amount
+                    document.getElementById("discountField").hidden = false
+                    document.getElementById('discount').innerHTML = "₹" + response.discount
+                }
+                else {
+                    $('#couponCheckInvalid').show()
+                    document.getElementById('couponCheckInvalid').innerHTML = 'Invalid Code'
 
-                setTimeout(()=>{
-                    $('#couponCheck').hide()
-                },1000)
+                    setTimeout(() => {
+                        $('#couponCheck').hide()
+                    }, 1000)
+                }
             }
-        }
+        })
     })
-})
 
 </script>

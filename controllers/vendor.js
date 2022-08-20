@@ -5,11 +5,21 @@ const categoryHelper = require('../helpers/category-helper')
 const orderHelper = require('../helpers/order-helper')
 
 module.exports = {
-    getHome: (req, res, next) => {
+    getHome: async(req, res, next) => {
         try {
             if (req.session.vendorLoggedIn) {
                 vendor = req.session.vendor
-                res.render('vendor/vendor-dashboard', { layout: 'admin-vendor-layout', vendorHeader: true, vendor })
+                let revenue =await orderHelper.getRevenue(vendor._id)
+                let income=(revenue-revenue/10) 
+                let totalProducts = await orderHelper.getTotalProducts(vendor._id)
+                let ordersCount = await orderHelper.getOrdersCount(vendor._id)
+                let deliveredOrdersCount = await orderHelper.getDeliveredOrdersCount(vendor._id)
+            let canceledOrdersCount = await orderHelper.getCanceledOrdersCount(vendor._id)
+            let customers = await orderHelper.getMyCustomers(vendor._id)
+
+                res.render('vendor/vendor-dashboard', { layout: 'admin-vendor-layout', 
+                vendorHeader: true, vendor ,
+                totalProducts,ordersCount,deliveredOrdersCount,canceledOrdersCount,revenue,income,customers})
             } else {
                 res.redirect('/vendor/login')
             }

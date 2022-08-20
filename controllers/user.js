@@ -7,6 +7,8 @@ const wishlistHelper = require('../helpers/wishlist-helper');
 const orderHelper = require('../helpers/order-helper');
 const couponHelper = require('../helpers/coupon-helper');
 const categoryHelper = require('../helpers/category-helper');
+const bannerHelper = require('../helpers/banner-helper')
+
 let couponData = []
 module.exports = {
 
@@ -14,13 +16,16 @@ module.exports = {
 
         try {
             productHelper.getAllProducts().then(async (productData) => {
+                    let banners= await bannerHelper.getAllBanners()
+                    console.log(banners);
+
                 if (req.session.userLoggedIn) {
                     let user = req.session.user
                     cartCount = await cartHelper.getCartCount(user._id)
                     wishlistcount = await wishlistHelper.getWishlistCount(user._id)
-                    res.render('user/home', { layout: 'user-layout', user, productData, cartCount, wishlistcount });
+                    res.render('user/home', { layout: 'user-layout', user, productData, cartCount, wishlistcount ,banners});
                 } else {
-                    res.render('user/home', { layout: 'user-layout', productData, userExistErr: req.session.userExistErr, userLogErr: req.session.userLogErr })
+                    res.render('user/home', { layout: 'user-layout', productData, userExistErr: req.session.userExistErr, userLogErr: req.session.userLogErr,banners })
                     req.session.userLogErr = false;
                     req.session.userExistErr = false
                 }
@@ -39,7 +44,7 @@ module.exports = {
                 res.redirect('/')
             }
             else {
-                res.render('user/user-signup', { userExistErr: req.session.userExistErr })
+                res.render('user/user-signup', { userExistErr: req.session.userExistErr})
 
             }
         }
@@ -142,10 +147,11 @@ module.exports = {
         try {
             console.log('product id')
             let productId = req.query.id
-            productHelper.getOneProduct(productId).then((productData) => {
-                console.log(productData);
+            productHelper.getOneProduct(productId).then(async(productData) => {
                 let user = req.session.user
-                res.render('user/view-product', { layout: 'user-layout', user, productData })
+               let cartCount = await cartHelper.getCartCount(user._id)
+                let    wishlistcount = await wishlistHelper.getWishlistCount(user._id)
+                res.render('user/view-product', { layout: 'user-layout', user, productData ,cartCount, wishlistcount})
             })
         }
         catch (error) {
@@ -158,8 +164,8 @@ module.exports = {
             let user = req.session.user
             let products = await cartHelper.getCartProducts(user._id)
             let total = await cartHelper.getTotalAmount(user._id)
-
-            res.render('user/cart', { layout: 'user-layout', user, products, total })
+            let    wishlistcount = await wishlistHelper.getWishlistCount(user._id)
+            res.render('user/cart', { layout: 'user-layout', user, products, total , wishlistcount})
         }
         catch (error) {
             next(error)
@@ -237,8 +243,8 @@ module.exports = {
         try {
             let user = req.session.user
             let products = await wishlistHelper.getwishlistProducts(user._id)
-            console.log(products);
-            res.render('user/wishlist', { layout: 'user-layout', user, products })
+            let cartCount = await cartHelper.getCartCount(user._id)
+            res.render('user/wishlist', { layout: 'user-layout', user, products ,cartCount})
         }
         catch (error) {
             next(error)
@@ -247,7 +253,6 @@ module.exports = {
     },
     postRemoveProductFromWishlist: (req, res, next) => {
         try {
-            console.log(req.body);
             wishlistHelper.removeProductFromWishlist(req.body).then((response) => {
                 res.json(response)
             })
@@ -258,7 +263,6 @@ module.exports = {
 
     },
     postCouponCode: async (req, res, next) => {
-
         try {
             let user = req.session.user
             let total = await cartHelper.getTotalAmount(user._id)
@@ -266,7 +270,6 @@ module.exports = {
                 res.json(response)
             }).catch((response) => {
                 res.json(response)
-                console.log('false');
             })
         }
         catch (error) {
@@ -281,8 +284,9 @@ module.exports = {
             let products = await cartHelper.getCartProducts(user._id)
             let total = await cartHelper.getTotalAmount(user._id)
             let address = await userHelper.getUserAddress(user._id)
-
-            res.render('user/checkout', { layout: 'user-layout', user, products, total, address })
+            let cartCount = await cartHelper.getCartCount(user._id)
+            let wishlistcount = await wishlistHelper.getWishlistCount(user._id)
+            res.render('user/checkout', { layout: 'user-layout', user, products, total, address ,cartCount, wishlistcount})
         }
         catch (error) {
             next(error)
@@ -306,16 +310,20 @@ module.exports = {
     },
     postPlaceOrder: async (req, res, next) => {
         try {
+            var discountData
             userId = req.session.user._id
             let products = await cartHelper.getCartProductList(userId)
             let total = await cartHelper.getTotalAmount(userId)
-            console.log("ddd");
             console.log(products);
             if (req.body.coupon) {
                 await couponHelper.applyCoupon(req.body.coupon, total).then((response) => {
                     discountData = response
                 }).catch(() => discountData = null)
+            }else{
+                req.body.coupon=null
             }
+            console.log("before body");
+            console.log(req.body);
             orderHelper.placeOrder(req.body, userId, products, total, discountData).then((orderId) => {
                 if (req.body.paymentMethod == "cashOnDelivery") {
                     orderHelper.changeStatus(orderId).then(() => {
@@ -327,7 +335,6 @@ module.exports = {
                 else {
                     let netAmount = (discountData) ? discountData.amount : total
 
-                    console.log(netAmount);
                     orderHelper.generateRazorpay(orderId, netAmount).then((response) => {
                         res.json(response)
                     })
@@ -361,10 +368,11 @@ module.exports = {
         }
 
     },
-    getOrderPlaced: (req, res, next) => {
+    getOrderPlaced: async(req, res, next) => {
         try {
             let user = req.session.user
-            res.render('user/order-placed', { layout: 'user-layout', user })
+            let    wishlistcount = await wishlistHelper.getWishlistCount(user._id)
+            res.render('user/order-placed', { layout: 'user-layout', user , wishlistcount})
         }
         catch (error) {
             next(error)
@@ -376,7 +384,9 @@ module.exports = {
             let user = req.session.user
             let products = await orderHelper.getOrderdProducts(user._id)
             console.log("products", products);
-            res.render('user/view-orders', { layout: 'user-layout', user, products })
+            let cartCount = await cartHelper.getCartCount(user._id)
+            let    wishlistcount = await wishlistHelper.getWishlistCount(user._id)
+            res.render('user/view-orders', { layout: 'user-layout', user, products ,cartCount, wishlistcount})
         }
         catch (error) {
             next(error)
@@ -389,7 +399,9 @@ module.exports = {
         try {
             let user = req.session.user
             let address = await userHelper.getUserAddress(user._id)
-            res.render('user/profile', { layout: 'user-layout', user, address })
+            let cartCount = await cartHelper.getCartCount(user._id)
+         let    wishlistcount = await wishlistHelper.getWishlistCount(user._id)
+            res.render('user/profile', { layout: 'user-layout', user, address ,cartCount, wishlistcount})
         }
         catch (error) {
             next(error)
@@ -421,40 +433,27 @@ module.exports = {
         }
 
     },
-    getOrderDetails: (req, res, next) => {
+    getOrderDetails: async(req, res, next) => {
         try {
             let user = req.session.user
             let productId = req.query.proId
             let orderId = req.query.orderId
-            console.log(orderId)
+            let cartCount = await cartHelper.getCartCount(user._id)
+             let    wishlistcount = await wishlistHelper.getWishlistCount(user._id)
             orderHelper.getOneOrder(orderId, productId).then((orderedProduct) => {
                 console.log(orderedProduct)
-                res.render('user/order-details', { layout: 'user-layout', user, orderedProduct })
+                res.render('user/order-details', { layout: 'user-layout', user, orderedProduct ,cartCount, wishlistcount})
             })
         }
         catch (error) {
             next(error)
         }
 
-    },
-    getShop: async (req, res, next) => {
-        try {
-            let category = await categoryHelper.getViewCategory()
-
-            let user = req.session.user
-            productHelper.getAllProducts().then((productData) => {
-                res.render('user/shop', { layout: 'user-layout', user, productData, category })
-
-
-            })
-        }
-        catch (error) {
-            next(error)
-        }
     },
     updateProfile: (req, res, next) => {
         try {
             userHelper.updateUserData(req.body).then((response) => {
+                console.log(response);
                 req.session.user = response.user
                 res.json({ status: true })
             })
@@ -480,43 +479,14 @@ module.exports = {
     getShop: async (req, res, next) => {
         try {
             let category = await categoryHelper.getViewCategory()
-
-            let user = req.session.user
+            
             productHelper.getAllProducts().then((productData) => {
-                res.render('user/shop', { layout: 'user-layout', user, productData, category })
+                res.render('user/shop', { layout: 'user-layout', productData, category})
             })
         }
         catch (error) {
             next(error)
         }
-
-    },
-    getShopMen: async (req, res, next) => {
-        try {
-            let category = await categoryHelper.getViewCategory()
-
-            let user = req.session.user
-            let productData = await productHelper.getProductCategoryWise("mens")
-            res.render('user/shop', { layout: 'user-layout', user, productData, category })
-        }
-        catch (next) {
-            next(error)
-        }
-
-
-    },
-    getShopWomen: async (req, res, next) => {
-        try {
-            let category = await categoryHelper.getViewCategory()
-
-            let user = req.session.user
-            let productData = await productHelper.getProductCategoryWise("womens")
-            res.render('user/shop', { layout: 'user-layout', user, productData, category })
-        }
-        catch (next) {
-            next(error)
-        }
-
 
     },
     getForgottPassword: (req, res, next) => {
@@ -574,7 +544,36 @@ module.exports = {
         catch (error) {
             next(error)
         }
-    }
+    },
+    postViewBill:(req,res,next)=>{
+        try{
+              let user = req.session.user
+            console.log(req.params)
+            orderHelper.getOneOrder(req.params.orderId,req.params.prodId).then((orderedProduct)=>{
+                console.log('dhhhhhhhhhhhhhh')
+                console.log(orderedProduct);
+                res.render('user/view-bill',{ layout: 'user-layout', user, orderedProduct })
+            })
+        }
+        catch(error){
+            next(error)
+        }
+    },
+    updateOrderStatus:(req,res,next)=>{
+        try{
+            let orderId=req.body.orderId
+            let productId=req.body.productId
+            let status=req.body.status
+            console.log(req.body);
+            orderHelper.changeOrderdProductStatus(orderId,productId,status).then((response)=>{
+                res.json({status:true})
+            })
+        }
+        catch(error){
+            next(error)
+        }
+            
+        }
 
 
 }

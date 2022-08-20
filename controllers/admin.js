@@ -5,6 +5,7 @@ const productHelper = require('../helpers/product-helper')
 const categoryHelper  = require('../helpers/category-helper')
 const orderHelper = require('../helpers/order-helper')
 const couponHelper= require('../helpers//coupon-helper')
+const bannerHelper = require('../helpers/banner-helper')
 const { response } = require('../app')
 const multer=require('../middlewares/multer')
 
@@ -99,14 +100,26 @@ module.exports = {
         
     },
     getDashBoard: async(req, res, next) => {
+        admin = req.session.admin
         try{
-            let total =await orderHelper.getTotalForAdmin()
-
+            let total =await orderHelper.getRevenue(admin._id)
+            let vendorTotal = await orderHelper.getTotalOrders()
+            let totalUsers = await orderHelper.getTotalUsers()
+            let totalVendors = await orderHelper.getTotalVendors()
+            let totalProducts = await orderHelper.getTotalProducts(admin._id)
+            let ordersCount = await orderHelper.getOrdersCount(admin._id)
+            let deliveredOrdersCount = await orderHelper.getDeliveredOrdersCount(admin._id)
+            let canceledOrdersCount = await orderHelper.getCanceledOrdersCount(admin._id)
+            let totalIncome = await orderHelper.getTotalAmountDeliveredOrders()
+            let customers = await orderHelper.getMyCustomers(admin._id)
             res.render('admin/admin-dashboard', 
-            { 
+            {
                 adminHeader:true ,
                 layout: 'admin-vendor-layout',
-                total
+                total, vendorTotal,totalUsers,
+                totalVendors,totalProducts,
+                ordersCount,deliveredOrdersCount,
+                canceledOrdersCount,totalIncome,customers
             })
         }
         catch(error){
@@ -423,13 +436,58 @@ module.exports = {
         
         
     },
-    getBanner:(req,res,next)=>{
+    getSubBanner:async(req,res,next)=>{
         try{
-            res.render('admin/banner',{ layout: 'admin-vendor-layout', adminHeader: true})
+           let banners= await bannerHelper.getAllBanners()
+           let categories = await categoryHelper.getViewCategory()
+            res.render('admin/sub-banner',{ layout: 'admin-vendor-layout', adminHeader: true,banners,categories})
         }
         catch(error){
             next(error)
         }
         
+    },
+    postBanner:(req,res,next)=>{
+        try{
+            bannerHelper.addBanner(req.body,req.files[0].filename).then((response)=>{
+                res.redirect('/admin/banner')
+            })
+        }
+        catch(error){
+            next(error)
+        }
+    },
+    deleteBanner:(req,res,next)=>{
+        let bannerId=req.params.id
+        try{
+            bannerHelper.deleteBanner(bannerId).then((response)=>{
+                res.json({status:true})
+            })
+        }
+        catch(error){
+            next(error)
+        }
+    },
+    getEditBanner:async(req,res,next)=>{
+        let bannerId=req.params.id
+        try{
+        let categories = await categoryHelper.getViewCategory()
+           let banner = await bannerHelper.getOneBanner(bannerId)
+            res.render('admin/edit-banner',{ layout: 'admin-vendor-layout', adminHeader: true,banner,categories })
+        }
+        catch(error){
+            next(error)
+        }
+    },
+    updateBanner:(req,res,next)=>{
+        console.log(req.body)
+        try{
+            bannerHelper.updateBanner(req.body,req.files[0].filename).then((response)=>{
+                res.redirect('/admin/banner')
+            })
+        }
+        catch(error){
+            next(error)
+        }
     }
 }
