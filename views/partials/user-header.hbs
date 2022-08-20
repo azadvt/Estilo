@@ -428,13 +428,10 @@
                 firstName: {
                     required: true,
                     minlength: 3,
-                    lettersonly: true
 
                 },
                 lastName: {
                     required: true,
-                    minlength: 3,
-                    lettersonly: true
                 },
 
                 email_signup: {
@@ -452,7 +449,7 @@
                 },
                 c_password: {
                     required: true,
-                    equalTo: '#password'
+                    equalTo: '#password_signup'
                 }
             },
             submitHandler: function (form) {
