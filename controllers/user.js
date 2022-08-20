@@ -78,25 +78,31 @@ module.exports = {
     },
     postSignUp: (req, res, next) => {
         try {
+            console.log(req.body);
+            delete req.body.c_password
             userHelper.checkUnique(req.body).then((response) => {
                 console.log("response=", response);
-                delete req.body.c_password
                 if (response.existEmail && response.existPhone) {
+                    console.log('1')
                     let existErr = "Allready registerd Email and Phone"
                     res.json({ existErr })
                 }
                 else if (response.existEmail) {
+                    console.log('2')
                     let existErr = "Allready registered Email"
                     res.json({ existErr })
                 }
                 else if (response.existPhone) {
+                    console.log('3')
                     let existErr = "Allready registerd Phone Number"
                     res.json({ existErr })
                 }
                 else {
+                    console.log('4')
                     req.session.body = req.body
                     twilioHelpers.dosms(req.session.body).then((data) => {
                         if (data) {
+                            console.log('data');
                             let phone = req.body.phone.slice(6, 10)
                             res.json({ status: true, phone: phone })
                         }

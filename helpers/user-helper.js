@@ -76,6 +76,7 @@ module.exports = {
                 }
     
                 else {
+                    valid=true
                     resolve(valid)
                 }
             }catch(error){

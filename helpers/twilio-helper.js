@@ -6,12 +6,15 @@ const serviceSid=process.env.SERVICE_SID
 module.exports = {
     dosms: (userData) => {
         let res = {}
+        console.log(userData);
+        console.log(serviceSid);
         return new Promise(async (resolve, reject) => {
             try{
                 client.verify.services(serviceSid).verifications.create({
                     to: `+91${userData.phone}`,
                     channel: "sms"
                 }).then((res) => {
+                    console.log('ttree');
                     res.valid = true;
                     resolve(res)
     
