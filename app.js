@@ -36,7 +36,7 @@ app.engine('hbs', hbs.engine({
     return parseInt(value)+1;
     
   }
-},extname: 'hbs', defaultLayout: 'admin-vendor-layout', layoutsDir: __dirname + '/views/layout', userDir:__dirname + '/views/user',adminDir:__dirname + '/views/admin', partialsDir:__dirname + '/views/partials/'}));
+},extname: 'hbs'  , layoutsDir: __dirname + '/views/layout', userDir:__dirname + '/views/user',adminDir:__dirname + '/views/admin', partialsDir:__dirname + '/views/partials/'}));
 
 
 app.use(nocache());
