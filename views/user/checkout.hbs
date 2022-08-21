@@ -45,7 +45,7 @@
                                 <div class="card-body">
                                     <div class="form-check ">   
                                         <input class="form-check-input"  form="checkoutForm" type="radio"
-                                            name="addressId"  id="addressId" value="{{this._id}}" required>
+                                            name="addressId"  id="addressId" value="{{this._id}}" required checked>
                                         <label class="form-check-label" for="address">
                                             <p>
                                                 {{this.firstName}} {{this.lastName}}<br>
@@ -368,12 +368,11 @@ $("#addressForm").validate({
 
 
 
-
-
-
+      
 
 ///
     $("#checkoutForm").validate({
+       
         errorClass: "error",
         rules: {
             addressId:{
@@ -383,6 +382,7 @@ $("#addressForm").validate({
                 required:true
             }
         },
+        
         submitHandler: (from) => {
             let coupon = $('#couponId').val()
             let da=$('#checkoutForm').serialize()
@@ -403,7 +403,10 @@ $("#addressForm").validate({
                 }
             })
         }
+      
     })
+      
+
 
     function razorPayment(order) {
         var options = {

@@ -78,6 +78,7 @@ module.exports = {
                 for(var i=0; i<response.length;i++){
                     response[i].discount=response[i].discount*100
                 }
+                console.log('dd');
                 console.log(response);
                 resolve(response)
             }
