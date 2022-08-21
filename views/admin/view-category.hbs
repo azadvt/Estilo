@@ -30,15 +30,14 @@
                                 <th scope="row">{{inc @index}}</th>
                                 <td>{{this.categoryName}}</td>
                                 <td>
-                                    <a href="/vendor/editCategory?id={{this._id}}">
+                                    <a href="/admin/editCategory?id={{this._id}}">
                                         <button type="button" class="btn rounded-pill btn-icon btn-outline-secondary">
                                             <span class="tf-icons bx bx-edit"></span></button>
                                     </a>
-                                    <a href="/vendor/deleteCategory?id={{this._id}}">
+                                    <a href="/admin/deleteCategory?id={{this._id}}">
                                         <button type="button" class="btn rounded-pill btn-icon btn-outline-secondary">
                                             <span class="tf-icons bx bx-trash"></span>
                                         </button></a>
-
                                 </td>
                             </tr>
                             {{/each}}

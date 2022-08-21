@@ -434,13 +434,12 @@ module.exports = {
             next(error)
         }
 
-
     },
-    getSubBanner: async (req, res, next) => {
+    getBanner: async (req, res, next) => {
         try {
             let banners = await bannerHelper.getAllBanners()
             let categories = await categoryHelper.getViewCategory()
-            res.render('admin/sub-banner', { layout: 'admin-vendor-layout', adminHeader: true, banners, categories })
+            res.render('admin/banner', { layout: 'admin-vendor-layout', adminHeader: true, banners, categories })
         }
         catch (error) {
             next(error)

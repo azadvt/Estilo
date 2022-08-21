@@ -75,7 +75,7 @@ router.post('/addCoupon',verifyLogin,adminController.postAddCoupon)
 
 router.get('/deleteCoupon/:id',verifyLogin,adminController.getDeleteCoupon)
 
-router.get('/banner',verifyLogin,adminController.getSubBanner)
+router.get('/banner',verifyLogin,adminController.getBanner)
 
 router.post('/banners',verifyLogin,store.array('image',1),adminController.postBanner)
 
