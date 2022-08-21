@@ -92,51 +92,51 @@ function changeQty(cartId, productId, userId, count) {
     let proPrice = parseInt(document.getElementById(productId + 1).innerHTML)
     let qnt = quantity + count
     console.log(qnt);
-    if(qnt==0){
+    if (qnt == 0) {
         swal({
             title: "Are you sure?",
             text: "Remove Product  From Cart",
             icon: "warning",
             buttons: true,
             dangerMode: true,
-          })
-          .then((willDelete) => {
-            
-            if (willDelete) {
-                $.ajax({
-                    url: '/changeProductQuantity',
-                    data: {
-                        count: count,
-                        productId: productId,
-                        cartId: cartId,
-                        quantity: quantity,
-                        userId: userId
-                    },
-                    method: 'post',
-                    success: (response) => {
-                        console.log(response)
-                        if (response.productRemoved) {
-                            swal("Remove Product From Cart", {
-                                icon: "success",
-                              });
-                              setTimeout(function () {
-                                window.location.reload(1);
-                            }, 1000);
-                        } else {
-            
-                            document.getElementById(productId).innerHTML = quantity + count
-                            document.getElementById('total').innerHTML = "₹" + response.total
-                            document.getElementById('sub-total').innerHTML = "₹" + response.total
-                            document.getElementById(productId + 2).innerHTML = proPrice * qnt
-            
+        })
+            .then((willDelete) => {
+
+                if (willDelete) {
+                    $.ajax({
+                        url: '/changeProductQuantity',
+                        data: {
+                            count: count,
+                            productId: productId,
+                            cartId: cartId,
+                            quantity: quantity,
+                            userId: userId
+                        },
+                        method: 'post',
+                        success: (response) => {
+                            console.log(response)
+                            if (response.productRemoved) {
+                                swal("Remove Product From Cart", {
+                                    icon: "success",
+                                });
+                                setTimeout(function () {
+                                    window.location.reload(1);
+                                }, 1000);
+                            } else {
+
+                                document.getElementById(productId).innerHTML = quantity + count
+                                document.getElementById('total').innerHTML = "₹" + response.total
+                                document.getElementById('sub-total').innerHTML = "₹" + response.total
+                                document.getElementById(productId + 2).innerHTML = proPrice * qnt
+
+                            }
                         }
-                    }
-            
-                })
-              
-            } 
-          });
-    }else{
+
+                    })
+
+                }
+            });
+    } else {
         $.ajax({
             url: '/changeProductQuantity',
             data: {
@@ -153,18 +153,18 @@ function changeQty(cartId, productId, userId, count) {
                     alert('product removed')
                     location.reload()
                 } else {
-    
+
                     document.getElementById(productId).innerHTML = quantity + count
                     document.getElementById('total').innerHTML = "₹" + response.total
                     document.getElementById('sub-total').innerHTML = "₹" + response.total
                     document.getElementById(productId + 2).innerHTML = proPrice * qnt
-    
+
                 }
             }
-    
+
         })
     }
-    
+
 }
 
 
@@ -211,43 +211,43 @@ function remove(cartId, productId) {
 //remove product from wishlist
 
 function removeFromWishlist(wishlistId, productId) {
-    
+
     swal({
         title: "Are you sure?",
         text: "This Product Remove from wishlist",
         icon: "warning",
         buttons: true,
         dangerMode: true,
-      })
-      .then((willDelete) => {
-        $.ajax({
-            url: '/removeProductFromWishlist',
-            data: {
-                wishlistId: wishlistId,
-                productId: productId
-            },
-            method: 'post',
-            success: (response) => {
-                if (response.productRemoved) {
-                    if (willDelete) {
-                        swal("product removed", {
-                          icon: "success",
-                        });
-                      } 
-                      setTimeout(function () {
-                        window.location.reload(1);
-                    }, 1000);
-                }
-               
-            },
-            error: (response) => {
-                alert('err')
-            }
-        })
-        
-      });
+    })
+        .then((willDelete) => {
+            $.ajax({
+                url: '/removeProductFromWishlist',
+                data: {
+                    wishlistId: wishlistId,
+                    productId: productId
+                },
+                method: 'post',
+                success: (response) => {
+                    if (response.productRemoved) {
+                        if (willDelete) {
+                            swal("product removed", {
+                                icon: "success",
+                            });
+                        }
+                        setTimeout(function () {
+                            window.location.reload(1);
+                        }, 1000);
+                    }
 
-   
+                },
+                error: (response) => {
+                    alert('err')
+                }
+            })
+
+        });
+
+
 }
 
 //address///////////
@@ -305,27 +305,9 @@ function editAddressForm(id) {
     })
 }
 
-function submitAddressForm() {
-    $('#addressForm').submit();
-    console.log('ju')
-    $.ajax({
-        url: '/userAddress',
-        method: 'post',
-        data: $('#addressForm').serialize(),
-        success: function (response) {
-            swal({
-                title: "Address Added Successfully!",
-                text: "Please Select Your Address",
-                icon: "success",
-                button: "Ok",
-            });
-            setTimeout(function () {
-                window.location.reload(1);
-            }, 1000);
-        }
-    });
 
-}
+
+
 
 //change product status
 
@@ -366,39 +348,13 @@ function changeProductStatus(orderId, productId, status) {
 
 }
 
+
+
+
+
+
 ////////////////////////
-document.getElementById("discountField").hidden = true
-$('#formCouponCode').submit((e) => {
-    e.preventDefault()
-    
-    $.ajax({
-        url: '/couponCode',
-        method: 'post',
-        data: $('#formCouponCode').serialize(),
-        success: (response) => {
-            console.log(response);
-            if (response.status) {
-                $('#couponCheck').show()
-                document.getElementById('couponCheck').innerHTML = 'Valid Code'
 
-                setTimeout(()=>{
-                    $('#couponCheck').prop('readonly',true)
-                },1000)
-                document.getElementById('total').innerHTML = "₹" + response.amount
-                document.getElementById("discountField").hidden = false
-                document.getElementById('discount').innerHTML = "₹" + response.discount
-            }
-            else{
-                $('#couponCheck').show()
-                document.getElementById('couponCheck').innerHTML = 'Invalid Code'
-
-                setTimeout(()=>{
-                    $('#couponCheck').hide()
-                },1000)
-            }
-        }
-    })
-})
 
 
 

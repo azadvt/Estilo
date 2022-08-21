@@ -66,8 +66,22 @@ router.get('/deleteAddress/:id',verifyLogin,usercontroller.deleteAddress)
 
 router.get('/orderDetails',verifyLogin,usercontroller.getOrderDetails)
 
-router.get('/shop',verifyLogin,usercontroller.getShop)
+router.get('/shop',usercontroller.getShop)
 
 router.post('/editProfile',verifyLogin,usercontroller.updateProfile)
+
+router.get('/shop/:id',usercontroller.getFilter)
+
+router.post('/forgotPassword',usercontroller.getForgottPassword)
+
+router.post('/forgotPassWordOtp',usercontroller.postForgottPasswordOtp)
+
+router.post('/updatePassword',usercontroller.updatePassword)
+
+router.get('/viewBill/:orderId/:prodId',usercontroller.postViewBill)
+
+router.post('/updateOrderStatus',verifyLogin,usercontroller.updateOrderStatus)
+
+
 
 module.exports = router;

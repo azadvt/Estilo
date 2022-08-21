@@ -13,6 +13,9 @@ var app = express();
 let db = require('./config/connection');
 let session = require('express-session');
 const nocache = require("nocache");
+const dotenv=require('dotenv')
+dotenv.config()
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -33,7 +36,7 @@ app.engine('hbs', hbs.engine({
     return parseInt(value)+1;
     
   }
-},extname: 'hbs', defaultLayout: 'user-layout', layoutsDir: __dirname + '/views/layout', userDir:__dirname + '/views/user',adminDir:__dirname + '/views/admin', partialsDir:__dirname + '/views/partials/'}));
+},extname: 'hbs'  , layoutsDir: __dirname + '/views/layout', userDir:__dirname + '/views/user',adminDir:__dirname + '/views/admin', partialsDir:__dirname + '/views/partials/'}));
 
 
 app.use(nocache());

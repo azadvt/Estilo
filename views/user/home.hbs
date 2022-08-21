@@ -7,11 +7,11 @@
                 <div class="row">
                     <div class="col-xl-5 col-lg-7 col-md-8">
                         <div class="hero__text">
-                            <h6>Men Collection</h6>
-                            <h2>Men Collections 2030</h2>
+                            <h6>Estilo  </h6>
+                            <h2>SPECIAL COLLECTION</h2>
                             <p>A specialist label creating luxury essentials. Ethically crafted with an unwavering
                                 commitment to exceptional quality.</p>
-                            <a href="#" class="primary-btn">Shop now <span class="arrow_right"></span></a>
+                            <a href="/shop" onclick="" class="primary-btn">Shop now <span class="arrow_right"></span></a>
                             <div class="hero__social">
                                 <a href="#"><i class="fa fa-facebook"></i></a>
                                 <a href="#"><i class="fa fa-twitter"></i></a>
@@ -23,34 +23,51 @@
                 </div>
             </div>
         </div>
-        <div class="hero__items set-bg" data-setbg="/user/img/hero/hero-2.jpg">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-5 col-lg-7 col-md-8">
-                        <div class="hero__text">
-                            <h6>Woman Collection</h6>
-                            <h2>Woman Winter Collections 2030</h2>
-                            <p>A specialist label creating luxury essentials. Ethically crafted with an unwavering
-                                commitment to exceptional quality.</p>
-                            <a href="/shop" class="primary-btn">Shop now <span class="arrow_right"></span></a>
-                            <div class="hero__social">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-pinterest"></i></a>
-                                <a href="#"><i class="fa fa-instagram"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
     </div>
 </section>
 <!-- Hero Section End -->
-    <!-- Banner Section Begin -->
+     <!-- Banner Section Begin -->
     <section class="banner spad">
         <div class="container">
-            <h3><u>EXPLORE</u> </h3>
+            <div class="row">
+                <div class="col-lg-7 offset-lg-4">
+                    <div class="banner__item">
+                        <div class="banner__item__pic">
+                            <img src="/product-images/{{banners.[0].image}}" alt="">
+                        </div>
+                        <div class="banner__item__text ml-3">
+                            <h2>{{banners.[0].bannerName}}</h2>
+                            <h2>{{banners.[0].description1}}</h2>
+                            <a href="/shop/{{banners.[0].link}}">Shop now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="banner__item banner__item--middle">
+                        <div class="banner__item__pic">
+                            <img src="/product-images/{{banners.[1].image}}" alt="">
+                        </div>
+                        <div class="banner__item__text">
+                            <h2>{{banners.[1].bannerName}}</h2>
+                            <h2>{{banners.[1].description1}}</h2>
+                            <a href="/shop/{{banners.[1].link}}">Shop now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="banner__item banner__item--last">
+                        <div class="banner__item__pic">
+                            <img src="/product-images/{{banners.[2].image}}" alt="">
+                        </div>
+                        <div class="banner__item__text  ml-3">
+                                 <h2>{{banners.[2].bannerName}}</h2>
+                            <h2>{{banners.[2].description1}}</h2>
+                            <a href="/shop/{{banners.[2].link}}">Shop now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     <!-- Banner Section End -->
@@ -61,16 +78,14 @@
          
             <div class="row product__filter">
                 {{#each productData}}
-                <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals ">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12   ">
                     
                     <div class="product__item">
                          <div class="product__item__pic set-bg"  data-setbg="/product-images/{{this.images.[0]}}">
-                            <span class="label">New</span>
                             <ul class="product__hover">
                                 <li><a href="/viewProduct?id={{this._id}}"><img src="/user/img/icon/see.png" alt=""><span>View</span></a></li>
                                 <li><a href="javascript:void(0)r" onclick="addToWishlist('{{this._id}}')"><img src="/user/img/icon/heart.png" alt=""><span>Wishlist</span></a>
                                 </li>
-                                <li><a href="#"><img src="/user/img/icon/search.png" alt=""></a></li>
                             </ul>
                         </div>
                         
@@ -80,27 +95,9 @@
                                 <h6>{{this.name}}</h6>
                             <a href="javascript:void(0)" onclick="addToCart('{{this._id}}')" class="add-cart">+ Add To Cart</a>
                             </div>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-
                             <div><h5>₹{{this.price}}</h5></div>
                             
-                            <div class="product__color__select">
-                                <label for="pc-1">
-                                    <input type="radio" id="pc-1">
-                                </label>
-                                <label class="active black" for="pc-2">
-                                    <input type="radio" id="pc-2">
-                                </label>
-                                <label class="grey" for="pc-3">
-                                    <input type="radio" id="pc-3">
-                                </label>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -112,3 +109,5 @@
 
     
 </body>
+
+

@@ -5,7 +5,7 @@
                 <div class="breadcrumb__text">
                     <h4>Shop</h4>
                     <div class="breadcrumb__links">
-                        <a href="./index.html">Home</a>
+                        <a href="/">Home</a>
                         <span>Shop</span>
                     </div>
                 </div>
@@ -37,15 +37,9 @@
                                     <div class="card-body">
                                         <div class="shop__sidebar__categories">
                                             <ul class="nice-scroll">
-                                                <li><a href="#">Men (20)</a></li>
-                                                <li><a href="#">Women (20)</a></li>
-                                                <li><a href="#">Bags (20)</a></li>
-                                                <li><a href="#">Clothing (20)</a></li>
-                                                <li><a href="#">Shoes (20)</a></li>
-                                                <li><a href="#">Accessories (20)</a></li>
-                                                <li><a href="#">Kids (20)</a></li>
-                                                <li><a href="#">Kids (20)</a></li>
-                                                <li><a href="#">Kids (20)</a></li>
+                                                {{#each category}}
+                                                <li><a class="cursor" onclick="filterCategory('{{this.categoryName}}')">{{this.categoryName}}</a></li>
+                                                {{/each}}
                                             </ul>
                                         </div>
                                     </div>
@@ -58,11 +52,10 @@
                                 <div id="collapseTwo" class="collapse show" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div class="shop__sidebar__brand">
-                                            <ul>
-                                                <li><a href="#">Louis Vuitton</a></li>
-                                                <li><a href="#">Chanel</a></li>
-                                                <li><a href="#">Hermes</a></li>
-                                                <li><a href="#">Gucci</a></li>
+                                            <ul class="btns">
+                                                {{#each productData}}
+                                                <li><a class="cursor brand" data-menu="{{this.brand}}">{{this.brand}}</a></li>
+                                                {{/each}}
                                             </ul>
                                         </div>
                                     </div>
@@ -113,35 +106,24 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row" >
                     {{#each productData}}
-                    <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="col-lg-4 col-md-6 col-sm-6 prodBrand" data-menu="{{this.brand}} ">
                         <div class="product__item">
                             <div class="product__item__pic set-bg" data-setbg="/product-images/{{this.images.[0]}}">
-                                <span class="label">New</span>
                                 <ul class="product__hover">
                                     <li><a href="/viewProduct?id={{this._id}}"><img src="/user/img/icon/see.png"
                                                 alt=""><span>View</span></a></li>
                                     <li><a href="javascript:void(0)r" onclick="addToWishlist('{{this._id}}')"><img
                                                 src="/user/img/icon/heart.png" alt=""><span>Wishlist</span></a>
                                     </li>
-                                    <li><a href="#"><img src="/user/img/icon/search.png" alt=""></a></li>
                                 </ul>
                             </div>
-
                             <div class="product__item__text">
-
                                 <div style="height:2.5rem; max-height:2.5rem">
                                     <h6>{{this.name}}</h6>
                                     <a href="javascript:void(0)" onclick="addToCart('{{this._id}}')" class="add-cart">+
                                         Add To Cart</a>
-                                </div>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-o"></i>
                                 </div>
 
                                 <div>
@@ -169,3 +151,12 @@
         </div>
     </div>
 </section>
+
+
+
+<style>.cursor {
+    cursor: pointer;
+
+}
+
+</style>

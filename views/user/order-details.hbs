@@ -1,7 +1,7 @@
 <div class="container my-4">
-    <article class="card">
+    <article class="card" >
         <header class="card-header"> My Orders / Tracking </header>
-        <div class="card-body" id='printarea'>
+        <div class="card-body" id='invoice'>
             <div class="d-flex">
 
                 <address class="p2" >
@@ -15,7 +15,8 @@
                 </address>
 
                 <div class="ml-auto p-2">
-                  <input type='button' id='btn' value='Invoice' onclick='printFunc();'>
+                    <a type="button" href="/viewBill/{{orderedProduct._id}}/{{orderedProduct.products.item}}" 
+                                        class="btn-sm btn-outline-dark">View Bill</a>
                     <button class="btn-sm btn-danger"
                         onclick="changeProductStatus('{{orderedProduct._id}}','{{orderedProduct.products.item}}','Cancel')">Cancel
                         Order</button>
@@ -85,7 +86,7 @@
                     {{orderedProduct.product.name}}<br><strong>{{orderedProduct.product.brand}}</strong>
                     <input type="text" id="priceValue" value="{{orderedProduct.product.price}}" hidden></input>
                     <input type="text" id="quantity" value="{{orderedProduct.products.quantity}}" hidden></input>
-                </p> <br>({{orderedProduct.products.quantity}} Items) <br> <span id="price">₹{{orderedProduct.product.price}} </span>
+                </p> <br><span>({{orderedProduct.products.quantity}} Items)   </span> X <span id="price">₹{{orderedProduct.product.price}} = </span> <span>  ₹{{orderedProduct.totalAmount}}</span>
             </div>
 
             <hr>
@@ -97,27 +98,10 @@
 
 
 <script>
-function printFunc() {
-    var divToPrint = document.getElementById('printarea');
-    
-    var htmlToPrint = '' +
-        '<style type="text/css">' +
-        'table th, table td {' +
-        'border:1px solid #000;' +
-        'padding;0.5em;' +
-        '}' +
-        '</style>';
-    htmlToPrint += divToPrint.outerHTML;
-    newWin = window.open("");
-    newWin.document.write("<h3 align='center'>Estilo</h3>");
-    newWin.document.write(htmlToPrint);
-    newWin.print();
-    newWin.close();
+    function generatePDF() {
+        // Choose the element that our invoice is rendered in.
+        const element = document.getElementById('invoice');
+        // Choose the element and save the PDF for our user.
+        html2pdf().from(element).save();
     }
-
-    var a=document.getElementById('priceValue').value
-    var b=document.getElementById('quantity').value
-    document.getElementById('price').innerHTML="₹"+a*b
-    console.log(a)
-
 </script>

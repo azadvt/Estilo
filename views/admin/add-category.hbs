@@ -11,7 +11,7 @@
 
                     <div class="ml-5 col-md-12 ">
 
-                        <form action="/vendor/addCategory" method="post" name="addCategory" id="form"
+                        <form action="/admin/addCategory" method="post" name="addCategory" id="form"
                             onsubmit="return validateAddCategory()">
                             <label  for="">Category Name</label> <br>
                             <span id="requiredCategoryName" class="text-danger letter"> </span>
@@ -33,27 +33,3 @@
         </div>
     </section>
     </body>
-
-    {{!-- <script>
-        function validateAddCategory(){
-            var categoryName=document.addCategory.categoryName
-
-            if(allLetter(categoryName)){
-            }
-                     return false
-
-        }
-        function allLetter(categoryName) {
-    var letters = /^[A-Za-z]+$/;
-    if (categoryName.value.match(letters)) {
-        return true;
-    }
-    else {
-        document.getElementById('requiredCategoryName').innerHTML = "Username must have alphabet characters only";
-
-        alert('Username must have alphabet characters only');
-        categoryName.focus();
-        return false;
-    }
-}
-    </script> --}}

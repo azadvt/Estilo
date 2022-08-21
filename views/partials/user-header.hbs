@@ -1,3 +1,4 @@
+
 <body>
     <!-- Page Preloder -->
     <div id="preloder">
@@ -6,15 +7,24 @@
 
     <!-- Offcanvas Menu Begin -->
     <div class="offcanvas-menu-overlay"></div>
-    <div class="offcanvas-menu-wrapper">
+    <div class="offcanvas-menu-wrapper ">
         <div class="offcanvas__option">
             <div class="offcanvas__links">
                 {{#if user}}
                 <a href="#">{{user.firstName}} {{user.lastName}}</a>
-                <a href="/loggout">Log Out</a>
+                <a href="/logout">Log Out</a>
 
-               
-                
+                {{else}}
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn text-white primary-btn2" data-toggle="modal"
+                            data-target="#loginModal">
+                            log in
+                        </button>
+                        <button type="button" class="btn text-white primary-btn2" data-toggle="modal"
+                            data-target="#signupModal">
+                            Sign up
+                        </button>
+
                 {{/if}}
             </div>
         </div>
@@ -26,15 +36,13 @@
                     id="cartCount">{{user.cartCount}}</span></a>
             <a href="/profile"><img src="/user/img/icon/user1.png" alt=""><span
                     class="badge badge-light ml-3 mb-4"></span> </a>
-
         </div>
         <div id="mobile-menu-wrap"></div>
 
     </div>
     <!-- Offcanvas Menu End -->
-
     <!-- Header Section Begin -->
-    <header class="header">
+    <header class="header ">
         <div class="header__top ">
             <div class="container">
                 <div class="header__top__right">
@@ -45,57 +53,53 @@
                         {{else}}
                         <!-- Button trigger modal -->
                         <button type="button" class="btn text-white primary-btn2" data-toggle="modal"
-                            data-target="#exampleModalCenter">
+                            data-target="#loginModal">
                             log in
                         </button>
                         <button type="button" class="btn text-white primary-btn2" data-toggle="modal"
-                            data-target="#exampleModalCenter2">
+                            data-target="#signupModal">
                             Sign up
                         </button>
+                        {{/if}}
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true" id="loginModal">
+                       
+                        <!-- user Login -->
+                        <div class="modal fade" id="loginModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header ">
-                                        <h2>Login</h2>
-
+                                <div class="modal-content text-center">
+                                    <div class="modal-header p-5">
+                                        <h4>LOGIN</h4>
                                     </div>
-                                    <div class="modal-body text-center">
+
+                                    <div class="modal-body m-5">
                                         <div class="alert alert-danger" id="emailOrPass" role="alert">
                                             <p>Your email and password does not match</p>
                                         </div>
-                                        <div class="alert alert-danger" id="blockedErr" role="alert">
+                                        <div class="alert alert-danger" id="blockedErrLogin" role="alert">
                                             <p>your account is blocked</p>
                                         </div>
 
-
-
                                         <form action="javascript:void(0)" method="post" name="userLogin" id="userLogin">
-
-                                            <div class="form-outline form-white  mb-4">
-                                                <label for="">Email</label>
-                                                <input type="email" id="email2" name="email" placeholder="Email"
+                                            <div class="md-form  mb-4">
+                                                <input type="email" name="email"
+                                                    placeholder="enter your email or username"
                                                     class="form-control form-control-lg" required />
-                                                <span id="requiredEmail" class="text-danger"> </span>
+
 
                                             </div>
 
-
-                                            <div class="form-outline form-white mb-4">
-                                                <label for="">Password</label>
+                                            <div class="md-form mb-4">
                                                 <input type="password" id="password" name="password"
-                                                    placeholder="Password" class="form-control form-control-lg"
-                                                    required />
-                                                <span id="requiredPassword" class="text-danger"> </span>
-
+                                                    placeholder="enter your password"
+                                                    class="form-control form-control-lg" required />
 
                                             </div>
-                                            <button type="submit" onclick="submitLogin()"
-                                                class="btn text-white primary-btn2">Login</button>
-
-
+                                            <div>
+                                                <a data-toggle="modal" data-target="#forgotPasswordModal"
+                                                    data-dismiss="modal" class="text-black-50 btn">forgot password</a>
+                                            </div>
+                                            <button type="submit" class="btn text-white primary-btn2">Login</button>
                                         </form>
 
 
@@ -103,7 +107,7 @@
 
                                     <div class="text-center">
                                         <p class="mt-4">Don't have an account? <a data-toggle="modal"
-                                                data-target="#exampleModalCenter2" class="text-black-50 btn"
+                                                data-target="#signupModal" class="text-black-50 btn"
                                                 data-dismiss="modal">Sign
                                                 Up</a>
                                         </p>
@@ -111,7 +115,47 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog"
+
+
+
+
+
+                        <!-- user forgott Password -->
+
+                        <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content text-center">
+                                    <div class="modal-header p-5">
+                                        <h4>FORGOT PASSWORD</h4>
+                                    </div>
+
+                                    <div class="modal-body m-5">
+                                        <form action="javascript:void(0)" method="post" name="userForgotPass"
+                                            id="userForgotPass">
+                                            <div class="md-form  mb-4">
+                                                <input type="email" name="email"
+                                                    placeholder="enter your email or username"
+                                                    class="form-control form-control-lg" required />
+                                                <span id="requiredEmail" class="text-danger"> </span>
+                                            </div>
+                                            <div class="md-form mb-4">
+                                                <input type="number" name="phone" placeholder="enter your phone number"
+                                                    class="form-control form-control-lg" required />
+                                                <span id="requiredPhone" class="text-danger"> </span>
+                                            </div>
+                                            <button type="submit" onclick="submitForgot()"
+                                                class="btn text-white primary-btn2">submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- user SignUp -->
+
+                        <div class="modal fade" id="signupModal" tabindex="-1" role="dialog"
                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
@@ -149,9 +193,8 @@
                                             </div>
                                             <div class="mb-4">
                                                 <div class="form-outline form-white">
-                                                    <input type="text" id="email" name="email"
-                                                        class="form-control form-control-lg" autocomplete="off"
-                                                        placeholder="Your Email" required />
+                                                    <input type="text" id="email_signup" name="email" class="form-control form-control-lg"
+                                                        autocomplete="off" placeholder="Your Email" required />
 
                                                     <span id="emailerr" class="text-danger"> </span>
                                                 </div>
@@ -159,7 +202,7 @@
                                             <div class="mb-4 pb-1">
 
                                                 <div class="form-outline form-white">
-                                                    <input type="number" id="phone" name="phone"
+                                                    <input type="number" name="phone"
                                                         class="form-control form-control-lg" autocomplete="off"
                                                         placeholder="Phone Number" required />
                                                     <span id="phoneerr" class="text-danger"> </span>
@@ -168,7 +211,7 @@
                                             </div>
                                             <div class="mb-4 pb-1">
                                                 <div class="form-outline">
-                                                    <input type="password" id="password2" name="password"
+                                                    <input type="password" id="password_signup" name="password"
                                                         class="form-control form-control-lg" autocomplete="off"
                                                         placeholder="Password" required />
                                                     <span id="passworderr" class="text-danger"> </span>
@@ -185,14 +228,12 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn  site-btn2" data-dismiss="modal">Close</button>
-                                        <button class="btn text-white primary-btn2" onclick="submitSignUp()"
-                                            type="submit">Submit</button>
+                                        <button class="btn text-white primary-btn2" type="submit">Submit</button>
                                     </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
-                        {{/if}}
 
                     </div>
                 </div>
@@ -210,17 +251,9 @@
                         <ul>
                             <li><a href="/">Home</a></li>
                             <li><a href="/shop">Shop</a></li>
-                            <li><a href="#">Pages</a>
-                                <ul class="dropdown">
-                                    <li><a href="./about.html">About Us</a></li>
-                                    <li><a href="./shop-details.html">Shop Details</a></li>
-                                    <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                                    <li><a href="./checkout.html">Check Out</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
-                                </ul>
-                            </li>
+
                             <li><a href="/viewOrders">My Orders</a></li>
-                            <li><a href="./contact.html">Contacts</a></li>
+                            <li><a href="#">Contacts</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -241,19 +274,55 @@
             <div class="canvas__open"><i class="fa fa-bars"></i></div>
         </div>
 
-
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModalCenter3" tabindex="-1" role="dialog"
+        <div class="modal fade" id="updatePasswordModal" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content text-center">
+                    <div class="modal-header p-5">
+                        <h4>ENTER NEW PASSWORD</h4>
+                    </div>
+
+                    <div class="modal-body m-5">
+
+
+
+                        <form action="javascript:void(0)" method="post" name="updatePassword" id="updatePassword">
+                            <div class="md-form  mb-4">
+                                <input type="password" name="password" placeholder="enter your new password"
+                                    class="form-control form-control-lg" required />
+                                <span id="requiredPassword" class="text-danger"> </span>
+
+                            </div>
+                            <div class="md-form  mb-4">
+                                <input type="password" name="c_password" placeholder="confirm password"
+                                    class="form-control form-control-lg" required />
+                                <span id="requiredC_Password" class="text-danger"> </span>
+                            </div>
+
+
+                            <button type="submit" 
+                                class="btn text-white primary-btn2">submit</button>
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Otp -->
+
+        <div class="modal fade" id="otpModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+            aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="container py-3 d-flex justify-content-center align-items-center">
                             <div class="card otpcard p-2 text-center">
-                                 <p class="text-danger" id="invalidOtp">Invalid OTP</p>
+                                <p class="text-danger" id="invalidOtp">Invalid OTP</p>
                                 <form action="javascript:void(0)" id="otpForm" method="post">
                                     <h6>Please enter the one time password <br> to verify your account</h6>
-                                    <div> <span>A code has been sent to</span> <small id="userPhone"></small> </div>
+                                    <div> <span>A code has been sent to</span> <small id="userPhoneForgot"></small>
+                                    </div>
                                     <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
 
                                         <input class="m-2 text-center form-control rounded" type="text" id="first"
@@ -265,12 +334,17 @@
                                             class="m-2 text-center form-control rounded" type="text" id="fourth"
                                             maxlength="1" form="otpForm" name="otp" /> <input
                                             class="m-2 text-center form-control rounded" type="text" id="fifth"
-                                            maxlength="1" name="otp"/> <input class="m-2 text-center form-control rounded"
-                                            type="text" id="sixth" maxlength="1" form="otpForm" name="otp" />
+                                            maxlength="1" name="otp" /> <input
+                                            class="m-2 text-center form-control rounded" type="text" id="sixth"
+                                            maxlength="1" form="otpForm" name="otp" />
 
                                     </div>
-                                    <div class="mt-4"> <button onclick="submitOtp()"
-                                            class="btn btn-dark px-4 validate">Validate</button> </div>
+                                    <div class="mt-4"> <button onclick="submitOtp()" class="btn btn-dark px-4 validate"
+                                            id="signUpOtp">Validate</button>
+                                        <div class="mt-4">
+                                            <button onclick="submitForgotOtp()" class="btn btn-dark px-4 validate"
+                                                id="forgotOtp">Validate</button>
+                                        </div>
                                 </form>
                             </div>
                         </div>
@@ -278,13 +352,18 @@
                 </div>
             </div>
         </div>
+
+
+
+
     </header>
     <!-- Header Section End -->
 
-
     <script>
 
-        
+        document.getElementById('forgotOtp').hidden = true
+        document.getElementById('signUpOtp').hidden = true
+
         document.addEventListener("DOMContentLoaded", function (event) {
 
             function OTPInput() {
@@ -293,64 +372,116 @@
             } OTPInput();
         });
 
- document.getElementById("emailOrPass").hidden = true
-        document.getElementById("blockedErr").hidden = true
+        document.getElementById("emailOrPass").hidden = true
+        document.getElementById("blockedErrLogin").hidden = true
         document.getElementById("signUpErr").hidden = true
         document.getElementById("invalidOtp").hidden = true
-       
-        
-
-        function submitLogin() {
-            $('#userLogin').submit();
-            $.ajax({
-                url: '/userLogin',
-                method: 'post',
-                data: $('#userLogin').serialize(),
-                success: function (response) {
-                    console.log(response)
-                    if (response.status) {
-                        window.location.reload(1);
 
 
-                    }
-                    if (response.userBlockErr) {
-                        document.getElementById("blockedErr").hidden = false
-                    }
-                    if (response.userLogErr) {
-                        document.getElementById("emailOrPass").hidden = false
-                    }
-                }
-            })
-        }
-        function submitSignUp() {
-            $('#userSignup').submit();
 
-            $.ajax({
-                url: '/userSignup',
-                method: 'post',
-                data: $('#userSignup').serialize(),
-                success: function (response) {
-                    if (response.status) {
-                        document.getElementById('userPhone').innerHTML = response.phone
-                        $('#exampleModalCenter3').modal('toggle');
-                        $('#exampleModalCenter2').modal('hide');
+        $("#userLogin").validate({
+            errorClass: "error",
+            rules: {
+                email: {
+                    required: true,
+                    email: true,
 
-                    }
-
-                    else if (response.existErr) {
+                },
+                password: {
+                    required: true,
+                    minlength: 8
+                },
+            },
+            submitHandler: function (form) {
+                $.ajax({
+                    url: '/userLogin',
+                    method: 'post',
+                    data: $('#userLogin').serialize(),
+                    success: function (response) {
                         console.log(response)
-                        document.getElementById("signUpErr").hidden = false
-                        document.getElementById('errMessege').innerHTML = response.existErr
+                        if (response.status) {
+                            window.location.reload(1);
+                        }
+                        if (response.userBlockErr) {
+                            document.getElementById("blockedErrLogin").hidden = false
+                            setInterval(() => {
+                                document.getElementById("blockedErrLogin").hidden = true
+                            }, 4000)
 
+                        }
+                        if (response.userLogErr) {
+                            document.getElementById("emailOrPass").hidden = false
+                            setTimeout(() => {
+                                document.getElementById("emailOrPass").hidden = true
+                            }, 4000)
 
-                        setTimeout(function () {
-                            $('#signUpErr').fadeOut('fast');
-                        }, 3000);
+                        }
                     }
+                })
+            }
 
+        })
+
+        $("#userSignup").validate({
+            errorClass: "error",
+            rules: {
+                firstName: {
+                    required: true,
+                    minlength: 3,
+
+                },
+                lastName: {
+                    required: true,
+                },
+
+                email_signup: {
+                    required: true,
+                    email: true,
+
+                },
+                phone: {
+                    required: true,
+                    minlength: 10
+                },
+                password_signup: {
+                    required: true,
+                    minlength: 5
+                },
+                c_password: {
+                    required: true,
+                    equalTo: '#password_signup'
                 }
-            })
-        }
+            },
+            submitHandler: function (form) {
+                $.ajax({
+                    url: '/userSignup',
+                    method: 'post',
+                    data: $('#userSignup').serialize(),
+                    success: function (response) {
+                        if (response.status) {
+                            $('#otpModal').modal('toggle');
+                            document.getElementById('signUpOtp').hidden = false
+                            document.getElementById('userPhoneForgot').innerHTML = "+91****" + response.phone
+                            $('#signupModal').modal('hide');
+
+                        }
+
+                        else if (response.existErr) {
+                            console.log(response)
+                            document.getElementById("signUpErr").hidden = false
+                            setInterval(() => {
+                                document.getElementById("signUpErr").hidden = true
+                            }, 4000)
+                            document.getElementById('errMessege').innerHTML = response.existErr
+                            setTimeout(function () {
+                                $('#signUpErr').fadeOut('fast');
+                            }, 3000);
+                        }
+
+                    }
+                })
+            }
+        })
 
         function submitOtp() {
             $('#otpForm').submit();
@@ -362,13 +493,99 @@
                 data: $('#otpForm').serialize(),
                 success: (response) => {
                     if (response.status) {
-                         window.location.reload(1);
-                    }else{
+                        window.location.reload(1);
+                    } else {
                         document.getElementById("invalidOtp").hidden = false
+                        setTimeout(() => {
+                            document.getElementById("invalidOtp").hidden = true
+                        }, 4000)
                     }
                 }
             })
         }
+        function submitForgot() {
+            document.getElementById('signUpOtp').hidden = true
+            $('#userForgotPass').submit();
+            $.ajax({
+                url: '/forgotPassword',
+                method: 'post',
+                data: $('#userForgotPass').serialize(),
+                success: (response) => {
+                    console.log(response)
+                    if (response.status) {
+                        $('#otpModal').modal('toggle');
+                        document.getElementById('forgotOtp').hidden = false
+                        document.getElementById('userPhoneForgot').innerHTML = "+91****" + response.phone
+                        $('#forgotPasswordModal').modal('hide');
+                    }
+                    else {
+                        alert("err")
+                    }
+                }
+            })
+        }
+
+
+        function submitForgotOtp() {
+            $('#otpForm').submit();
+            $.ajax({
+                url: '/forgotPassWordOtp',
+                method: 'post',
+                data: $('#otpForm').serialize(),
+                success: (response) => {
+                    if (response.status) {
+                        $('#otpModal').modal('hide');
+                        $('#updatePasswordModal').modal('toggle');
+
+                    } else {
+                        document.getElementById("invalidOtp").hidden = false
+
+                        setTimeout(() => {
+                            document.getElementById("invalidOtp").hidden = true
+                        }, 4000)
+                    }
+                }
+
+            })
+        }
+
+            $("#updatePassword").validate({
+                errorClass: "error",
+            rules: {
+                password_signup: {
+                    required: true,
+                    minlength: 5
+                },
+                c_password: {
+                    required: true,
+                    equalTo: '#password',
+
+                }
+            },
+            submitHandler:function(form){
+            $.ajax({
+                url: '/updatePassword',
+                method: 'post',
+                data: $('#updatePassword').serialize(),
+                success: (response) => {
+                    if (response.status) {
+                        $('#updatePasswordModal').hide()
+                        swal("Password Changed!", "Your password changed successfully please do login", "success");
+                        setTimeout(()=>{
+                            $('#loginModal').modal('toggle');
+                        },1000)
+                    } else {
+                        document.getElementById("invalidOtp").hidden = false
+                    }
+                }
+
+            })
+            }
+        
+        })
+
+
+
 
 
 

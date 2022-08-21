@@ -83,9 +83,7 @@
                         <div class="product__details__cart__option mt-5 mb-5">
                             <div class="quantity">
                                 <div class="pro-qty">
-                                    <span class="fa fa-angle-up dec qtybtn"></span>
                                     <input type="text" id="quantity" value="1">
-                                    <span class="fa fa-angle-down inc qtybtn"></span>
                                 </div>
                             </div>
                              <a href="javascript:void(0)" onclick="viewProductAddToCart('{{productData._id}}')" class="primary-btn"> Add To Cart</a>
@@ -108,21 +106,22 @@
 
 <script>
       var proQty = $('.pro-qty');
-
+    proQty.prepend('<span class="fa fa-angle-up dec qtybtn"></span>');
+    proQty.append('<span class="fa fa-angle-down inc qtybtn"></span>');
     proQty.on('click', '.qtybtn', function () {
         var $button = $(this);
         var oldValue = $button.parent().find('input').val();
-        console.log(oldValue)
         if ($button.hasClass('inc')) {
             var newVal = parseFloat(oldValue) + 1;
         } else {
             // Don't allow decrementing below zero
-            if (oldValue > 0) {
+            if (oldValue > 1) {
                 var newVal = parseFloat(oldValue) - 1;
             } else {
-                newVal = 0;
+                newVal = 1;
             }
         }
+        $button.parent().find('input').val(newVal);
     });
 
   function  viewProductAddToCart(id){
@@ -136,7 +135,9 @@
         },
         method:'post',
         success:(response)=>{
-            console.log(response)
+            if(response.status){
+                 swal("Added to Cart", "Please Check your Cart", "success");
+            }
         }
     })
     }

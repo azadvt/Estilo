@@ -1,6 +1,6 @@
-<div class="content-wrapper" id="vendor-orders">
-    <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="card col-sm-12 col-xl-12">
+<section class="container-p-y container-xxl flex-grow-1">
+  <div class="d-flex align-items-end ">
+        <div class="card ">
             <div class="d-flex justify-content-between">
                 <div>
                     <h5 class="card-header">Orders</h5>
@@ -8,8 +8,8 @@
 
             </div>
 
-            <div class="table-responsive ">
-                <table class="table table-hover table-bordered" id="viewOrders">
+            <div class="table-responsive text-nowrap p-4">
+                <table class="table table-hover table p-3" style="width:100%" id="dataTable">
                     <thead>
                         <tr>
                             <th scope="col">Sl NO.</th>
@@ -124,9 +124,9 @@
             </div>
         </div>
     </div>
-</div>
+</section>  
 
-     
+
    
 <script>
 
@@ -171,17 +171,9 @@
 
     });
 
-
-    $(document).ready(function () {
-
-
-        $('#viewOrders').wrap('<div id="hide" style="display:none"/>');
-
-        $('#hide').css('display', 'block');
-    });
-
-
-    var table = $('#viewOrders').DataTable();
-
-
+  $(document).ready(function () {
+    $('#dataTable').wrap('<div id="hide" style="display:none"/>');
+    $('#hide').css('display', 'block');
+  });
+  var table = $('#dataTable').DataTable();
 </script>

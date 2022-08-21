@@ -5,74 +5,109 @@ const ObjectId = require('mongodb').ObjectId
 
 
 module.exports = {
-    addProduct: (productData, images,vendorId) => {
-        let price = Number(productData.price)  
-        return new Promise((resolve, reject) => {
-            db.get().collection(collection.PRODUCT_COLLECTION).insertOne({
-                vendor:ObjectId(vendorId),
-                name: productData.name,
-                brand: productData.brand,
-                price: price,
-                categoryName: productData.categoryName,
-                productDescription: productData.productDescription,
-                'deletedProduct':false,
-                images
-            })
+  addProduct: (productData, images, vendorId) => {
+    let price = Number(productData.price)
+    return new Promise((resolve, reject) => {
+      try {
+        db.get().collection(collection.PRODUCT_COLLECTION).insertOne({
+          vendor: ObjectId(vendorId),
+          name: productData.name,
+          brand: productData.brand,
+          price: price,
+          categoryName: productData.categoryName,
+          productDescription: productData.productDescription,
+          'deletedProduct': false,
+          images
         })
+      }
+      catch (error) {
+        reject(error)
+      }
 
-    },
-    getAllProductForAdmin: () => {
-        return new Promise(async (resolve, reject) => {
-            let productData = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
-                {
-                  '$lookup': {
-                    'from': 'vendor', 
-                    'localField': 'vendor',
-                    'foreignField': '_id', 
-                    'as': 'vendor'
-                  }
-                }, {
-                  '$unwind': {
-                    'path': '$vendor'
-                  }
-                }, {
-                  '$match': {
-                    'deletedProduct': false
-                  }
-                }, {
-                  '$sort': {
-                    'name': 1
-                  }
-                }
-              ]).toArray()
-            resolve(productData)
-        })
-    },
-    getOneProduct: (productId) => {
-        return new Promise(async (resolve, reject) => {
-            let productData = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: ObjectId(productId) })
-            resolve(productData)
-        })
-    },
-    deleteProduct: (productId) => {
-        db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: ObjectId(productId) }, { $set: { deletedProduct: true } })
-    },
-    updateProduct: (productId, productData, images,vendorId) => {
-        let price = Number(productData.price) 
-        db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: ObjectId(productId) }, {
-            $set: {
-                'vendor':vendorId,
-                'name': productData.name,
-                'brand': productData.brand,
-                'price': price,
-                'category': productData.category,
-                'productDescription': productData.productDescription,
-                images
+    })
+
+  },
+  getAllProductForAdmin: () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let productData = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
+          {
+            '$lookup': {
+              'from': 'vendor',
+              'localField': 'vendor',
+              'foreignField': '_id',
+              'as': 'vendor'
             }
+          }, {
+            '$unwind': {
+              'path': '$vendor'
+            }
+          }, {
+            '$match': {
+              'deletedProduct': false
+            }
+          }, {
+            '$sort': {
+              'name': 1
+            }
+          }
+        ]).toArray()
+        resolve(productData)
+      } catch (error) {
+        reject(error)
+      }
+
+    })
+  },
+  getOneProduct: (productId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let productData = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: ObjectId(productId) })
+        resolve(productData)
+      } catch (error) {
+        reject(error)
+      }
+
+    })
+  },
+  deleteProduct: (productId) => {
+    return new Promise((resolve, reject) => {
+      try {
+        db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: ObjectId(productId) }, { $set: { deletedProduct: true } })
+
+      }
+      catch (error) {
+        reject(error)
+      }
+    })
+
+  },
+  updateProduct: (productId, productData, images, vendorId) => {
+
+    let price = Number(productData.price)
+    return new Promise((resolve, reject) => {
+      try {
+        db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: ObjectId(productId) }, {
+          $set: {
+            'vendor': vendorId,
+            'name': productData.name,
+            'brand': productData.brand,
+            'price': price,
+            'category': productData.category,
+            'productDescription': productData.productDescription,
+            images
+          }
         })
-    },
-    getProductsForVendor:(vendorId)=>{
-      return new Promise(async(resolve, reject) => {
+      }
+      catch (error) {
+        reject(error)
+      }
+
+    })
+  },
+  getProductsForVendor: (vendorId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
         let productData = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
           {
             '$match': {
@@ -84,12 +119,16 @@ module.exports = {
             }
           }
         ]).toArray()
-        console.log(productData);
         resolve(productData)
-      })
-    },
-    getAdminOwnProducts:(adminId)=>{
-      return new Promise(async(resolve, reject) => {
+      } catch (error) {
+        reject(error)
+      }
+
+    })
+  },
+  getAdminOwnProducts: (adminId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
         let productData = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
           {
             '$match': {
@@ -101,16 +140,48 @@ module.exports = {
             }
           }
         ]).toArray()
-        console.log(productData);
         resolve(productData)
-      })
-    },
-    getAllProducts:(req,res)=>{
-      return new Promise(async (resolve, reject) => {
-        let productData = await db.get().collection(collection.PRODUCT_COLLECTION).find({deletedProduct:false}).sort({ name: 1 }).toArray()
-        resolve(productData)
+      } catch (error) {
+        reject(error)
+      }
+
     })
-    }
+  },
+  getAllProducts: () => {
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        let productData = await db.get().collection(collection.PRODUCT_COLLECTION).find({ deletedProduct: false }).sort({ name: 1 }).toArray()
+        resolve(productData)
+      } catch (error) {
+        reject(error)
+      }
+
+    })
+  },
+  getProductCategoryWise: (category) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let productData = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
+          {
+            '$match': {
+              'categoryName': category,
+              'deletedProduct': false
+            }
+          }, {
+            '$sort': {
+              'name': 1
+            }
+          }
+        ]).toArray()
+        resolve(productData)
+      } catch (error) {
+        reject(error)
+      }
+
+
+    })
+  }
 }
 
 
