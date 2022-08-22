@@ -72,6 +72,8 @@ router.post('/editProfile',verifyLogin,usercontroller.updateProfile)
 
 router.get('/shop/:id',usercontroller.getFilter)
 
+router.get('/search',usercontroller.searchProducts)
+
 router.post('/forgotPassword',usercontroller.getForgottPassword)
 
 router.post('/forgotPassWordOtp',usercontroller.postForgottPasswordOtp)

@@ -220,6 +220,7 @@ function removeFromWishlist(wishlistId, productId) {
         dangerMode: true,
     })
         .then((willDelete) => {
+
             $.ajax({
                 url: '/removeProductFromWishlist',
                 data: {
@@ -228,8 +229,8 @@ function removeFromWishlist(wishlistId, productId) {
                 },
                 method: 'post',
                 success: (response) => {
-                    if (response.productRemoved) {
                         if (willDelete) {
+                            if (response.productRemoved) {
                             swal("product removed", {
                                 icon: "success",
                             });

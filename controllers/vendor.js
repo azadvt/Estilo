@@ -13,13 +13,22 @@ module.exports = {
                 let income=(revenue-revenue/10) 
                 let totalProducts = await orderHelper.getTotalProducts(vendor._id)
                 let ordersCount = await orderHelper.getOrdersCount(vendor._id)
-                let deliveredOrdersCount = await orderHelper.getDeliveredOrdersCount(vendor._id)
-            let canceledOrdersCount = await orderHelper.getCanceledOrdersCount(vendor._id)
+
+            let deliveredOrdersCount = await orderHelper.getStatusWiseOrdersCount(vendor._id,"Delivered")
+            let canceledOrdersCount = await orderHelper.getStatusWiseOrdersCount(vendor._id,"Cancel")
+            let placedOrdersCount = await orderHelper.getStatusWiseOrdersCount(vendor._id,"Placed")
+            let arrivedOrdersCount = await orderHelper.getStatusWiseOrdersCount(vendor._id,"Arrived")
+            let shippedOrdersCount = await orderHelper.getStatusWiseOrdersCount(vendor._id,"Shipped")
             let customers = await orderHelper.getMyCustomers(vendor._id)
+            let COD = await orderHelper.getCountOfDeliveryMethod(vendor._id,'cashOnDelivery')
+            let online = await orderHelper.getCountOfDeliveryMethod(vendor._id,'onlinePayment')
 
                 res.render('vendor/vendor-dashboard', { layout: 'admin-vendor-layout', 
                 vendorHeader: true, vendor ,
-                totalProducts,ordersCount,deliveredOrdersCount,canceledOrdersCount,revenue,income,customers})
+                totalProducts,ordersCount,deliveredOrdersCount,
+                canceledOrdersCount,revenue,income,customers,placedOrdersCount,
+                arrivedOrdersCount,
+                shippedOrdersCount,COD,online})
             } else {
                 res.redirect('/vendor/login')
             }

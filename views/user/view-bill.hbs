@@ -58,8 +58,7 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<h3>ORDER SUMMARY</h3>
-							<table class="table table-striped">
+							<table class="table">
 								<thead>
 									<tr class="line">
 										<td class="text-left"><strong>PRODUCT</strong></td>
@@ -73,13 +72,61 @@
 										<td><strong>{{orderedProduct.product.brand}}</strong><br>{{orderedProduct.product.name}}</td>
 										<td class="text-left"><strong>₹{{orderedProduct.product.price}}</strong></td>
 										<td class="text-right">{{orderedProduct.products.quantity}}</td>
-										<td class="text-right">₹{{orderedProduct.totalAmount}}</td>
+										<td class="text-right">₹{{orderedProduct.productTotal}}</td>
 									</tr>
+									
 									<tr >
 											<td></td>
 											<td></td>
+											
+											{{#if orderedProduct.coupon}}
+											<td>Applied Coupon:</td>
+											<td class="text-right">
+              <span class="text-success">{{orderedProduct.coupon.couponCode}}</span>
+			  </td></tr>
+			  <tr>
+
 											<td></td>
-											<td class="text-right">Total {{orderedProduct.totalAmount}}</td>
+											<td></td>
+											<td>Dicount:</td>
+											<td class="text-right">₹{{orderedProduct.discount}}</td>
+			  </tr>
+			  <tr>
+											<td></td>
+											<td></td>
+											<td>Delivery</td>
+											<td class="text-right text-success">Free</td>
+				</tr>
+			   <tr>
+
+											<td></td>
+											<td></td>
+											<td>Total :</td>
+											<td class="text-right">₹{{orderedProduct.newTotal}}</td>
+			  </tr>
+				{{else}}
+				<tr>
+											<td></td>
+											<td></td>
+											<td>Delivery</td>
+											<td class="text-right text-success">Free</td>
+				</tr>
+											<tr>
+											<td></td>
+											<td></td>
+											<td>Discount:</td>
+											<td class="text-right"> 00/- </td>
+											</tr>
+											<tr>
+											<td></td>
+											<td></td>
+											<td>Total:</td>
+											<td class="text-right"> ₹{{orderedProduct.totalAmount}}/- </td>
+				</tr>
+											
+
+                {{/if}}
+
 									</tr>
 									
 								</tbody>

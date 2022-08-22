@@ -1,10 +1,10 @@
-<!-- Content wrapper -->
+<!-- Content wrapper --><script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 <div class="content-wrapper">
   <!-- Content -->
 
   <div class="container-xxl flex-grow-1 container-p-y">
     <div class="row">
-      <div class="col-lg-8 mb-4 order-0">
+      <div class="col-lg-12 mb-4 order-0">
         <div class="card">
           <div class="d-flex align-items-end row">
             <div class="col-sm-7">
@@ -24,95 +24,23 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-4 col-md-4 order-1">
-        <div class="row">
-          <div class="col-lg-6 col-md-12 col-6 mb-4">
-            <div class="card">
-              <div class="card-body">
-                <div class="card-title d-flex align-items-start justify-content-between">
-                  <div class="avatar flex-shrink-0">
-                    <img src="/admin-asset/assets/img/icons/unicons/chart-success.png" alt="chart success"
-                      class="rounded" />
-                  </div>
-                </div>
-                <span class="fw-semibold d-block mb-1">Revenue</span>
-                <h3 class="card-title mb-2 py-2">₹{{total}}/-</h3>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6 col-md-12 col-6 mb-4">
-            <div class="card">
-              <div class="card-body">
-                <div class="card-title d-flex align-items-start justify-content-between">
-                  <div class="avatar flex-shrink-0">
-                    <img src="/admin-asset/assets/img/icons/unicons/wallet-info.png" alt="Credit Card"
-                      class="rounded" />
-                  </div>
-                  
-                </div>
-                <span>My Income</span>
-                <h3 class="card-title text-nowrap mt-1 mb-2 py-2">₹{{total}}/-</h3>
-              </div>  
-            </div>
-          </div>
-        </div>
-      </div>
+      
+      
        <!-- Transactions -->
-      <div class="col-md-6 col-lg-4 order-2 mb-4">
-        <div class="card h-100">
-          <div class="card-header d-flex align-items-center justify-content-between">
-            <h5 class="card-title m-0 me-2">Oders</h5>
-            
-          </div>
-          <div class="card-body">
-            <ul class="p-0 m-0">
-              <li class="d-flex mb-4 pb-1">
-                <div class="avatar flex-shrink-0 me-3">
-                  <img src="/admin-asset/assets/img/icons/unicons/clipboard.png" alt="User" class="rounded" />
-                </div>
-                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                  <div class="me-2">
-                    <h6 class="mb-0">Total Orders</h6>
-                  </div>
-                  <div class="user-progress d-flex align-items-center gap-1">
-                    <h6 class="mb-0">{{ordersCount}}</h6>
-                  </div>
-                </div>
-              </li>
-              <li class="d-flex mb-4 pb-1">
-                <div class="avatar flex-shrink-0 me-3">
-                  <img src="/admin-asset/assets/img/icons/unicons/wallet.png" alt="User" class="rounded" />
-                </div>
-                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                  <div class="me-2">
-                    <h6 class="mb-0">Delivered Orders</h6>
-                  </div>
-                  <div class="user-progress d-flex align-items-center gap-1">
-                    <h6 class="mb-0">{{deliveredOrdersCount}} <h6>
-                  </div>
-                </div>
-              </li>
-              <li class="d-flex mb-4 pb-1">
-                <div class="avatar flex-shrink-0 me-3">
-                  <img src="/admin-asset/assets/img/icons/unicons/chart.png" alt="User" class="rounded" />
-                </div>
-                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                  <div class="me-2">
-                    <h6 class="mb-0">Canceled Orders</h6>
-                  </div>
-                  <div class="user-progress d-flex align-items-center gap-1">
-                    <h6 class="mb-0">{{canceledOrdersCount}}</h6>
-                  </div>
-                </div>
-              </li>
-              
-             
-            </ul>
-          </div>
-        </div>
+ <div class="col-12 col-md-8 col-lg-6">
+  <div class="m-2">
+<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+  </div>
+
+<div class="m-2">
+           <canvas id="myChart2" style="width:100%;max-width:600px"></canvas>
+
+</div>
+
       </div>
 
-      <div class="col-12 col-md-8 col-lg-4 order-3 order-md-2">
+
+      <div class="col-12 col-md-8 col-lg-6 ">
         <div class="row">
           <div class="col-6 mb-4">
             <div class="card">
@@ -140,15 +68,7 @@
               </div>
             </div>
           </div>
-         
-
-        </div>
-      </div>
-      <!--/ Transactions -->
-    
-      <div class="col-12 col-md-8 col-lg-4 order-3 order-md-2">
-        <div class="row">
-          <div class="col-6 mb-4">
+         <div class="col-6 mb-4">
             <div class="card">
               <div class="card-body">
                 <div class="card-title d-flex align-items-start justify-content-between">
@@ -166,27 +86,105 @@
               <div class="card-body">
                 <div class="card-title d-flex align-items-start justify-content-between">
                   <div class="avatar flex-shrink-0">
-                    <img src="/admin-asset/assets/img/icons/unicons/cc-primary.png" alt="Credit Card" class="rounded" />
+                    <img src="/admin-asset/assets/img/icons/unicons/man.png " alt="Credit Card" class="rounded" />
                   </div>
                 </div>
-                <span class="fw-semibold d-block mb-2 py-2">Total Customers</span>
+                <span class="fw-semibold d-block mb-2 py-2">My Product Customers</span>
                 <h3 class="card-title mb-2">{{customers}}</h3>
               </div>
             </div>
           </div>
          
-          
+          <div class="col-6 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <div class="card-title d-flex align-items-start justify-content-between">
+                  <div class="avatar flex-shrink-0">
+                    <img src="/admin-asset/assets/img/icons/unicons/clipboard.png" alt="Credit Card" class="rounded" />
+                  </div>
+                </div>
+                <span class="d-block mb-2 py-2">My Orders Count </span>
+                <h3 class="card-title text-nowrap mb-2">{{ordersCount}}</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <div class="card-title d-flex align-items-start justify-content-between">
+                  <div class="avatar flex-shrink-0">
+                    <img src="/admin-asset/assets/img/icons/unicons/clipboard.png" alt="Credit Card" class="rounded" />
+                  </div>
+                </div>
+                <span class="d-block mb-2 py-2">Total Orders Count </span>
+                <h3 class="card-title text-nowrap mb-2">{{totalOrdersCount}}</h3>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
+      <!--/ Transactions -->
+     
+         
+
     
      
-     
     </div>
+    
   </div>
   
   <!-- / Content -->
 
+<script>
+var xValues = ["Delivered Orders", "Canceled Orders", "Placed Order", "Arrived", "Shipped"];
+var yValues = [{{deliveredOrdersCount}}, {{canceledOrdersCount}}, {{placedOrdersCount}}, {{arrivedOrdersCount}}, {{shippedOrdersCount}}];
+var barColors = ["red", "green","blue","orange","brown"];
 
+new Chart("myChart", {
+  type: "bar",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "Order Status"
+    }
+  }
+});
+</script>
+
+<script>
+var xValues = ["Online Payment","COD"];
+var yValues = [{{online}}, {{COD}},];
+var barColors = [
+  "#b91d47",
+  "#2b5797"
+];
+
+new Chart("myChart2", {
+  type: "pie",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    title: {
+      display: true,
+      text: "Payment Method"
+    }
+  }
+});
+</script>
 <body onload=display_ct();>
 <span id='ff' ></span>
 

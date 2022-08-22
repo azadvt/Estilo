@@ -13,7 +13,7 @@ let couponData = []
 module.exports = {
 
     getHome: function (req, res, next) {
-
+        console.log("djdj");
         try {
             productHelper.getAllProducts().then(async (productData) => {
                     let banners= await bannerHelper.getAllBanners()
@@ -33,6 +33,7 @@ module.exports = {
             })
         }
         catch (error) {
+            console.log(error);
             next(error)
         }
 
@@ -447,6 +448,7 @@ module.exports = {
             let cartCount = await cartHelper.getCartCount(user._id)
              let    wishlistcount = await wishlistHelper.getWishlistCount(user._id)
             orderHelper.getOneOrder(orderId, productId).then((orderedProduct) => {
+                orderedProduct.discount= orderedProduct.discount.toFixed(2)
                 console.log(orderedProduct)
                 res.render('user/order-details', { layout: 'user-layout', user, orderedProduct ,cartCount, wishlistcount})
             })
@@ -482,6 +484,20 @@ module.exports = {
 
 
     },
+        searchProducts:async(req,res,next)=>{
+            let category = await categoryHelper.getViewCategory()
+            const productData = await productHelper.searchProducts(req.query.search);
+            try {
+                console.log(req.query);
+                let category = await categoryHelper.getViewCategory()
+                res.render('user/shop', { layout: 'user-layout', productData, category })
+            } catch (err) {
+                res.render('user/shop', { layout: 'user-layout', productData:[], category })
+
+            }
+        
+        }
+    ,
     getShop: async (req, res, next) => {
         try {
             let category = await categoryHelper.getViewCategory()
@@ -556,7 +572,7 @@ module.exports = {
               let user = req.session.user
             console.log(req.params)
             orderHelper.getOneOrder(req.params.orderId,req.params.prodId).then((orderedProduct)=>{
-                console.log('dhhhhhhhhhhhhhh')
+                orderedProduct.discount= orderedProduct.discount.toFixed(2)
                 console.log(orderedProduct);
                 res.render('user/view-bill',{ layout: 'user-layout', user, orderedProduct })
             })

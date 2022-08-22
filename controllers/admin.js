@@ -108,10 +108,17 @@ module.exports = {
             let totalVendors = await orderHelper.getTotalVendors()
             let totalProducts = await orderHelper.getTotalProducts(admin._id)
             let ordersCount = await orderHelper.getOrdersCount(admin._id)
-            let deliveredOrdersCount = await orderHelper.getDeliveredOrdersCount(admin._id)
-            let canceledOrdersCount = await orderHelper.getCanceledOrdersCount(admin._id)
+            let deliveredOrdersCount = await orderHelper.getStatusWiseOrdersCount(admin._id,"Delivered")
+            let canceledOrdersCount = await orderHelper.getStatusWiseOrdersCount(admin._id,"Cancel")
+            let placedOrdersCount = await orderHelper.getStatusWiseOrdersCount(admin._id,"Placed")
+            let arrivedOrdersCount = await orderHelper.getStatusWiseOrdersCount(admin._id,"Arrived")
+            let shippedOrdersCount = await orderHelper.getStatusWiseOrdersCount(admin._id,"Shipped")
             let totalIncome = await orderHelper.getTotalAmountDeliveredOrders()
             let customers = await orderHelper.getMyCustomers(admin._id)
+            let COD = await orderHelper.getCountOfDeliveryMethod(admin._id,'cashOnDelivery')
+            let online = await orderHelper.getCountOfDeliveryMethod(admin._id,'onlinePayment')
+            let totalOrdersCount = await orderHelper.getTotalOrdersCount()
+
             res.render('admin/admin-dashboard',
                 {
                     adminHeader: true,
@@ -119,7 +126,9 @@ module.exports = {
                     total, vendorTotal, totalUsers,
                     totalVendors, totalProducts,
                     ordersCount, deliveredOrdersCount,
-                    canceledOrdersCount, totalIncome, customers
+                    canceledOrdersCount, totalIncome, 
+                    customers,arrivedOrdersCount,
+                    placedOrdersCount,shippedOrdersCount,COD,online,totalOrdersCount
                 })
         }
         catch (error) {

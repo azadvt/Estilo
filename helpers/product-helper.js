@@ -181,6 +181,28 @@ module.exports = {
 
 
     })
+  },
+  searchProducts:(search)=>{
+
+    return new Promise(async(resolve, reject) => {
+      try {
+        const products = await db
+            .get()
+            .collection(collection.PRODUCT_COLLECTION)
+            .find({
+              name: {
+                    $regex: search,
+                    $options: 'i'
+                },
+            })
+            .toArray();
+  
+        resolve(products);
+    } catch (err) {
+        reject(error);
+    }
+    })
+   
   }
 }
 

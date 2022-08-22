@@ -50,8 +50,12 @@
                                 ({{this.products.quantity}} Items)
 
                             </td>
-                            <td class="cart__price">₹{{this.productTotal}}</td>
-                     
+                            {{#if coupon}}
+                            <td class="cart__price">₹{{this.newTotal}} <br> <s>₹{{this.productTotal}}</s></td>
+                            {{else}}
+                                <td class="cart__price">₹{{this.productTotal}}</td>
+
+                            {{/if }}
                             
                             <td class="cart__close"> <span class="badge rounded-pill bg-white">{{this.date}}</span>
                             </td>

@@ -22,8 +22,8 @@
             <div class="col-lg-3">
                 <div class="shop__sidebar">
                     <div class="shop__sidebar__search">
-                        <form action="#">
-                            <input type="text" placeholder="Search...">
+                        <form action="/search" method="get">
+                            <input type="text" placeholder="Search..." name="search">
                             <button type="submit"><span class="icon_search"></span></button>
                         </form>
                     </div>
@@ -38,9 +38,9 @@
                                         <div class="shop__sidebar__categories">
                                             <ul class="nice-scroll">
                                                 {{#each category}}
-                                                <li><a class="cursor" onclick="filterCategory('{{this.categoryName}}')">{{this.categoryName}}</a></li>
+                                                <li><a  href="/shop/{{this.categoryName}}">{{this.categoryName}}</a></li>
                                                 {{/each}}
-                                            </ul>
+                                            </ul>   
                                         </div>
                                     </div>
                                 </div>

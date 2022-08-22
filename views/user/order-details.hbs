@@ -86,7 +86,14 @@
                     {{orderedProduct.product.name}}<br><strong>{{orderedProduct.product.brand}}</strong>
                     <input type="text" id="priceValue" value="{{orderedProduct.product.price}}" hidden></input>
                     <input type="text" id="quantity" value="{{orderedProduct.products.quantity}}" hidden></input>
-                </p> <br><span>({{orderedProduct.products.quantity}} Items)   </span> X <span id="price">₹{{orderedProduct.product.price}} = </span> <span>  ₹{{orderedProduct.totalAmount}}</span>
+                </p> <br><span>Quantity {{orderedProduct.products.quantity}}  </span><br>
+                <span id="price">Price =  ₹{{orderedProduct.productTotal}}</span><br>
+                {{#if orderedProduct.coupon}}
+                <span>Applied Coupon  <span class="text-success">{{orderedProduct.coupon.couponCode}}</span> </span><br>
+                <span>Dicount: ₹{{orderedProduct.discount}}</span><br>
+                <span>Total : ₹{{orderedProduct.newTotal}}</span>
+                {{/if}}
+
             </div>
 
             <hr>
@@ -97,11 +104,3 @@
 </div>
 
 
-<script>
-    function generatePDF() {
-        // Choose the element that our invoice is rendered in.
-        const element = document.getElementById('invoice');
-        // Choose the element and save the PDF for our user.
-        html2pdf().from(element).save();
-    }
-</script>

@@ -77,53 +77,76 @@ module.exports = {
               console.log(orders);
                 let orderedProducts = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
                   {
-                      '$match': {
-                          'user': ObjectId(userId)
-                      }
+                    '$match': {
+                      'user': new ObjectId(userId)
+                    }
                   }, {
-                      '$unwind': {
-                          'path': '$products'
-                      }
+                    '$unwind': {
+                      'path': '$products'
+                    }
                   }, {
-                      '$lookup': {
-                          'from': 'products', 
-                          'localField': 'products.item', 
-                          'foreignField': '_id', 
-                          'as': 'product'
-                      }
+                    '$lookup': {
+                      'from': 'products', 
+                      'localField': 'products.item', 
+                      'foreignField': '_id', 
+                      'as': 'product'
+                    }
                   }, {
-                      '$unwind': {
-                          'path': '$product'
-                      }
+                    '$unwind': {
+                      'path': '$product'
+                    }
                   }, {
-                      '$lookup': {
-                          'from': 'coupon', 
-                          'localField': 'coupon', 
-                          'foreignField': 'couponCode', 
-                          'as': 'coupon'
-                      }
+                    '$lookup': {
+                      'from': 'coupon', 
+                      'localField': 'coupon', 
+                      'foreignField': 'couponCode', 
+                      'as': 'coupon'
+                    }
                   }, {
-                      '$addFields': {
-                          'productTotal': {
-                              '$sum': {
-                                  '$multiply': [
-                                      '$products.quantity', '$product.price'
-                                  ]
-                              }
-                          }
-                      }
+                    '$unwind': {
+                      'path': '$coupon', 
+                      'preserveNullAndEmptyArrays': true
+                    }
                   }, {
-                      '$match': {
-                          'products.status': {
-                              '$ne': 'Pending'
-                          }
+                    '$addFields': {
+                      'productTotal': {
+                        '$sum': {
+                          '$multiply': [
+                            '$products.quantity', '$product.price'
+                          ]
+                        }
                       }
+                    }
                   }, {
-                      '$sort': {
-                          'date': 1
+                    '$addFields': {
+                      'discount': {
+                        '$sum': {
+                          '$multiply': [
+                            '$products.quantity', '$product.price', '$coupon.discount'
+                          ]
+                        }
                       }
+                    }
+                  }, {
+                    '$addFields': {
+                      'newTotal': {
+                        '$subtract': [
+                          '$productTotal', '$discount'
+                        ]
+                      }
+                    }
+                  }, {
+                    '$match': {
+                      'products.status': {
+                        '$ne': 'Pending'
+                      }
+                    }
+                  }, {
+                    '$sort': {
+                      'date': -1
+                    }
                   }
-              ]).toArray()
+                ]).toArray()
                 resolve(orderedProducts)
             }catch(error){
                 reject(error)
@@ -273,30 +296,70 @@ module.exports = {
         return new Promise(async(resolve, reject) => {
             try{
                 let orderedProduct= await db.get().collection(collection.ORDER_COLLECTION).aggregate([
-                    {
-                        '$match': {
-                            '_id': ObjectId(orderId)
-                        }
-                    }, {
-                        '$unwind': {
-                            'path': '$products'
-                        }
-                    }, {
-                        '$match': {
-                            'products.item': ObjectId(productId)
-                        }
-                    }, {
-                        '$lookup': {
-                            'from': 'products', 
-                            'localField': 'products.item', 
-                            'foreignField': '_id', 
-                            'as': 'product'
-                        }
-                    }, {
-                        '$unwind': {
-                            'path': '$product'
-                        }
+                  {
+                    '$match': {
+                      '_id': new ObjectId(orderId)
                     }
+                  }, {
+                    '$unwind': {
+                      'path': '$products'
+                    }
+                  }, {
+                    '$match': {
+                      'products.item': new ObjectId(productId)
+                    }
+                  }, {
+                    '$lookup': {
+                      'from': 'products', 
+                      'localField': 'products.item', 
+                      'foreignField': '_id', 
+                      'as': 'product'
+                    }
+                  }, {
+                    '$unwind': {
+                      'path': '$product'
+                    }
+                  }, {
+                    '$lookup': {
+                      'from': 'coupon', 
+                      'localField': 'coupon', 
+                      'foreignField': 'couponCode', 
+                      'as': 'coupon'
+                    }
+                  }, {
+                    '$unwind': {
+                      'path': '$coupon', 
+                      'preserveNullAndEmptyArrays': true
+                    }
+                  }, {
+                    '$addFields': {
+                      'productTotal': {
+                        '$sum': {
+                          '$multiply': [
+                            '$products.quantity', '$product.price'
+                          ]
+                        }
+                      }
+                    }
+                  }, {
+                    '$addFields': {
+                      'discount': {
+                        '$sum': {
+                          '$multiply': [
+                            '$products.quantity', '$product.price', '$coupon.discount'
+                          ]
+                        }
+                      }
+                    }
+                  }, {
+                    '$addFields': {
+                      'newTotal': {
+                        '$subtract': [
+                          '$productTotal', '$discount'
+                        ]
+                      }
+                    }
+                  }
                 ]).toArray()
                 resolve(orderedProduct[0])
             }catch(error){
@@ -409,7 +472,7 @@ module.exports = {
         getTotalOrders:()=>{
             return new Promise(async(resolve, reject) => {
                 try{
-                    let total = await db.get().collection(collection.ORDER_COLLECTION).count()
+                    let total = await db.get().collection(collection.ORDER_COLLECTION).find().count()
                     
 
                     console.log(total)
@@ -504,47 +567,43 @@ module.exports = {
             }
         })
     },
-    getDeliveredOrdersCount:(id)=>{
-        return new Promise(async(resolve, reject) => {
-            try{
-                let total = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
-                    {
-                      '$unwind': {
-                        'path': '$products'
-                      }
-                    }, {
-                      '$lookup': {
-                        'from': 'products', 
-                        'localField': 'products.item', 
-                        'foreignField': '_id', 
-                        'as': 'product'
-                      }
-                    }, {
-                      '$unwind': {
-                        'path': '$product'
-                      }
-                    }, {
-                      '$match': {
-                        'product.vendor': new ObjectId(id),
-                        "products.status":"Delivered"
-
-                      }
-                    }, {
-                      '$count': 'count'
+    getTotalOrdersCount:(id)=>{
+      return new Promise(async(resolve, reject) => {
+          try{
+              let total = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                  {
+                    '$unwind': {
+                      'path': '$products'
                     }
-                  ]).toArray()
-                  if(total.length==0){
-                    resolve(total=0)
-                }else{
-                    resolve(total[0].count)
-                }
-            }
-            catch(error){
-                reject(error)
-            }
-        })
-    },
-    getCanceledOrdersCount:(id)=>{
+                  }, {
+                    '$lookup': {
+                      'from': 'products', 
+                      'localField': 'products.item', 
+                      'foreignField': '_id', 
+                      'as': 'product'
+                    }
+                  }, {
+                    '$unwind': {
+                      'path': '$product'
+                    }
+                  }, 
+                   {
+                    '$count': 'count'
+                  }
+                ]).toArray()
+                if(total.length==0){
+                  resolve(total=0)
+              }else{
+                  resolve(total[0].count)
+              }
+          }
+          catch(error){
+              reject(error)
+          }
+      })
+  },
+    
+    getStatusWiseOrdersCount:(id,status)=>{
         return new Promise(async(resolve, reject) => {
             try{
                 let total = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
@@ -566,7 +625,7 @@ module.exports = {
                     }, {
                       '$match': {
                         'product.vendor': new ObjectId(id),
-                        "products.status":"Cancel"
+                        "products.status":status
 
                       }
                     }, {
@@ -677,6 +736,49 @@ module.exports = {
             })
             
 
+        },
+        getCountOfDeliveryMethod:(id,paymentMethod)=>{
+          return new Promise(async(resolve, reject) => {
+            try{
+              let count= await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                  '$unwind': {
+                    'path': '$products'
+                  }
+                }, {
+                  '$lookup': {
+                    'from': 'products', 
+                    'localField': 'products.item', 
+                    'foreignField': '_id', 
+                    'as': 'product'
+                  }
+                }, {
+                  '$unwind': {
+                    'path': '$product'
+                  }
+                }, {
+                  '$match': {
+                    'product.vendor': new ObjectId(id)
+                  }
+                }, {
+                  '$match': {
+                    'paymentMethod': paymentMethod
+                  }
+                }, {
+                  '$count': 'count'
+                }
+              ]).toArray()
+                if(count.length==0){
+                  resolve(count=0)
+              }else{
+                  resolve(count[0].count)
+              }
+          }
+          catch(error){
+              reject(error)
+          }
+      })
+        
         }
     
 
