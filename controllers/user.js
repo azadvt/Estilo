@@ -485,8 +485,9 @@ module.exports = {
 
     },
         searchProducts:async(req,res,next)=>{
+            console.log(req.params.id);
             let category = await categoryHelper.getViewCategory()
-            const productData = await productHelper.searchProducts(req.query.search);
+            const productData = await productHelper.searchProducts(req.query.search,req.params.id);
             try {
                 console.log(req.query);
                 let category = await categoryHelper.getViewCategory()

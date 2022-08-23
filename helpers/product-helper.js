@@ -182,8 +182,12 @@ module.exports = {
 
     })
   },
-  searchProducts:(search)=>{
+  searchProducts:(search,search2)=>{
 
+    let searchData;
+
+    if(search) searchData = search;
+    else if(search2) searchData = search2;
     return new Promise(async(resolve, reject) => {
       try {
         const products = await db
@@ -191,7 +195,7 @@ module.exports = {
             .collection(collection.PRODUCT_COLLECTION)
             .find({
               name: {
-                    $regex: search,
+                    $regex: searchData,
                     $options: 'i'
                 },
             })

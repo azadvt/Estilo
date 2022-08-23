@@ -74,6 +74,8 @@ router.get('/shop/:id',usercontroller.getFilter)
 
 router.get('/search',usercontroller.searchProducts)
 
+router.get('/search/:id',usercontroller.searchProducts)
+
 router.post('/forgotPassword',usercontroller.getForgottPassword)
 
 router.post('/forgotPassWordOtp',usercontroller.postForgottPasswordOtp)
