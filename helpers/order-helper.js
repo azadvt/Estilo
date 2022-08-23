@@ -50,7 +50,8 @@ module.exports = {
                     coupon:orderData.coupon,
                     paymentMethod: orderData.paymentMethod,
                 }
-    
+                
+                if(discountData) db.get().collection(collection.USER_COLLECTION).updateOne({_id:ObjectId(userId)},{ $set:{ coupon:true} })
                 db.get().collection(collection.ORDER_COLLECTION).insertOne(OrderObj).then((response) => {
     
                     if (orderData.paymentMethod == "cashOnDelivery") {

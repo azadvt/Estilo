@@ -10,7 +10,8 @@ module.exports = {
         let coupon = {
             couponCode: couponData.couponCode.toUpperCase(),
             discount: parseFloat(couponData.discount/100),
-            validity:new Date(new Date().getTime()+(oneDay*parseInt(couponData.validity)))
+            validity:new Date(new Date().getTime()+(oneDay*parseInt(couponData.validity))),
+            Users: []
         }
         return new Promise((resolve, reject) => {
             try{
@@ -38,16 +39,18 @@ module.exports = {
         })
 
     },
-    applyCoupon: (code,total) => {
+    applyCoupon: (code,total,userId) => {
         const coupon = code.toString().toUpperCase()
         return new Promise(async (resolve, reject) => {
             try{
                 let response = await db.get().collection(collection.COUPON_COLLECTION).findOne({ couponCode: coupon })
+                let user=await db.get().collection(collection.USER_COLLECTION).findOne({_id:ObjectId(userId),coupon:true})
                 console.log(response);
-                if (response==null) {
+                if (response==null||user) {
                     reject({status:false})
                     }
                     else{
+                        
                         console.log('valid coupon');
                         let offerPrice=parseFloat(total*response.discount).toFixed(2)
     

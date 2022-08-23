@@ -273,7 +273,7 @@ module.exports = {
         try {
             let user = req.session.user
             let total = await cartHelper.getTotalAmount(user._id)
-            couponHelper.applyCoupon(req.body.couponCode, total).then((response) => {
+            couponHelper.applyCoupon(req.body.couponCode, total,user._id).then((response) => {
                 res.json(response)
             }).catch((response) => {
                 res.json(response)
@@ -323,7 +323,7 @@ module.exports = {
             let total = await cartHelper.getTotalAmount(userId)
             console.log(products);
             if (req.body.coupon) {
-                await couponHelper.applyCoupon(req.body.coupon, total).then((response) => {
+                await couponHelper.applyCoupon(req.body.coupon, total,userId).then((response) => {
                     discountData = response
                 }).catch(() => discountData = null)
             }else{
