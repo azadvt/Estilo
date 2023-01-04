@@ -30,12 +30,10 @@ module.exports = {
                             if (user.blockedUser) {
                                 response.status = false;
                                 response.blockedUser = true
-                                console.log(response);
                                 resolve(response)
                             } else {
                                 response.status = true;
                                 response.blockedUser = false
-                                console.log(response);
                                 resolve(response);
                             }
                         } else {
@@ -57,9 +55,7 @@ module.exports = {
                 let existEmail = await db.get().collection(collection.USER_COLLECTION).findOne({ email: userData.email })
                 let existPhone = await db.get().collection(collection.USER_COLLECTION).findOne({ phone: userData.phone })
     
-                console.log("existemail=", existEmail);
-                console.log("existphone=", existPhone);
-    
+           
                 if (existEmail && existPhone) {
                     valid.existEmail = true
                     valid.existPhone = true
@@ -97,12 +93,10 @@ module.exports = {
         })
     },
     blockUnBlockUser: async (userId) => {
-        console.log(userId);
         return new Promise(async (resolve, reject) => {
             try{
                 let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: ObjectId(userId) })
 
-                console.log(user);
                 if (user.blockedUser) {
                     db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, { $set: { blockedUser: false } }).then((response) => {
                         resolve(response)
@@ -128,8 +122,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try{
                 let userDetails = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: ObjectId(userId) })
-                console.log(userDetails);
-                console.log('hei');
+               
                 if (userDetails.address) {
                     db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, {
                         $push: {
@@ -140,7 +133,6 @@ module.exports = {
                         resolve(response)
                     })
                 } else {
-                    console.log('heeehehe');
                     db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, {
                         $set:
                         {
@@ -215,9 +207,7 @@ module.exports = {
                         }
                     }
                 ]).toArray()
-                console.log(addressArr);
                 if (addressArr) {
-                    console.log(addressArr);
                     const address = addressArr.slice(-3).reverse()
                     resolve(address)
                 }

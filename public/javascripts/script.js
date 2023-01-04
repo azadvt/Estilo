@@ -6,7 +6,6 @@ function addToCart(productId) {
         success: (response) => {
             if (response.status) {
                 let count = $('#cart-Count').html()
-                console.log(count)
                 count = parseInt(count) + 1
                 $("#cart-Count").html(count)
                 $("#cartCount").html(count)
@@ -30,7 +29,6 @@ function addToCartWishlist(productId) {
         success: (response) => {
             if (response.status) {
                 let count = $('#cart-Count').html()
-                console.log(count)
                 count = parseInt(count) + 1
                 $("#cart-Count").html(count)
                 $("#cartCount").html(count)
@@ -53,10 +51,8 @@ function addToWishlist(productId) {
         url: '/addToWishlist/' + productId,
         method: 'get',
         success: (response) => {
-            console.log(response)
             if (response.added) {
                 let count = $('#wishlist-Count').html()
-                console.log(count)
                 count = parseInt(count) + 1
                 $("#wishlist-Count").html(count)
                 $("#wishlistCount").html(count)
@@ -65,7 +61,6 @@ function addToWishlist(productId) {
             }
             else if (response.removed) {
                 let count = $('#wishlist-Count').html()
-                console.log(count)
                 count = parseInt(count) - 1
                 $("#wishlist-Count").html(count)
                 $("#wishlistCount").html(count)
@@ -82,7 +77,20 @@ function addToWishlist(productId) {
 }
 
 
-
+function viewProduct(productId){
+    $.ajax({
+        url: '/viewProduct/' + productId,
+        method: 'get',
+        success: (response) => {
+            if (!response.status) {
+                swal("Please login")
+            }
+        },
+        error: (response) => {
+            alert("err")
+        }
+    })
+}
 
 
 //change product quantity
@@ -91,7 +99,6 @@ function changeQty(cartId, productId, userId, count) {
     let quantity = parseInt(document.getElementById(productId).innerHTML)
     let proPrice = parseInt(document.getElementById(productId + 1).innerHTML)
     let qnt = quantity + count
-    console.log(qnt);
     if (qnt == 0) {
         swal({
             title: "Are you sure?",
@@ -114,7 +121,6 @@ function changeQty(cartId, productId, userId, count) {
                         },
                         method: 'post',
                         success: (response) => {
-                            console.log(response)
                             if (response.productRemoved) {
                                 swal("Remove Product From Cart", {
                                     icon: "success",
@@ -148,7 +154,6 @@ function changeQty(cartId, productId, userId, count) {
             },
             method: 'post',
             success: (response) => {
-                console.log(response)
                 if (response.productRemoved) {
                     alert('product removed')
                     location.reload()
@@ -187,7 +192,6 @@ function remove(cartId, productId) {
                     },
                     method: 'post',
                     success: (response) => {
-                        console.log(response)
                         if (response.status) {
                             swal("Product removed From Cart", {
                                 icon: "success",
@@ -266,7 +270,7 @@ function deleteAddress(id) {
                     url: '/deleteAddress/' + id,
                     method: 'get',
                     success: (response) => {
-                        console.log(response)
+                        alert('deleted')
                     }
                 })
                 swal("Your Address has been deleted!", {
@@ -286,7 +290,6 @@ function editAddressForm(id) {
         method: 'post',
         data: $('#editAddressForm' + id).serialize(),
         success: (response) => {
-            console.log(response)
             if (response.staus) {
                 swal({
                     title: "Address Edited Successfully!",
@@ -313,7 +316,6 @@ function editAddressForm(id) {
 //change product status
 
 function changeProductStatus(orderId, productId, status) {
-    console.log(orderId, productId)
     swal({
         title: "Are you sure?",
         icon: "warning",

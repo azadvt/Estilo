@@ -87,13 +87,11 @@ module.exports = {
         try {
             delete req.body.c_password
             vendorHelper.checkUnique(req.body).then((response) => {
-                console.log(response.exist);
                 if (response.exist) {
                     req.session.vendorEmailExistErr = true;
                     res.redirect('/vendor/signup')
                 } else {
                     req.session.body = req.body
-                    console.log(req.session.body);
                     vendorHelper.doSignUp(req.body).then((response) => {
                         req.session.vendorLoggedIn = true
                         req.session.vendor = req.body
@@ -122,7 +120,6 @@ module.exports = {
         try {
             vendor = req.session.vendor
             productHelper.getProductsForVendor(vendor._id).then((productData) => {
-                console.log(productData);
                 res.render('vendor/view-product', { layout: 'admin-vendor-layout', vendorHeader: true, productData, vendor })
 
             })
@@ -135,7 +132,6 @@ module.exports = {
 
         try {
             vendor = req.session.vendor
-            console.log(vendor);
             categoryHelper.getViewCategory().then((categoryData) => {
                 res.render('vendor/add-product', { layout: 'admin-vendor-layout', vendorHeader: true, categoryData, vendor })
             })
@@ -149,7 +145,6 @@ module.exports = {
             vendorId = req.session.vendor._id
             let images = []
             let files = req.files
-            console.log("files=", files);
             images = files.map((value) => {
                 return value.filename
             })
@@ -195,7 +190,6 @@ module.exports = {
             let images = {}
             let files = req.files
             images = files.map((value) => { return value.filename })
-            console.log(productData);
             productHelper.updateProduct(productId, productData, images, vendorId)
             res.redirect('/vendor/viewProduct')
         } catch (error) {
@@ -272,7 +266,6 @@ module.exports = {
         try {
             vendor = req.session.vendor
             let orders = await orderHelper.getOrders(vendor._id)
-            console.log(orders);
             res.render('vendor/view-orders', { layout: 'admin-vendor-layout', vendorHeader: true, vendor, orders })
         } catch (error) {
             next(error)
@@ -281,7 +274,6 @@ module.exports = {
     getChangeOrderStatus: (req, res, nex) => {
 
         try {
-            console.log(req.body)
         } catch (error) {
             next(error)
         }
@@ -301,7 +293,6 @@ module.exports = {
             let orderId = req.body.orderId
             let productId = req.body.productId
             let status = req.body.status
-            console.log(req.body);
             orderHelper.changeOrderdProductStatus(orderId, productId, status).then((response) => {
                 res.json({ status: true })
             })

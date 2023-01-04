@@ -26,7 +26,7 @@ router.post('/otp', usercontroller.postOTP)
 
 router.get('/logout', usercontroller.getLogout)
 
-router.get('/viewProduct',verifyLogin,usercontroller.getViewProduct)
+router.get('/viewProduct/:id',usercontroller.getViewProduct)
 
 router.get('/cart',verifyLogin,usercontroller.getCart)
 

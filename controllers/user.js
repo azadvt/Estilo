@@ -13,11 +13,9 @@ let couponData = []
 module.exports = {
 
     getHome: function (req, res, next) {
-        console.log("djdj");
         try {
             productHelper.getAllProducts().then(async (productData) => {
                     let banners= await bannerHelper.getAllBanners()
-                    console.log(banners);
 
                 if (req.session.userLoggedIn) {
                     let user = req.session.user
@@ -33,7 +31,6 @@ module.exports = {
             })
         }
         catch (error) {
-            console.log(error);
             next(error)
         }
 
@@ -58,7 +55,6 @@ module.exports = {
     postLogin: (req, res, next) => {
         try {
             userHelper.doLogin(req.body).then((response) => {
-                console.log(response);
                 if (response.blockedUser) {
                     res.json({ userBlockErr: true })
                 }
@@ -79,31 +75,24 @@ module.exports = {
     },
     postSignUp: (req, res, next) => {
         try {
-            console.log(req.body);
             delete req.body.c_password
             userHelper.checkUnique(req.body).then((response) => {
-                console.log("response=", response);
                 if (response.existEmail && response.existPhone) {
-                    console.log('1')
                     let existErr = "Allready registerd Email and Phone"
                     res.json({ existErr })
                 }
                 else if (response.existEmail) {
-                    console.log('2')
                     let existErr = "Allready registered Email"
                     res.json({ existErr })
                 }
                 else if (response.existPhone) {
-                    console.log('3')
                     let existErr = "Allready registerd Phone Number"
                     res.json({ existErr })
                 }
                 else {
-                    console.log('4')
                     req.session.body = req.body
                     twilioHelpers.dosms(req.session.body).then((data) => {
                         if (data) {
-                            console.log('data');
                             let phone = req.body.phone.slice(6, 10)
                             res.json({ status: true, phone: phone })
                         }
@@ -126,7 +115,6 @@ module.exports = {
                     userHelper.doSignup(req.session.body).then((response) => {
                         req.session.userLoggedIn = true
                         req.session.user = req.session.body
-                        console.log(userphone);
                         res.json({ status: true })
                     })
                 } else {
@@ -152,12 +140,17 @@ module.exports = {
     },
     getViewProduct: (req, res, next) => {
         try {
-            console.log('product id')
+            let cartCount=0
+            let wishlistcount=0
             let productId = req.query.id
+            console.log(productId);
             productHelper.getOneProduct(productId).then(async(productData) => {
-                let user = req.session.user
-               let cartCount = await cartHelper.getCartCount(user._id)
-                let    wishlistcount = await wishlistHelper.getWishlistCount(user._id)
+                let user = req.session.user 
+                if(user) {
+                     cartCount = await cartHelper.getCartCount(user._id)
+                     wishlistcount = await wishlistHelper.getWishlistCount(user._id)
+                }
+                
                 res.render('user/view-product', { layout: 'user-layout', user, productData ,cartCount, wishlistcount})
             })
         }
@@ -183,8 +176,6 @@ module.exports = {
         try {
             let productId = req.params.id
             let userId = req.session.user._id
-            console.log(userId);
-            console.log(productId);
             cartHelper.addToCart(productId, userId).then(() => {
                 res.json({ status: true })
             })
@@ -236,7 +227,6 @@ module.exports = {
             let productId = req.params.id
             let userId = req.session.user._id
             wishlistHelper.addToWishlist(productId, userId).then((response) => {
-                console.log(response);
                 res.json(response)
             })
         }
@@ -304,9 +294,7 @@ module.exports = {
     postUserAddress: (req, res, next) => {
         try {
             userId = req.session.user._id
-            console.log(req.body);
             userHelper.addUserAddress(userId, req.body).then((response) => {
-                console.log(response);
                 res.json({ status: true })
             })
         }
@@ -321,7 +309,6 @@ module.exports = {
             userId = req.session.user._id
             let products = await cartHelper.getCartProductList(userId)
             let total = await cartHelper.getTotalAmount(userId)
-            console.log(products);
             if (req.body.coupon) {
                 await couponHelper.applyCoupon(req.body.coupon, total,userId).then((response) => {
                     discountData = response
@@ -329,8 +316,6 @@ module.exports = {
             }else{
                 req.body.coupon=null
             }
-            console.log("before body");
-            console.log(req.body);
             orderHelper.placeOrder(req.body, userId, products, total, discountData).then((orderId) => {
                 if (req.body.paymentMethod == "cashOnDelivery") {
                     orderHelper.changeStatus(orderId).then(() => {
@@ -367,7 +352,6 @@ module.exports = {
                 })
             }).catch((err) => {
                 res.json({ status: false })
-                console.log('failed');
             })
         }
         catch (error) {
@@ -390,7 +374,6 @@ module.exports = {
         try {
             let user = req.session.user
             let products = await orderHelper.getOrderdProducts(user._id)
-            console.log("products", products);
             let cartCount = await cartHelper.getCartCount(user._id)
             let    wishlistcount = await wishlistHelper.getWishlistCount(user._id)
             res.render('user/view-orders', { layout: 'user-layout', user, products ,cartCount, wishlistcount})
@@ -430,7 +413,6 @@ module.exports = {
     },
     deleteAddress: (req, res, next) => {
         try {
-            console.log(req.params.id)
             userHelper.deleteAddress(req.params.id).then((response) => {
                 res.json({ status: true })
             })
@@ -449,7 +431,6 @@ module.exports = {
              let    wishlistcount = await wishlistHelper.getWishlistCount(user._id)
             orderHelper.getOneOrder(orderId, productId).then((orderedProduct) => {
                 orderedProduct.discount= orderedProduct.discount.toFixed(2)
-                console.log(orderedProduct)
                 res.render('user/order-details', { layout: 'user-layout', user, orderedProduct ,cartCount, wishlistcount})
             })
         }
@@ -461,7 +442,6 @@ module.exports = {
     updateProfile: (req, res, next) => {
         try {
             userHelper.updateUserData(req.body).then((response) => {
-                console.log(response);
                 req.session.user = response.user
                 res.json({ status: true })
             })
@@ -475,7 +455,6 @@ module.exports = {
         try {
             let productData = await productHelper.getProductCategoryWise(req.params.id)
             let category = await categoryHelper.getViewCategory()
-            console.log(productData);
             res.render('user/shop', { layout: 'user-layout', productData, category })
         }
         catch (error) {
@@ -485,11 +464,9 @@ module.exports = {
 
     },
         searchProducts:async(req,res,next)=>{
-            console.log(req.params.id);
             let category = await categoryHelper.getViewCategory()
             const productData = await productHelper.searchProducts(req.query.search,req.params.id);
             try {
-                console.log(req.query);
                 let category = await categoryHelper.getViewCategory()
                 res.render('user/shop', { layout: 'user-layout', productData, category })
             } catch (err) {
@@ -557,8 +534,6 @@ module.exports = {
         try {
             delete req.body.c_password
             let phone = req.session.phone
-            console.log(req.body);
-            console.log(phone);
             userHelper.updatePassword(req.body.password, phone).then((response) => {
                 res.json({ status: true })
             })
@@ -571,10 +546,8 @@ module.exports = {
     postViewBill:(req,res,next)=>{
         try{
               let user = req.session.user
-            console.log(req.params)
             orderHelper.getOneOrder(req.params.orderId,req.params.prodId).then((orderedProduct)=>{
                 orderedProduct.discount= orderedProduct.discount.toFixed(2)
-                console.log(orderedProduct);
                 res.render('user/view-bill',{ layout: 'user-layout', user, orderedProduct })
             })
         }
@@ -587,7 +560,6 @@ module.exports = {
             let orderId=req.body.orderId
             let productId=req.body.productId
             let status=req.body.status
-            console.log(req.body);
             orderHelper.changeOrderdProductStatus(orderId,productId,status).then((response)=>{
                 res.json({status:true})
             })

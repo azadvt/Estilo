@@ -5,7 +5,7 @@ const state = {
 
 
 module.exports.connect=(done)=>{
-    const url='mongodb://localhost:27017'
+    const url='mongodb://localhost:27017/estilo'
     const dbname='estilo'
 
     mongoClient.connect(url,(err,data)=>{

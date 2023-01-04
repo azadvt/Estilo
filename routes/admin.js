@@ -24,7 +24,7 @@ router.get('/signup',adminController.getSignUp);
 router.post('/signup',adminController.postSignUp)
 
 router.post('/adminLogin', adminController.postLogin)
-
+    
 router.get('/logOut', adminController.getLogout)
 
 router.get('/viewUsers',verifyLogin,adminController.getViewUsers)

@@ -117,8 +117,6 @@
         event.preventDefault();
 
         var a = $('#coupon_form').serialize()
-        console.log(a)
-        console.log('heiee')
         $.ajax({
             url: '/admin/addCoupon',
             method: 'post',

@@ -1,9 +1,12 @@
+const path = require('path')
+require('dotenv').config({
+  path: path.resolve(__dirname, '../.env')
+})
 const db = require('../config/connection')
 const collection = require('../config/collections')
 const { response } = require('../app')
 const ObjectId = require('mongodb').ObjectId
 const Razorpay = require('razorpay');
-require('dotenv').config()
 const key_id = process.env.YOUR_KEY_ID
 const key_secret = process.env.YOUR_KEY_SECRET
 var instance = new Razorpay({
@@ -18,12 +21,7 @@ module.exports = {
         var date = currentdate.getDate() + "/"
             + (currentdate.getMonth() + 1) + "/"
             + currentdate.getFullYear()
-            console.log('discount dataa');
-        console.log(discountData);
-        console.log('orderdata');
-        console.log(orderData);
-        console.log(products);
-        console.log(total);
+   
         return new Promise(async (resolve, reject) => {
             try{
                 let userData = await db.get().collection(collection.USER_COLLECTION).aggregate([
@@ -38,7 +36,6 @@ module.exports = {
                     }
                 ]).toArray()
     
-                console.log(userData[0].address);
                 let deliveryDetails = userData[0].address
                 let netAmount =(discountData) ? discountData.amount : total
                 let OrderObj = {
@@ -75,7 +72,6 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try{
               let orders = await db.get().collection(collection.ORDER_COLLECTION).find()
-              console.log(orders);
                 let orderedProducts = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
                   {
                     '$match': {
@@ -215,7 +211,7 @@ module.exports = {
                 };
                 instance.orders.create(options, function (err, order) {
                     if (err) {
-                        console.log(err);
+                        alert(err);
                     }
                     else {
                         resolve(order)
@@ -236,8 +232,6 @@ module.exports = {
                 let hmac = crypto.createHmac('sha256', key_secret)
                 hmac.update(details['payment[razorpay_order_id]'] + '|' + details['payment[razorpay_payment_id]']);
                 hmac = hmac.digest('hex');
-                console.log(hmac);
-                console.log(details['payment[razorpay_signature]']);
                 if (hmac == details['payment[razorpay_signature]']) {
                     resolve()
     
@@ -258,7 +252,6 @@ module.exports = {
             try{
                 db.get().collection(collection.ORDER_COLLECTION).updateOne(
                     {_id:ObjectId(orderId)},{$set:{'products.$[].status':"Placed"}}).then((response) => {
-                        console.log(response);
                         resolve()
                     })
             }catch(error){
@@ -271,7 +264,6 @@ module.exports = {
         })
     },
     changeOrderdProductStatus:(orderId,productId,status)=>{
-        console.log(orderId,productId,status);
 
             return new Promise((resolve, reject) => {
                 try{
@@ -457,7 +449,6 @@ module.exports = {
                   ]
 
             ).toArray()
-                console.log(total)
             if(total.length==0){
                 resolve(total=0)
             }else{
@@ -476,7 +467,6 @@ module.exports = {
                     let total = await db.get().collection(collection.ORDER_COLLECTION).find().count()
                     
 
-                    console.log(total)
                     resolve(total)
                 }catch(error){
                         reject(error)
@@ -517,7 +507,6 @@ module.exports = {
                       '$count': 'count'
                     }
                   ]).toArray()
-                  console.log(total);
                   if(total.length==0){
                     resolve(total=0)
                 }else{

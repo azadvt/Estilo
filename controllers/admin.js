@@ -66,10 +66,8 @@ module.exports = {
         try {
 
             delete req.body.c_password
-            console.log(req.body);
             delete req.body.c_password
             adminHelper.checkUnique(req.body).then((response) => {
-                console.log(response.exist);
                 if (response.exist) {
                     req.session.adminEmailExistErr = true;
                     res.redirect('/admin/signup')
@@ -162,7 +160,6 @@ module.exports = {
     getblockUnBlockUser: (req, res, next) => {
         try {
             let userId = req.params.id
-            console.log(userId);
             userHelper.blockUnBlockUser(userId).then((response) => {
                 res.json({ status: true })
             })
@@ -176,7 +173,6 @@ module.exports = {
     getBlockVendor: (req, res, next) => {
         try {
             let adminId = req.params.id
-            console.log(adminId);
             vendorHelper.blockVendor(adminId).then((response) => {
                 res.json({ status: true })
             })
@@ -202,7 +198,6 @@ module.exports = {
     getViewProduct: (req, res, next) => {
         try {
             productHelper.getAllProductForAdmin().then((productData) => {
-                console.log(productData);
                 res.render('admin/view-vendors-product', { layout: 'admin-vendor-layout', adminHeader: true, productData })
             })
         }
@@ -213,7 +208,6 @@ module.exports = {
     }, getAddProduct: (req, res, next) => {
         try {
             admin = req.session.admin
-            console.log(admin);
             categoryHelper.getViewCategory().then((categoryData) => {
                 res.render('admin/add-product', { layout: 'admin-vendor-layout', adminHeader: true, categoryData, admin })
             })
@@ -225,11 +219,9 @@ module.exports = {
     },
     postAddProduct: (req, res, next) => {
         try {
-            console.log(req.session.admin);
             adminId = req.session.admin._id
             let images = []
             let files = req.files
-            console.log("files=", files);
             images = files.map((value) => {
                 return value.filename
             })
@@ -279,7 +271,6 @@ module.exports = {
             let images = {}
             let files = req.files
             images = files.map((value) => { return value.filename })
-            console.log(productData);
             productHelper.updateProduct(productId, productData, images, adminId)
             res.redirect('/admin/viewProduct')
         }
@@ -373,7 +364,6 @@ module.exports = {
         try {
             admin = req.session.admin
             let orders = await orderHelper.getOrders(admin._id)
-            console.log(orders);
             res.render('admin/view-own-orders', { layout: 'admin-vendor-layout', adminHeader: true, orders })
         }
         catch (error) {
@@ -386,7 +376,6 @@ module.exports = {
         try {
             admin = req.session.admin
             let orders = await orderHelper.getFullOrders()
-            console.log(orders);
             res.render('admin/view-vendors-orders', { layout: 'admin-vendor-layout', adminHeader: true, orders })
         }
         catch (error) {
@@ -399,7 +388,6 @@ module.exports = {
             let orderId = req.body.orderId
             let productId = req.body.productId
             let status = req.body.status
-            console.log(req.body);
             orderHelper.changeOrderdProductStatus(orderId, productId, status).then((response) => {
                 res.json({ status: true })
             })
@@ -412,7 +400,6 @@ module.exports = {
     getCoupon: async (req, res, next) => {
         try {
             let coupons = await couponHelper.getAllCoupon()
-            console.log(coupons);
             res.render('admin/add-coupon', { layout: 'admin-vendor-layout', adminHeader: true, coupons })
         }
         catch (error) {
@@ -422,7 +409,6 @@ module.exports = {
     },
     postAddCoupon: (req, res, next) => {
         try {
-            console.log(req.body);
             couponHelper.addCoupon(req.body).then((response) => {
                 res.json({ status: true })
             })
@@ -488,7 +474,6 @@ module.exports = {
         }
     },
     updateBanner: (req, res, next) => {
-        console.log(req.body)
         try {
             bannerHelper.updateBanner(req.body, req.files[0].filename).then((response) => {
                 res.redirect('/admin/banner')

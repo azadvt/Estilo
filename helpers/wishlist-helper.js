@@ -15,16 +15,13 @@ module.exports = {
             try{
                 let response={}
                 let userWishlist = await db.get().collection(collection.WISHLIST_COLLECTION).findOne({ user: ObjectId(userId) })
-                console.log(userWishlist)
                 if (userWishlist) {
     
                     let product = await db.get().collection(collection.WISHLIST_COLLECTION).findOne({ user: ObjectId(userId) },
                         {
                             products: { $elemMatch: { $eq: ObjectId(productId) } }
                         })
-                    console.log("product=", product);
                     let productExist = product.products.findIndex(product => product == productId)
-                    console.log("product exist=", productExist);
                     if (productExist != -1) {
                         db.get().collection(collection.WISHLIST_COLLECTION).updateOne({ user: ObjectId(userId) },
                             {
@@ -35,7 +32,6 @@ module.exports = {
                             resolve(response)
                     }
                     else {
-                        console.log('haai');
                         db.get().collection(collection.WISHLIST_COLLECTION).updateOne({ user: ObjectId(userId) },
                             {
                                 $push: { products: ObjectId(productId) }
@@ -92,7 +88,6 @@ module.exports = {
             })
     },
     removeProductFromWishlist:(details)=>{
-        console.log(details);
             let productId=details.productId
             let wishlistId=details.wishlistId
             return new Promise((resolve, reject) => {

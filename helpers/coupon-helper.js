@@ -6,7 +6,6 @@ const ObjectId = require('mongodb').ObjectId
 module.exports = {
     addCoupon: (couponData) => {
         oneDay=1000*60*60*24
-        console.log(couponData.couponCode);
         let coupon = {
             couponCode: couponData.couponCode.toUpperCase(),
             discount: parseFloat(couponData.discount/100),
@@ -45,13 +44,11 @@ module.exports = {
             try{
                 let response = await db.get().collection(collection.COUPON_COLLECTION).findOne({ couponCode: coupon })
                 let user=await db.get().collection(collection.USER_COLLECTION).findOne({_id:ObjectId(userId),coupon:true})
-                console.log(response);
                 if (response==null||user) {
                     reject({status:false})
                     }
                     else{
                         
-                        console.log('valid coupon');
                         let offerPrice=parseFloat(total*response.discount).toFixed(2)
     
                         let newTotal = parseInt(total-offerPrice)
@@ -81,8 +78,6 @@ module.exports = {
                 for(var i=0; i<response.length;i++){
                     response[i].discount=response[i].discount*100
                 }
-                console.log('dd');
-                console.log(response);
                 resolve(response)
             }
             catch(error){

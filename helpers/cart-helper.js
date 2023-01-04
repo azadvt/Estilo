@@ -114,7 +114,6 @@ module.exports = {
     
     
                 ]).toArray()
-                console.log("cartitems=", cartItems);
                 resolve(cartItems)
             }
             catch(error){
@@ -142,12 +141,10 @@ module.exports = {
 
     },
     changeProductQty: (details) => {
-        console.log('dddd==', details);
         qty = parseInt(details.quantity)
         count = parseInt(details.count)
         let productId = details.productId
         let cartId = details.cartId
-        console.log('cartId =', cartId, 'productId=', productId, 'quantity=', qty);
         return new Promise((resolve, reject) => {
             try{
                 if (count == -1 && qty == 1) {
@@ -234,11 +231,9 @@ module.exports = {
     
                 if (total.length == 0) {
                     resolve(total)
-                    console.log(total);
                 }
                 else {
                     resolve(total[0].total)
-                    console.log(total);
                 }
             }catch(error){
                 reject(error)
@@ -282,7 +277,6 @@ module.exports = {
                       }
                   ]).toArray()
                   resolve(cart)
-                  console.log(cart);
             }catch(error){
                 reject(error)
             }

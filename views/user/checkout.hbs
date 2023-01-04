@@ -386,7 +386,6 @@ $("#addressForm").validate({
         submitHandler: (from) => {
             let coupon = $('#couponId').val()
             let da=$('#checkoutForm').serialize()
-            console.log(da)
             document.getElementById('couponValue').value = coupon
             let checkOut = $('#checkoutForm').serialize()
             $.ajax({
@@ -453,7 +452,6 @@ $("#addressForm").validate({
     }
 
     function verifyPayment(payment, order) {
-        console.log('verify stateed')
         $.ajax({
             url: '/verifyPayment',
             data: {
@@ -478,7 +476,6 @@ $("#addressForm").validate({
             method: 'post',
             data: $('#formCouponCode').serialize(),
             success: (response) => {
-                console.log(response);
                 if (response.status) {
                     $('#couponCheckValid').show()
                     document.getElementById('couponCheckValid').innerHTML = 'Valid Code You Saved ₹'+response.discount

@@ -79,12 +79,10 @@ module.exports = {
         })
     },
     blockVendor:(vendorId)=>{
-        console.log(vendorId);
         return new Promise(async(resolve, reject) => {
             try{
                 let vendor= await db.get().collection(collection.VENDOR_COLLECTION).findOne({_id:ObjectId(vendorId)})
   
-                console.log(vendor);
                 if(vendor.blockedVendor){
                   db.get().collection(collection.VENDOR_COLLECTION).updateOne({ _id: ObjectId(vendorId) }, { $set: { blockedVendor: false } }).then((response) => {
                       resolve(response)
@@ -103,7 +101,6 @@ module.exports = {
           })
     },
     unBlockVendor:(vendorId)=>{
-        console.log(vendorId);
         return new Promise((resolve,reject)=>{
             try{
                 db.get().collection(collection.VENDOR_COLLECTION).updateOne({_id:ObjectId(vendorId)},{$set:{blockedVendor:false}})

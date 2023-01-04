@@ -23,12 +23,10 @@ module.exports={
         return new Promise(async(resolve, reject) => {
             try{
                let banners = await db.get().collection(collection.BANNER_COLLECTION).find().toArray()
-               console.log(banners);
                resolve(banners)
 
             }
             catch(error){
-                console.log(error);
 
                 reject(error)
             }   

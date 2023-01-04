@@ -60,9 +60,11 @@ module.exports = {
     })
   },
   getOneProduct: (productId) => {
+    console.log("proudct///////",productId);
     return new Promise(async (resolve, reject) => {
       try {
-        let productData = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: ObjectId(productId) })
+        let productData = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: ObjectId(productId.id) })
+        console.log(productData);
         resolve(productData)
       } catch (error) {
         reject(error)

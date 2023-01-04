@@ -4,10 +4,12 @@ const bcrypt = require('bcrypt')
 
 module.exports={
     doLogin: (adminData) => {
+        console.log(adminData);
         return new Promise(async (resolve, reject) => {
             try{
                 let response = {}
             admin = await  db.get().collection(collection.ADMIN_COLLECTION).findOne({email:adminData.email})
+            console.log(admin);
             if(admin){
                 bcrypt.compare(adminData.password,admin.password).then((status)=>{
                     if(status){
