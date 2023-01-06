@@ -142,14 +142,15 @@ module.exports = {
         try {
             let cartCount=0
             let wishlistcount=0
-            let productId = req.query.id
+            let productId = req.params.id
             console.log(productId);
             productHelper.getOneProduct(productId).then(async(productData) => {
                 let user = req.session.user 
-                if(user) {
-                     cartCount = await cartHelper.getCartCount(user._id)
-                     wishlistcount = await wishlistHelper.getWishlistCount(user._id)
-                }
+                // if(productData!==null) res.json({ status: true })
+                // if(user) {
+                //      cartCount = await cartHelper.getCartCount(user._id)
+                //      wishlistcount = await wishlistHelper.getWishlistCount(user._id)
+                // }
                 
                 res.render('user/view-product', { layout: 'user-layout', user, productData ,cartCount, wishlistcount})
             })

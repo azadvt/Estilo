@@ -77,20 +77,6 @@ function addToWishlist(productId) {
 }
 
 
-function viewProduct(productId){
-    $.ajax({
-        url: '/viewProduct/' + productId,
-        method: 'get',
-        success: (response) => {
-            if (!response.status) {
-                swal("Please login")
-            }
-        },
-        error: (response) => {
-            alert("err")
-        }
-    })
-}
 
 
 //change product quantity
